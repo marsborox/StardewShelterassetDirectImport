@@ -870,7 +870,7 @@ MonoBehaviour:
   maxYaxisOfArea: 8
   enemyUnit: {fileID: 4214120059170899190, guid: 07c9c3089f5b85d4c818bf7246aeecb8, type: 3}
   lootChest: {fileID: 7146800563469770476, guid: b28999912676c6a41bff1dbf49c92358, type: 3}
-  heroUnit: {fileID: 4717563364124517506, guid: b62b56bb5e6db164497d1c93444515fc, type: 3}
+  heroUnit: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
   heroCamp: {fileID: 1924894897}
   arenaSetting: {fileID: 11400000, guid: b397a933e8024e540b41f4253f13c60f, type: 2}
   spawnedEnemyUnits: 0
