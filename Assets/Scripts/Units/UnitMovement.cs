@@ -13,7 +13,7 @@ public class UnitMovement : MonoBehaviour
     UnitAi unitAi;
     
     CharacterAnimation characterAnimation;
-    CharacterState characterState;
+    
     private void Awake()
     {
         unitAi = GetComponent<UnitAi>();
@@ -31,11 +31,12 @@ public class UnitMovement : MonoBehaviour
         Vector2 targetPosition = target.position;
         float delta = movementSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position,targetPosition,delta);
-        characterAnimation.Run();
+        this.characterAnimation.Run();
         //play animation
     }
     public void Stop()
     {
         Vector2 targetposition = transform.position;
     }
+
 }

@@ -1,3 +1,5 @@
+using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
+
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +25,7 @@ public class UnitAi : MonoBehaviour
     ObjectInfo objectInfo;
     GameObject target;
     UnitCombat unitCombat;
+    CharacterAnimation characterAnimation;
     private void Awake()
     {
         goRandomly = GetComponent<GoRandomly>();
@@ -30,10 +33,11 @@ public class UnitAi : MonoBehaviour
         objectInfo = GetComponent<ObjectInfo>();
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
+        characterAnimation = GetComponent<CharacterAnimation>();
     }
     void Start()
     {
-       
+       activity = Activity.FIGHT;
     }
 
     private void Update()
@@ -52,6 +56,7 @@ public class UnitAi : MonoBehaviour
                     //Debug.Log("arenacombat state");
                     if (target == null)
                     {
+
                         unitTargetPicker.FindClosestEnemy();
                         //Debug.Log("arenacombat state p.1 ok");
                         target = unitTargetPicker.target;
@@ -64,14 +69,14 @@ public class UnitAi : MonoBehaviour
                     unitMovement.Move(target.transform);
                     //Debug.Log("arenacombat state p.2 ok");
 
-
                     break;
                 }
             case Activity.IDLE:
                 {
+                    characterAnimation.Idle();
                     // ************* set source of dmg as target, if status idle change status to fight
-
                     break;
+
                 }
         }
     }
@@ -79,12 +84,23 @@ public class UnitAi : MonoBehaviour
     {
         if (otherCollider.gameObject == target)
         {
+            StartCoroutine(unitCombat.AttackHit(target));
+            /*
             Debug.Log("Collided with enemy");
             unitCombat.Attack(target);
+            activity = Activity.IDLE;
+            StartCoroutine(Wait());
             Debug.Log("I have attacked the enemy");
+            activity = Activity.FIGHT;
+            */
         }
     }
 
+
+    public IEnumerator Wait()
+    { 
+        yield return new WaitForSeconds(2f);
+    }
 }
 
 
