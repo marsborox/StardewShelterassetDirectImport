@@ -119,6 +119,7 @@ namespace Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts
             _rigidbody.velocity = velocity;
         }
 
+        
         private void Turn(float direction)
         {
             var scale = transform.localScale;

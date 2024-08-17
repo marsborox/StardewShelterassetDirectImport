@@ -99,7 +99,7 @@ namespace Assets.PixelFantasy.PixelMonsters.Common.Scripts.ExampleScripts
         
         public void Attack()
         {
-            _monster.Animator.SetTrigger("Attack");
+            _monster.Animator.SetTrigger("AttackPreAnimation");
         }
 
         public void Fire()

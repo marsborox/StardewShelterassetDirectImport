@@ -4,10 +4,14 @@ using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
 
 using UnityEngine;
 
+using static UnityEngine.GraphicsBuffer;
+
 public class UnitCombat : MonoBehaviour
 {
     CharacterAnimation characterAnimation;
     UnitAi unitAi;
+    //private GameObject _target;
+    CharacterController2D characterController;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -24,27 +28,37 @@ public class UnitCombat : MonoBehaviour
     {
         
     }
-
     public void Attack(GameObject target)
+    {
+        
+        target.gameObject.GetComponent<UnitHealth>().TakeDamage();
+        characterAnimation.Slash();
+    }
+    public void AttackPreAnimation(GameObject target)
     {
         //do damage
         //StartCoroutine(Wait());
+        //_target = target;
+        characterAnimation.Idle();
         characterAnimation.Slash();
+        //unitAi.target.gameObject.GetComponent<UnitHealth>().TakeDamage();
         
-        target.gameObject.GetComponent<UnitHealth>().TakeDamage();
-        StartCoroutine(Wait());
-
     }
-    public IEnumerator AttackHit(GameObject target)
+    public void AttackPostAnimation(GameObject target)
     {
-        unitAi.activity = Activity.IDLE;
-        characterAnimation.Slash();
-        target.gameObject.GetComponent<UnitHealth>().TakeDamage();
-        yield return new WaitForSeconds(2f);
-        unitAi.activity = Activity.FIGHT;
+        //target.gameObject.GetComponent<UnitHealth>().TakeDamage();
+        //unitAi.activity = Activity.FIGHT;
     }
+
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(2f);
+    }
+    public IEnumerator AttackAnimationEvent()
+    {
+        //after slash is performed
+        //unitAi.activity = Activity.IDLE;
+        yield return new WaitForSeconds(2f);
+        //AttackPostAnimation(_target);
     }
 }

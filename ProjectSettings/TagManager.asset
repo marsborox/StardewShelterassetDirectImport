@@ -14,9 +14,9 @@ TagManager:
   - Unit2
   - Location
   - SpawnPoint
-  - EnemyUnit
   - LootChest
   - HeroUnit
+  - EnemyUnit
   layers:
   - Default
   - TransparentFX

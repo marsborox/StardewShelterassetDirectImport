@@ -49,7 +49,7 @@ public class GoRandomly : MonoBehaviour
     }
     void Start()
     {
-        state = Activity.IDLE;
+        //state = Activity.IDLE;
 
 
         //CheckAllLocationLocal();

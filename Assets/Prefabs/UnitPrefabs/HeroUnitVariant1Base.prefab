@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325572755924064350, guid: 71f50f4b46ef66f44a7a5d97175dd5e3, type: 3}
       propertyPath: m_Name
-      value: HeroUnitVariant1
+      value: HeroUnitVariant1Base
       objectReference: {fileID: 0}
     - target: {fileID: 8325572755924064350, guid: 71f50f4b46ef66f44a7a5d97175dd5e3, type: 3}
       propertyPath: m_Layer
@@ -102,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9200512591737371549, guid: 71f50f4b46ef66f44a7a5d97175dd5e3, type: 3}
       propertyPath: activity
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9200512591737371549, guid: 71f50f4b46ef66f44a7a5d97175dd5e3, type: 3}
       propertyPath: waitTime

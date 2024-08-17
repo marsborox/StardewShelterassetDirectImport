@@ -23,6 +23,7 @@ public class UnitAi : MonoBehaviour
     UnitTargetPicker unitTargetPicker;
     UnitMovement unitMovement;
     ObjectInfo objectInfo;
+    //can be public?
     GameObject target;
     UnitCombat unitCombat;
     CharacterAnimation characterAnimation;
@@ -37,7 +38,7 @@ public class UnitAi : MonoBehaviour
     }
     void Start()
     {
-       activity = Activity.FIGHT;
+       //activity = Activity.FIGHT;
     }
 
     private void Update()
@@ -60,9 +61,10 @@ public class UnitAi : MonoBehaviour
                         unitTargetPicker.FindClosestEnemy();
                         //Debug.Log("arenacombat state p.1 ok");
                         target = unitTargetPicker.target;
-
+                        Debug.Log($"targetpicker target"+ unitTargetPicker.target.name);
                         Debug.Log($"Target is: "+ target.name);
                         target.gameObject.GetComponent<ObjectInfo>().TellInfo();
+
                     }
                     //problem here
 
@@ -73,7 +75,7 @@ public class UnitAi : MonoBehaviour
                 }
             case Activity.IDLE:
                 {
-                    characterAnimation.Idle();
+                    //characterAnimation.Idle();
                     // ************* set source of dmg as target, if status idle change status to fight
                     break;
 
@@ -84,22 +86,9 @@ public class UnitAi : MonoBehaviour
     {
         if (otherCollider.gameObject == target)
         {
-            StartCoroutine(unitCombat.AttackHit(target));
-            /*
-            Debug.Log("Collided with enemy");
             unitCombat.Attack(target);
-            activity = Activity.IDLE;
-            StartCoroutine(Wait());
-            Debug.Log("I have attacked the enemy");
-            activity = Activity.FIGHT;
-            */
+            //unitCombat.AttackPreAnimation(target);
         }
-    }
-
-
-    public IEnumerator Wait()
-    { 
-        yield return new WaitForSeconds(2f);
     }
 }
 
