@@ -33,6 +33,10 @@ namespace Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts
         {
             Rebuild();
         }
+        public void Start()
+        {
+            
+        }
 
         public void Rebuild(string changed = null, bool forceMerge = false)
         {
