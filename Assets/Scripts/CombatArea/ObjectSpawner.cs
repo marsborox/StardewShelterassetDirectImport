@@ -92,7 +92,7 @@ public class ObjectSpawner : MonoBehaviour
         if (totalSpawnedObjects < arenaSetting.maxObjectsInArea)
         {
             int random = Random.Range(0,2);
-            Debug.Log(random);
+            //Debug.Log(random);
             if (random == 0 && spawnedEnemyUnits < arenaSetting.maxEnemyUnitsInArea)
             {
                 SpawnObjectRandomly(enemyUnit);

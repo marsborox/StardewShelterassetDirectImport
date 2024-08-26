@@ -29,6 +29,4 @@ public class UnitSO : ScriptableObject
     public string Back;
     public string Mask;
     public string Horns;
-
-
 }
