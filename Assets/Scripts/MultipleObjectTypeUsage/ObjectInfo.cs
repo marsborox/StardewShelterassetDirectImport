@@ -8,9 +8,6 @@ public class ObjectInfo : MonoBehaviour
     [SerializeField] public string name;
     [SerializeField] public string type;
 
-
-
-
     public void SetName(string newName)
     {
         name= newName;

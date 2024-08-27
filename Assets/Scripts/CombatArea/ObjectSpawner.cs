@@ -35,7 +35,7 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] public GameObject combatAreaSpawn;
 
     static List<GameObject> spawnedGameObjectList = new List<GameObject>();
-    
+
     int nameCounter = 0;
 
     private void Awake()
@@ -46,63 +46,59 @@ public class ObjectSpawner : MonoBehaviour
     {
         SpawnHeroOnCamp();
 
-        //SpawnMeSomeUnits(4);
+
     }
     private void Update()
     {
         SpawnObjectsOnMap();
-        
+
     }
     public void UnitDied()
     {
         spawnedEnemyUnits--;
         totalSpawnedObjects--;
     }
-    void CheckObjectsInArena() 
-    {
-        
-    }
-    void GiveMeRandomTransforms(int count)
-    {
-        for (int i = 0; i < count; i++) 
-        {
-            float x;
-            float y;
-            x = Random.Range(-maxXaxisOfArea, maxXaxisOfArea);
-            y = Random.Range(-maxYaxisOfArea, maxYaxisOfArea);
-            Debug.Log(x + "  " + y);
-        }
-    }
+
     void SpawnHeroOnCamp()
     {
-            spawnedHero = Instantiate(heroUnit);
-            spawnedHero.transform.parent = combatAreaSpawn.transform;
-            spawnedHero.transform.position = heroCamp.transform.position;
+        spawnedHero = Instantiate(heroUnit);
+        spawnedHero.transform.parent = combatAreaSpawn.transform;
+        spawnedHero.transform.position = heroCamp.transform.position;
     }
-    /*void SpawnMeSomeUnits(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            SpawnUnitRandomly();
-        }
-    }*/
+
     void SpawnObjectsOnMap()
     {
         //GameObject spawningObject;
         if (totalSpawnedObjects < arenaSetting.maxObjectsInArea)
         {
-            int random = Random.Range(0,2);
+            int random = Random.Range(0, 2);
             //Debug.Log(random);
             if (random == 0 && spawnedEnemyUnits < arenaSetting.maxEnemyUnitsInArea)
             {
-                SpawnObjectRandomly(enemyUnit);
+                //SpawnObjectRandomlyOrig(enemyUnit);
+                SpawnEnemy();
+                //spawn Unit
             }
             else if (random == 1 && spawnedLootChests < arenaSetting.maxLootChestsInArea)
             {
-                SpawnObjectRandomly(lootChest);
+                //SpawnObjectRandomlyOrig(lootChest);
+                SpawnLootChest();
+                //spawn
             }
         }
         else return;
+    }
+    void SpawnEnemy()
+    {
+        SpawnObjectRandomly(enemyUnit);
+        SetNameAndCounters();
+
+    }
+    void SpawnLootChest()
+    {
+        SpawnObjectRandomly(lootChest);
+        SetNameAndCounters();
+
     }
 
     void SpawnObjectRandomly(GameObject gameObject)
@@ -112,51 +108,81 @@ public class ObjectSpawner : MonoBehaviour
         //this will set parent object
         spawnedGameObject.transform.parent = combatAreaSpawn.transform;
 
-        //random place in Map relative to parent object
+        //random place in Map relative to parent object (centre)
         float vectorX = (Random.Range(-maxXaxisOfArea, maxXaxisOfArea) + combatAreaSpawn.transform.position.x);
         float vectorY = (Random.Range(-maxYaxisOfArea, maxYaxisOfArea) + combatAreaSpawn.transform.position.y);
         float vectorZ = 0f;
 
         Vector3 spawnPointVector = new Vector3(vectorX, vectorY, vectorZ);
         //selfQuaternion  needed for vector3
-        Quaternion rotation = Quaternion.identity;
+        //Quaternion rotation = Quaternion.identity;
 
         //place where we want him
         spawnedGameObject.transform.position = spawnPointVector;
         //Debug.Log("shouldHaveSpawn " + vectorX + " " + vectorY);
 
-        float realX = spawnedGameObject.transform.position.x;
-        float realY = spawnedGameObject.transform.position.y;
+        //float realX = spawnedGameObject.transform.position.x;
+        //float realY = spawnedGameObject.transform.position.y;
         //Debug.Log("spawnedin "+realX +" " +realY );
 
         // set name and type
+    }
+
+    void SetNameAndCounters()
+    {
         string name;
-        name = gameObject.GetComponent<ObjectInfo>().name + nameCounter;
+        name = spawnedGameObject.GetComponent<ObjectInfo>().name + nameCounter;
         nameCounter++;
         ObjectInfo objectInfo;
         objectInfo = FindObjectOfType<ObjectInfo>();
         objectInfo.SetName(name);
         Debug.Log(name);
-
         string type = objectInfo.GetType();
 
         if (type == "Unit")
         {
             objectInfo.SetType("Enemy");
+
             spawnedEnemyUnits++;
             totalSpawnedObjects++;
+
+
         }
         else if (type == "LootChest")
         {
             spawnedLootChests++;
             totalSpawnedObjects++;
         }
+
         //spawnedGameObjectList.Add(gameObject.name,gameObject.GetType});
         //add to list
-
-    
-    /*void SetInstantiatedObjectName(GameObject gameObject)
+    }
+    void SpawnObjectRandomlyOrig(GameObject gameObject)
     {
+        spawnedGameObject = Instantiate(gameObject);
+
+        //this will set parent object
+        spawnedGameObject.transform.parent = combatAreaSpawn.transform;
+
+        //random place in Map relative to parent object (centre)
+        float vectorX = (Random.Range(-maxXaxisOfArea, maxXaxisOfArea) + combatAreaSpawn.transform.position.x);
+        float vectorY = (Random.Range(-maxYaxisOfArea, maxYaxisOfArea) + combatAreaSpawn.transform.position.y);
+        float vectorZ = 0f;
+
+        Vector3 spawnPointVector = new Vector3(vectorX, vectorY, vectorZ);
+        //selfQuaternion  needed for vector3
+        //Quaternion rotation = Quaternion.identity;
+
+        //place where we want him
+        spawnedGameObject.transform.position = spawnPointVector;
+        //Debug.Log("shouldHaveSpawn " + vectorX + " " + vectorY);
+
+        //float realX = spawnedGameObject.transform.position.x;
+        //float realY = spawnedGameObject.transform.position.y;
+        //Debug.Log("spawnedin "+realX +" " +realY );
+
+        // set name and type
+
         string name;
         name = gameObject.GetComponent<ObjectInfo>().name + nameCounter;
         nameCounter++;
@@ -164,48 +190,36 @@ public class ObjectSpawner : MonoBehaviour
         objectInfo = FindObjectOfType<ObjectInfo>();
         objectInfo.SetName(name);
         Debug.Log(name);
-
         string type = objectInfo.GetType();
 
         if (type == "Unit")
         {
             objectInfo.SetType("Enemy");
+
             spawnedEnemyUnits++;
             totalSpawnedObjects++;
+
+
         }
-        else if(type == "LootChest")
+        else if (type == "LootChest")
         {
             spawnedLootChests++;
             totalSpawnedObjects++;
-        }*/
+        }
+
+        //spawnedGameObjectList.Add(gameObject.name,gameObject.GetType});
+        //add to list
     }
+
+    void SetUnitRace()
+    { 
+        
+    }
+    void SetUnitClass()
+    { 
     
-    void SpawnUnitRandomly()
-    {
-        spawnedUnit = Instantiate(enemyUnit);
-        
-        //this will set parent object
-        spawnedUnit.transform.parent = combatAreaSpawn.transform;
-
-        //random place in Map relative to parent object
-        float vectorX= (Random.Range(-maxXaxisOfArea, maxXaxisOfArea)+ combatAreaSpawn.transform.position.x);
-        float vectorY= (Random.Range(-maxYaxisOfArea, maxYaxisOfArea)+ combatAreaSpawn.transform.position.y);
-        float vectorZ = 0f;
-
-        Vector3 spawnPointVector = new Vector3(vectorX,vectorY,vectorZ);
-        
-        Quaternion rotation=Quaternion.identity;
-                
-        //place relative to parent object
-
-        spawnedUnit.transform.position = spawnPointVector;
-        //Debug.Log("shouldHaveSpawn " + vectorX + " " + vectorY);
-
-        float realX=spawnedUnit.transform.position.x;
-        float realY=spawnedUnit.transform.position.y;
-        //Debug.Log("spawnedin"+realX +" " +realY );
-        //spawnedUnit=Instantiate(unit, spawnPoint.transform);
     }
+
     void AddSpawnedObjectToList()
     {
         spawnedGameObjectList.Add(spawnedUnit);
@@ -214,4 +228,53 @@ public class ObjectSpawner : MonoBehaviour
     {
         Instantiate(lootChest);
     }
+
+    /*void SetInstantiatedObjectName(GameObject gameObject)
+{
+    string name;
+    name = gameObject.GetComponent<ObjectInfo>().name + nameCounter;
+    nameCounter++;
+    ObjectInfo objectInfo;
+    objectInfo = FindObjectOfType<ObjectInfo>();
+    objectInfo.SetName(name);
+    Debug.Log(name);
+
+    string type = objectInfo.GetType();
+
+    if (type == "Unit")
+    {
+        objectInfo.SetType("Enemy");
+        spawnedEnemyUnits++;
+        totalSpawnedObjects++;
+    }
+    else if(type == "LootChest")
+    {
+        spawnedLootChests++;
+        totalSpawnedObjects++;
+    }*/
+
+    void CheckObjectsInArena()
+    {
+
+    }
+    void GiveMeRandomTransforms(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            float x;
+            float y;
+            x = Random.Range(-maxXaxisOfArea, maxXaxisOfArea);
+            y = Random.Range(-maxYaxisOfArea, maxYaxisOfArea);
+            Debug.Log(x + "  " + y);
+        }
+    }
+
+    /*void SpawnMeSomeUnits(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            SpawnUnitRandomly();
+        }
+    }*/
+
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 
 using UnityEngine;
-// this is jsut a script for random movement - testing purposes
+// this is just a script for random movement - testing purposes, will get removed at some point
 
 
 

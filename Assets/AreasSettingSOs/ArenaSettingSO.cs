@@ -9,4 +9,7 @@ public class ArenaSettingSO : ScriptableObject
     [SerializeField] public int maxObjectsInArea;
     [SerializeField] public int maxLootChestsInArea;
     [SerializeField] public int maxEnemyUnitsInArea;
+
+    [Header("SOs of unit settings")]
+    public UnitRaceSO unitRaceSO;
 }

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Race", fileName = "RaceProperties")]
-public class UnitRaceSOs : ScriptableObject
+public class UnitRaceSO : ScriptableObject
 {
 
     [SerializeField] public string race;
@@ -14,9 +15,14 @@ public class UnitRaceSOs : ScriptableObject
     //Human#5AC54F/0:0:0
     //Human#FFFFFF/0:0:0
 
+
+    /* //This will be done automaticly same for all body parts in 
+       // ObjectSpawner of area and CharacterBuilder on prefab
     public string Head;
     public string Ears;
     public string Eyes;
     public string Body;
-    public string Hair;
+    */
+    // public string Hair; will be in visuals prob.
+
 }
