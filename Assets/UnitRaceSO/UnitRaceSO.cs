@@ -15,6 +15,8 @@ public class UnitRaceSO : ScriptableObject
     //Human#5AC54F/0:0:0
     //Human#FFFFFF/0:0:0
 
+    //eventually we will have string builder for race variants 
+
 
     /* //This will be done automaticly same for all body parts in 
        // ObjectSpawner of area and CharacterBuilder on prefab
