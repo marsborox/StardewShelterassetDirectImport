@@ -230,7 +230,7 @@ public class CameraMovement : MonoBehaviour
             else if (zoomHeight > maxHeight)
                 zoomHeight = maxHeight;
         }
-        Debug.Log("WeScrolling"+inputValue);
+        //Debug.Log("WeScrolling"+inputValue);
         
     }
         

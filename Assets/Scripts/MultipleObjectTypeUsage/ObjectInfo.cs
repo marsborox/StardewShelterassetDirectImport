@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class ObjectInfo : MonoBehaviour
 {
-
+    //this is only for area spawning
     [SerializeField] public string name;
     [SerializeField] public string type;
 
+    void Start()
+    { 
+        
+    }
     public void SetName(string newName)
     {
         name= newName;
@@ -25,10 +29,7 @@ public class ObjectInfo : MonoBehaviour
         return type; 
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -37,6 +38,6 @@ public class ObjectInfo : MonoBehaviour
     }
     public void TellInfo()
     {
-        Debug.Log("my name is" + name);
+        //Debug.Log("my name is" + name);
     }
 }

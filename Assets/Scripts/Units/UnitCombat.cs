@@ -6,17 +6,23 @@ using UnityEngine;
 
 using static UnityEngine.GraphicsBuffer;
 
+
 public class UnitCombat : MonoBehaviour
 {
     CharacterAnimation characterAnimation;
     UnitAi unitAi;
-    //private GameObject _target;
+    
     CharacterController2D characterController;
+    UnitStatsAndInfo unitStatsAndInfo;
+
+    private GameObject _target;
+    
     // Start is called before the first frame update
     private void Awake()
     {
         characterAnimation = GetComponent<CharacterAnimation>();
         unitAi = GetComponent<UnitAi>();
+        unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
     }
     void Start()
     {
@@ -28,37 +34,42 @@ public class UnitCombat : MonoBehaviour
     {
         
     }
-    public void Attack(GameObject target)
+    public void Attack2(GameObject target)
     {
         
         target.gameObject.GetComponent<UnitHealth>().TakeDamage();
         characterAnimation.Slash();
     }
-    public void AttackPreAnimation(GameObject target)
-    {
-        //do damage
-        //StartCoroutine(Wait());
-        //_target = target;
+    public void AttackHit(GameObject target)
+    {//attack pre animation
+     //do damage
+     //StartCoroutine(Wait());
+
+        unitAi.attackOnCD = true;
+        _target = target;
+        target.gameObject.GetComponent<UnitAi>().attacker = this.gameObject;
         characterAnimation.Idle();
         characterAnimation.Slash();
         //unitAi.target.gameObject.GetComponent<UnitHealth>().TakeDamage();
-        
-    }
-    public void AttackPostAnimation(GameObject target)
-    {
-        //target.gameObject.GetComponent<UnitHealth>().TakeDamage();
-        //unitAi.activity = Activity.FIGHT;
+        //unitAi.activity= Activity.IDLE;
+            
     }
 
-    IEnumerator Wait()
+    public void AttackAnimationEvent()
     {
-        yield return new WaitForSeconds(2f);
+        _target.gameObject.GetComponent<UnitHealth>().TakeDamage();
+        _target = null;
+        StartCoroutine(AttackCooldown());
     }
-    public IEnumerator AttackAnimationEvent()
+    public IEnumerator AttackCooldown()
     {
         //after slash is performed
         //unitAi.activity = Activity.IDLE;
-        yield return new WaitForSeconds(2f);
-        //AttackPostAnimation(_target);
+
+        
+        yield return new WaitForSeconds(unitStatsAndInfo.attackSpeed);
+        unitAi.attackOnCD = false;
+        //unitAi.activity = Activity.IDLE;
     }
+    
 }

@@ -11,14 +11,16 @@ public class UnitSO : ScriptableObject
     [SerializeField] public float movementSpeed;
     [SerializeField] public int health;
 
-    
+    /*
     [SerializeField] public string race;
+
+
     public string Head;
     public string Ears;
     public string Eyes;
     public string Body;
     public string Hair;
-
+    */
 
     public string Armor;
     public string Helmet;

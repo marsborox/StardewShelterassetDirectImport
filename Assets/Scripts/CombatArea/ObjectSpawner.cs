@@ -146,7 +146,7 @@ public class ObjectSpawner : MonoBehaviour
         ObjectInfo objectInfo;
         objectInfo = FindObjectOfType<ObjectInfo>();
         objectInfo.SetName(name);
-        Debug.Log(name);
+        //Debug.Log(name);
         string type = objectInfo.GetType();
 
         if (type == "Unit")
@@ -197,7 +197,7 @@ public class ObjectSpawner : MonoBehaviour
         ObjectInfo objectInfo;
         objectInfo = FindObjectOfType<ObjectInfo>();
         objectInfo.SetName(name);
-        Debug.Log(name);
+        //Debug.Log(name);
         string type = objectInfo.GetType();
 
         if (type == "Unit")

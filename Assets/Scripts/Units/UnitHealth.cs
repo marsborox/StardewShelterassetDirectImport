@@ -16,11 +16,12 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] Image healthBarSprite;
 
     UnitStatsAndInfo unitStatsAndInfo;
+    UnitAi unitAi;
     // Start is called before the first frame update
     private void Awake()
     {
         unitStatsAndInfo=GetComponent<UnitStatsAndInfo>();
-
+        unitAi=GetComponent<UnitAi>();
     }
     void Start()
     {
@@ -41,7 +42,9 @@ public class UnitHealth : MonoBehaviour
         
 
         Debug.Log("I am dying");
+        unitAi.attacker.GetComponent<UnitAi>().target = null;
         Destroy(this.gameObject);
+
     }
     public void TakeDamage()
     {

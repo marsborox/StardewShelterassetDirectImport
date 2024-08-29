@@ -12,8 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c6d26b58682774d9850737c3a0aa9d, type: 3}
   m_Name: TestHero
   m_EditorClassIdentifier: 
-  range: 0
+  range: 1
   damage: 5
-  attackSpeed: 1
+  attackSpeed: 1.4
   movementSpeed: 0
   health: 40
+  Armor: 
+  Helmet: 
+  Weapon: 
+  Firearm: 
+  Shield: 
+  Cape: 
+  Back: 
+  Mask: 
+  Horns: 

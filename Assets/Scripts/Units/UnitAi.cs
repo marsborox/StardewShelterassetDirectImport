@@ -1,4 +1,5 @@
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
+using Assets.PixelFantasy.PixelTileEngine.Scripts;
 
 using JetBrains.Annotations;
 using System.Collections;
@@ -24,9 +25,16 @@ public class UnitAi : MonoBehaviour
     UnitMovement unitMovement;
     ObjectInfo objectInfo;
     //can be public?
-    GameObject target;
+    public GameObject target;//who we attack or mine or use
+    public GameObject attacker;//who attacked us
+
+
     UnitCombat unitCombat;
     CharacterAnimation characterAnimation;
+    UnitStatsAndInfo unitStatsAndInfo;
+
+    public bool attackOnCD;
+    
     private void Awake()
     {
         goRandomly = GetComponent<GoRandomly>();
@@ -35,59 +43,87 @@ public class UnitAi : MonoBehaviour
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         characterAnimation = GetComponent<CharacterAnimation>();
+        unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
     }
     void Start()
     {
-       //activity = Activity.FIGHT;
+        //activity = Activity.FIGHT;
+        attackOnCD = false;
     }
 
     private void Update()
     {
-        switch (activity) 
-        {
-            case  Activity.RANDOMAUTOMOVE:
-                {
-                    goRandomly.isAi=true;
-                    goRandomly.goRandomly = true;
-                    goRandomly.GoRandomlyIfShouldAndNotPaused();
-                    break;
-                }
-            case Activity.FIGHT:
-                {
-                    //Debug.Log("arenacombat state");
-                    if (target == null)
+       
+            switch (activity)
+            {
+                case Activity.RANDOMAUTOMOVE:
+                    {//random automovement in base area for initial testing only
+                        goRandomly.isAi = true;
+                        goRandomly.goRandomly = true;
+                        goRandomly.GoRandomlyIfShouldAndNotPaused();
+                        break;
+                    }
+                case Activity.FIGHT:
                     {
+                        //Debug.Log("arenacombat state");
+                        if (target == null)
+                        {
 
-                        unitTargetPicker.FindClosestEnemy();
-                        //Debug.Log("arenacombat state p.1 ok");
-                        target = unitTargetPicker.target;
-                        Debug.Log($"targetpicker target"+ unitTargetPicker.target.name);
-                        Debug.Log($"Target is: "+ target.name);
-                        target.gameObject.GetComponent<ObjectInfo>().TellInfo();
+                            unitTargetPicker.FindClosestEnemy();
+                            //Debug.Log("arenacombat state p.1 ok");
+                            target = unitTargetPicker.target;
+                            //Debug.Log($"targetpicker target"+ unitTargetPicker.target.name);
+                            //Debug.Log($"Target is: "+ target.name);
+                            //target.gameObject.GetComponent<ObjectInfo>().TellInfo();
+                        }
+
+                        AttackTargetInRangeOrMoveTOTarget();
+                        //problem here
+                        /*
+                        unitMovement.Move(target.transform);
+                        */
+                        //Debug.Log("arenacombat state p.2 ok");
+
+                        break;
+                    }
+                case Activity.IDLE:
+                    {
+                        //characterAnimation.Idle();
+                        // ************* set source of dmg as target, if status idle change status to fight
+                        break;
 
                     }
-                    //problem here
-
-                    unitMovement.Move(target.transform);
-                    //Debug.Log("arenacombat state p.2 ok");
-
-                    break;
-                }
-            case Activity.IDLE:
-                {
-                    //characterAnimation.Idle();
-                    // ************* set source of dmg as target, if status idle change status to fight
-                    break;
-
-                }
-        }
+            }
+        
+        
     }
+    /*
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
         if (otherCollider.gameObject == target)
         {
             unitCombat.Attack(target);
             //unitCombat.AttackPreAnimation(target);
+        }
+    }
+    */
+    void AttackTargetInRangeOrMoveTOTarget()
+    {
+
+        
+        if (target != null&& !attackOnCD)
+        {
+            //must be divided to different methods in future - ust check range if within range...
+            float distance = Vector2.Distance(this.transform.position, target.transform.position);
+            if (distance > unitStatsAndInfo.range)
+            {
+                unitMovement.Move(target.transform);
+            }
+            
+            else if (distance < unitStatsAndInfo.range)
+            {
+                unitCombat.AttackHit(target);
+            }
         }
     }
 }

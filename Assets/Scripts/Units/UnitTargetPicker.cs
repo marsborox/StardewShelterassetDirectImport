@@ -15,7 +15,7 @@ public class UnitTargetPicker : MonoBehaviour
 
     public void FindClosestEnemy()
     {
-        Debug.Log("FINDING ENEMIES");
+        //Debug.Log("FINDING ENEMIES");
         ListObjectsInMap();
         ListEnemies();
         GetClosestObject(enemyList);
@@ -35,7 +35,7 @@ public class UnitTargetPicker : MonoBehaviour
             {
                 objectList.Add(transformObject.gameObject);
             }
-            Debug.Log($"Listing objects OK, listCount: "+objectList.Count);
+            //Debug.Log($"Listing objects OK, listCount: "+objectList.Count);
         }
         else
         {
@@ -44,18 +44,18 @@ public class UnitTargetPicker : MonoBehaviour
     }
     void ListEnemies()
     {
-        Debug.Log("Listing enemies");
+        //Debug.Log("Listing enemies");
         enemyList.Clear();
         foreach (GameObject gameObject in objectList)
         {
-            Debug.Log($"Object: {gameObject.name}, Tag: {gameObject.tag}");
+            //Debug.Log($"Object: {gameObject.name}, Tag: {gameObject.tag}");
             if (gameObject.tag == enemyTag)
             {
                 enemyList.Add(gameObject);
-                Debug.Log("logged enemy into enemyList");
+                //Debug.Log("logged enemy into enemyList");
             }
         }
-        Debug.Log("Listing enemies OK");
+        //Debug.Log("Listing enemies OK");
     }
     /*
     void ListEnemies()
@@ -101,10 +101,10 @@ public class UnitTargetPicker : MonoBehaviour
             Debug.Log("target NULL in unit target picker");
             //FindClosestEnemy();
         }
-        Debug.Log(target.name);
+        //Debug.Log(target.name);
         //returning closest gameObject
         targetName = target.name;
-        Debug.Log($"target returned:" +targetName);
+        //Debug.Log($"target returned:" +targetName);
         return target;
         
     }
