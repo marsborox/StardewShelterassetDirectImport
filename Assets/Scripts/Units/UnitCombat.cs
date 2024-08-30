@@ -12,10 +12,12 @@ public class UnitCombat : MonoBehaviour
     CharacterAnimation characterAnimation;
     UnitAi unitAi;
     
-    CharacterController2D characterController;
+    
     UnitStatsAndInfo unitStatsAndInfo;
 
-    private GameObject _target;
+    GameObject _target;
+
+    
     
     // Start is called before the first frame update
     private void Awake()
@@ -26,7 +28,7 @@ public class UnitCombat : MonoBehaviour
     }
     void Start()
     {
-        
+        //_inCombat = false;
     }
 
     // Update is called once per frame

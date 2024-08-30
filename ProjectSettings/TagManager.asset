@@ -17,6 +17,7 @@ TagManager:
   - LootChest
   - HeroUnit
   - EnemyUnit
+  - DeadEnemyUnit
   layers:
   - Default
   - TransparentFX

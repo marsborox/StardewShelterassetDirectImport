@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class LocationCollection : MonoBehaviour
 {
-    [SerializeField] Transform mine;
-    [SerializeField] Transform lake;
-    [SerializeField] Transform field;
-    [SerializeField] Transform volcano;
-    [SerializeField] Transform forest;
-    [SerializeField] Transform mainBase;
+    [SerializeField] GameObject mine;
+    [SerializeField] GameObject lake;
+    [SerializeField] GameObject field;
+    [SerializeField] GameObject volcano;
+    [SerializeField] GameObject forest;
+    [SerializeField] GameObject mainBase;
 
-    public static Transform[] locationArray = new Transform[5];
+    public static GameObject[] locationArray = new GameObject[5];
     
 
 
@@ -35,29 +35,30 @@ public class LocationCollection : MonoBehaviour
         locationArray[2] = field;
         locationArray[3] = volcano;
         locationArray[4] = forest;
+        Debug.Log("Location Array Created");
     }
 
-    public Transform GetMine()
+    public GameObject GetMine()
     {
         return mine;
     }
-    public Transform GetLake() 
+    public GameObject GetLake() 
     {
         return lake;
     }
-    public Transform GetField() 
+    public GameObject GetField() 
     {
         return field;
     }
-    public Transform GetVolcano()
+    public GameObject GetVolcano()
     {
         return volcano;
     }
-    public Transform GetForest()
+    public GameObject GetForest()
     {
         return forest;
     }
-    public Transform GetMainBase() 
+    public GameObject GetMainBase() 
     {
         return mainBase;
     }

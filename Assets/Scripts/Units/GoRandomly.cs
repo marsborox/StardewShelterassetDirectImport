@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 
 using UnityEngine;
 // this is just a script for random movement - testing purposes, will get removed at some point
-
+//DISCONTINUED AND BROKEN!!!!!!!!!!!!!!!
 
 
 public class GoRandomly : MonoBehaviour
@@ -15,13 +15,16 @@ public class GoRandomly : MonoBehaviour
     [SerializeField] bool doMining;
     [SerializeField] public bool goRandomly;
     [SerializeField] float waitTime = 2f;
+    [SerializeField] bool findTarget;
+
+
     LocationCollection locationCollection;
 
     UnitMovement unitMovement;
-    Transform targetTransform;
+    GameObject _target;
     public GameObject locationTarget;
 
-    public GameObject[] locationArray;
+    GameObject[] _locationArray;
 
 
     public Collider2D colliderOfWhatAreWeTouching;
@@ -39,8 +42,8 @@ public class GoRandomly : MonoBehaviour
     //must be value so we start with something to compare
     //public int oldTargetIndex;
     public int newTargetIndex;
-
-    public Activity state;
+    
+    
     private void Awake()
     {
         //locationCollection = FindObjectOfType<LocationCollection>();
@@ -64,12 +67,19 @@ public class GoRandomly : MonoBehaviour
     void FixedUpdate()
     {
         GoRandomlyIfShouldAndNotPaused();
+        ForceRandomTarget();
+        /*
+        if (_target == null)
+        {
+            findTarget = true;
+        }
+        */
     }
 
     void PerformMoveToTarget()
     {
-        SetLocationTransform();
-        unitMovement.Move(targetTransform);
+        //SetLocationTransform();
+        unitMovement.Move(_target);
     }
 
     void ThinkFlow()
@@ -79,20 +89,27 @@ public class GoRandomly : MonoBehaviour
 
     public void GoRandomlyIfShouldAndNotPaused()
     {
-        if ((!pause) && goRandomly)
-            PerformMoveToTarget();
+        if (_target != null)
+        {
+            if ((!pause) && goRandomly)
+                PerformMoveToTarget();
 
-        if (weTouchedSomething)
-        {//we know where we are moment we touch it
+            if (weTouchedSomething)
+            {//we know where we are moment we touch it
 
-            CheckIfHasArrived(unitLocation);
-            weTouchedSomething = false;
-            if (hasArrived)
-            {
-                StartCoroutine(Wait());
-                PickRandomTarget();
-                hasArrived = false;
+                CheckIfHasArrived(unitLocation);
+                weTouchedSomething = false;
+                if (hasArrived)
+                {
+                    StartCoroutine(Wait());
+                    PickRandomTarget();
+                    hasArrived = false;
+                }
             }
+        }
+        else 
+        {
+            Debug.Log("no target in GoRandomly");
         }
     }
 
@@ -114,13 +131,13 @@ public class GoRandomly : MonoBehaviour
         return colliderOfWhatAreWeTouching;
     }
 
-    public void SetTargetLocationMine()
+    void SetTargetLocationMine()
     {
-        targetTransform = locationCollection.GetMine();
+        _target = locationCollection.GetMine();
     }
-    public void SetTargetLocationMainBase()
+    void SetTargetLocationMainBase()
     {
-        targetTransform = locationCollection.GetMainBase();
+        _target = locationCollection.GetMainBase();
     }
     void DoMining()
     {
@@ -145,13 +162,16 @@ public class GoRandomly : MonoBehaviour
     {
         string locations = "Location";
 
-        locationArray = GameObject.FindGameObjectsWithTag(locations);
+        //locationArray = GameObject.FindGameObjectsWithTag(locations);
+        _locationArray = LocationCollection.locationArray;
+        //Debug.Log($"LocationCollection array lenght:" + LocationCollection.locationArray.Length);
+        //Debug.Log($"GoRandomly array Length:" + _locationArray.Length);
     }
     public void PickRandomTarget()
     {
         int oldTargetIndex = newTargetIndex;
         CheckAllLocation();
-        int i = locationArray.Length;
+        int i = _locationArray.Length;
         newTargetIndex = Random.Range(1, i--);
         //Debug.Log("ArrayLength "+ i);
         i = i++;
@@ -161,19 +181,22 @@ public class GoRandomly : MonoBehaviour
             //Debug.Log("Duplicity");
             newTargetIndex = Random.Range(0, i);
         }
-        oldTargetIndex = newTargetIndex;
+        //oldTargetIndex = newTargetIndex;
         //Debug.Log("NextTargetIndex: "+ newTargetIndex);
-        locationTarget = locationArray[newTargetIndex];
+        _target = _locationArray[newTargetIndex];
+        locationTarget = _target;
         //Debug.Log("Location Name: " + locationTarget.name);
         targetLocation = locationTarget.name;
         hasArrived = false;
-        SetLocationTransform();
+
+
+        //SetLocationTarget();
         //return target;
     }
 
-    void SetLocationTransform()
+    void SetLocationTarget()
     {
-        targetTransform = locationTarget.GetComponent<Transform>();
+        _target = locationTarget.GetComponent<GameObject>();
     }
     void GetTransformOfTarget()
     {
@@ -200,5 +223,13 @@ public class GoRandomly : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         pause = false;
         //something go
+    }
+    void ForceRandomTarget()
+    {
+        if (findTarget)
+        { 
+            PickRandomTarget();
+            findTarget = false;
+        }
     }
 }

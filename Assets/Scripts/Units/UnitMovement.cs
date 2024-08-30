@@ -6,6 +6,8 @@ using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
 
 using UnityEngine;
 
+using static UnityEngine.GraphicsBuffer;
+
 public class UnitMovement : MonoBehaviour
 {
     [SerializeField] float movementSpeed = 5f;
@@ -30,19 +32,11 @@ public class UnitMovement : MonoBehaviour
         return movementSpeed;
     }
 
-    public void Move(Transform target)
+    public void Move(GameObject target)
     {
-        Vector2 targetPosition = target.position;
+        Vector2 targetPosition = target.transform.position;
 
-        bool movingLeft = target.position.x < this.transform.position.x;
-        if (movingLeft)
-        {
-            transform.localScale = new Vector2(-1f, 1f);
-        }
-        else 
-        { 
-            transform.localScale = new Vector2(1f, 1f); 
-        }
+        TurnCorrectDirection(target);
 
         float delta = movementSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position,targetPosition,delta);
@@ -52,5 +46,16 @@ public class UnitMovement : MonoBehaviour
     {
         Vector2 targetposition = transform.position;
     }
-
+    public void TurnCorrectDirection(GameObject target)
+    {
+        bool movingLeft = target.transform.position.x < this.transform.position.x;
+        if (movingLeft)
+        {
+            transform.localScale = new Vector2(-1f, 1f);
+        }
+        else
+        {
+            transform.localScale = new Vector2(1f, 1f);
+        }
+    }
 }
