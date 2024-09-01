@@ -11,7 +11,7 @@ public class UnitTargetPicker : MonoBehaviour
 
     //redo stuff 
     //public string enemyTag = "EnemyUnit";
-    public string enemyTag = "EnemyUnit";
+    public string tagOfEnemy;
 
     public void FindClosestEnemy()
     {
@@ -49,7 +49,7 @@ public class UnitTargetPicker : MonoBehaviour
         foreach (GameObject gameObject in objectList)
         {
             //Debug.Log($"Object: {gameObject.name}, Tag: {gameObject.tag}");
-            if (gameObject.tag == enemyTag)
+            if (gameObject.tag == tagOfEnemy)
             {
                 enemyList.Add(gameObject);
                 //Debug.Log("logged enemy into enemyList");
@@ -93,7 +93,6 @@ public class UnitTargetPicker : MonoBehaviour
                 bestTarget = potentialTarget;
             }
         }
-
        // Debug.Log("Finding target OK");
         target = bestTarget;
         if (target == null)
@@ -106,7 +105,6 @@ public class UnitTargetPicker : MonoBehaviour
         targetName = target.name;
         //Debug.Log($"target returned:" +targetName);
         return target;
-        
     }
     void TargetDistance()
     { 

@@ -345,11 +345,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newTargetIndex: 0
-  activity: 7
+  activity: 0
   combatState: 0
   target: {fileID: 0}
   attacker: {fileID: 0}
   attackOnCD: 0
+  inCombat: 0
 --- !u!114 &7546408018097750466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +392,7 @@ MonoBehaviour:
   healthCurrent: 0
   healthFraction: 0
   healthBarSprite: {fileID: 7013358919063866715}
+  lowHPTresholdPercentage: 20
 --- !u!114 &5376207527515098220
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,9 +19,13 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] GameObject heroUnit;
     [SerializeField] GameObject heroCamp;
 
-    public ArenaSettingSO arenaSetting;
+    [Header("ScriptableObjects")]
+    [SerializeField]  ArenaSettingSO _arenaSetting;
+    UnitRaceSO _spawnedEnemyUnitRaceSO;
+    UnitSO spawnedEnemyUnitSO;
+    [SerializeField]  UnitSO spawnedHeroSO;
 
-    public UnitRaceSO spawnedEnemyUnitRaceSO;
+
     //[SerializeField] int maxObjectsInArea = 10;
     //[SerializeField] int maxLootChestsInArea = 6;
     //[SerializeField] int maxEnemyUnitsInArea = 8;
@@ -36,6 +40,7 @@ public class ObjectSpawner : MonoBehaviour
     GameObject spawnedGameObject;
     GameObject spawnedHero;
 
+
     //ObjectInfo objectInfo;
     //this is name of parent object of arena
     [SerializeField] public GameObject combatAreaSpawn;//unused only for centre
@@ -46,12 +51,13 @@ public class ObjectSpawner : MonoBehaviour
 
     private void Awake()
     {
+        
         //objectInfo = FindObjectOfType<ObjectInfo>();
     }
     private void Start()
     {
+        SetSOsSettings();
         SpawnHeroOnCamp();
-
 
     }
     private void Update()
@@ -66,26 +72,31 @@ public class ObjectSpawner : MonoBehaviour
     }
 
     void SpawnHeroOnCamp()
-    {
+    {//temp method will remove later
         spawnedHero = Instantiate(heroUnit);
+        spawnedHero.GetComponent<ObjectInfo>().SetType("Hero");
+        spawnedHero.gameObject.tag = "HeroUnit";
+        spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
         spawnedHero.transform.parent = combatAreaSpawn.transform;
         spawnedHero.transform.position = heroCamp.transform.position;
+        SetHeroStats();
+        spawnedHero.GetComponent<UnitAi>().task = Task.ADVENTURING;
     }
 
     void SpawnObjectsOnMap()
     {
         //GameObject spawningObject;
-        if (totalSpawnedObjects < arenaSetting.maxObjectsInArea)
+        if (totalSpawnedObjects < _arenaSetting.maxObjectsInArea)
         {
             int random = Random.Range(0, 2);
             //Debug.Log(random);
-            if (random == 0 && spawnedEnemyUnits < arenaSetting.maxEnemyUnitsInArea)
+            if (random == 0 && spawnedEnemyUnits < _arenaSetting.maxEnemyUnitsInArea)
             {
                 //SpawnObjectRandomlyOrig(enemyUnit);
                 SpawnEnemy();
                 //spawn Unit
             }
-            else if (random == 1 && spawnedLootChests < arenaSetting.maxLootChestsInArea)
+            else if (random == 1 && spawnedLootChests < _arenaSetting.maxLootChestsInArea)
             {
                 //SpawnObjectRandomlyOrig(lootChest);
                 SpawnLootChest();
@@ -101,9 +112,12 @@ public class ObjectSpawner : MonoBehaviour
         SetUnitRace();
         SetUnitVisuals();
         SetUnitClass();
+        SetUnitStats();
         spawnedGameObject.GetComponent<CharacterBuilder>().Rebuild();//this will reload visuals
+        spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
         SetUnitTypeTagCounters();
         SetUnitStateIdle();
+
     }
     void SpawnLootChest()
     {
@@ -222,11 +236,10 @@ public class ObjectSpawner : MonoBehaviour
     void SetUnitRace()
     {
         //CharacterBuilder characterBuilder;
-        
-        spawnedGameObject.GetComponent<CharacterBuilder>().Head = spawnedEnemyUnitRaceSO.race;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Ears = spawnedEnemyUnitRaceSO.race;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Eyes = spawnedEnemyUnitRaceSO.race;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Body = spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Head = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Ears = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Eyes = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Body = _spawnedEnemyUnitRaceSO.race;
     }
     void SetUnitVisuals()
     {
@@ -237,8 +250,15 @@ public class ObjectSpawner : MonoBehaviour
         
     }
     void SetUnitStats()
-    { 
-        
+    {
+        spawnedGameObject.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedEnemyUnitSO;
+        spawnedGameObject.GetComponent<UnitStatsAndInfo>().SetStats();
+    }
+    void SetHeroStats()
+    {
+        //temp method for testing will be removed
+        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
+        spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
     }
     void SetUnitTypeTagCounters()
     {
@@ -249,8 +269,9 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SetUnitStateIdle()
     {
-        spawnedGameObject.GetComponent<UnitAi>().activity = Activity.IDLE;
+        spawnedGameObject.GetComponent<UnitAi>().task = Task.IDLE;
     }
+
     void AddSpawnedObjectToList()
     {
         spawnedGameObjectList.Add(spawnedUnit);
@@ -259,7 +280,11 @@ public class ObjectSpawner : MonoBehaviour
     {
         Instantiate(lootChest);
     }
-
+    void SetSOsSettings()
+    {
+        _spawnedEnemyUnitRaceSO= _arenaSetting.unitRaceSO;
+        spawnedEnemyUnitSO= _arenaSetting.unitSettingSO;
+    }
     /*void SetInstantiatedObjectName(GameObject gameObject)
 {
     string name;

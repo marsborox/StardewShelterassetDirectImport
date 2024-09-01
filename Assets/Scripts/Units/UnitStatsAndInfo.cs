@@ -11,19 +11,18 @@ public class UnitStatsAndInfo : MonoBehaviour
     public int health;
 
     public UnitSO unitSettings;
-    // Start is called before the first frame update
+    
     void Start()
+    {
+
+    }
+
+
+    public void SetStats()
     {
         range = unitSettings.range;
         damage = unitSettings.damage;
         attackSpeed = unitSettings.attackSpeed;
         health = unitSettings.health;
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -39,5 +39,6 @@ public class ObjectInfo : MonoBehaviour
     public void TellInfo()
     {
         Debug.Log("my name is" + name);
+        
     }
 }

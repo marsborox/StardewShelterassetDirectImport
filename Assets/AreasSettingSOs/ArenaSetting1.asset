@@ -15,3 +15,5 @@ MonoBehaviour:
   maxObjectsInArea: 10
   maxLootChestsInArea: 6
   maxEnemyUnitsInArea: 8
+  unitRaceSO: {fileID: 11400000, guid: e0cc92041e815b14a992b10b31bf0198, type: 2}
+  unitSettingSO: {fileID: 11400000, guid: 7f4a173f4149e004f93284d175f1bcad, type: 2}

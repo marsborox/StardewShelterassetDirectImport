@@ -34,6 +34,7 @@ public class UnitMovement : MonoBehaviour
 
     public void Move(GameObject target)
     {
+        unitAi.activity = Activity.MOVING;
         Vector2 targetPosition = target.transform.position;
 
         TurnCorrectDirection(target);

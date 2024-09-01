@@ -11,8 +11,6 @@ public class UnitCombat : MonoBehaviour
 {
     CharacterAnimation characterAnimation;
     UnitAi unitAi;
-    
-    
     UnitStatsAndInfo unitStatsAndInfo;
 
     GameObject _target;
@@ -37,29 +35,32 @@ public class UnitCombat : MonoBehaviour
         
     }
     public void Attack2(GameObject target)
-    {
-        
-        target.gameObject.GetComponent<UnitHealth>().TakeDamage();
+    {//discontinued
+        target.gameObject.GetComponent<UnitHealth>().TakeDamage(unitStatsAndInfo.damage);
         characterAnimation.Slash();
     }
     public void AttackHit(GameObject target)
     {//attack pre animation
      //do damage
      //StartCoroutine(Wait());
-
+        unitAi.activity = Activity.COMBAT;
         unitAi.attackOnCD = true;
         _target = target;
         target.gameObject.GetComponent<UnitAi>().attacker = this.gameObject;
+        //target.gameObject.GetComponent<UnitAi>().target = this.gameObject;
+        
+        target.gameObject.GetComponent<UnitAi>().IfImIdleMakeMeCombat();
+        
+        unitAi.inCombat = true;
         characterAnimation.Idle();
         characterAnimation.Slash();
         //unitAi.target.gameObject.GetComponent<UnitHealth>().TakeDamage();
         //unitAi.activity= Activity.IDLE;
-            
     }
 
     public void AttackAnimationEvent()
     {
-        _target.gameObject.GetComponent<UnitHealth>().TakeDamage();
+        _target.gameObject.GetComponent<UnitHealth>().TakeDamage(unitStatsAndInfo.damage);
         _target = null;
         StartCoroutine(AttackCooldown());
     }

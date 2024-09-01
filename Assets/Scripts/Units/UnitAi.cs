@@ -9,8 +9,11 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public enum Activity { IDLE, LOCATIONACTIVITY, ARENACOMBAT, ARENARESOURCE, MOVEMENT,RANDOMAUTOMOVE,TRAVELING, KILLINGMOBS}
-public enum CombatState { MOVINGTOTARGET, FIGHTING, RESTING, LOOTING, NONE }
+using static UnityEngine.GraphicsBuffer;
+
+public enum Task { IDLE, LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT,RANDOMAUTOMOVE,TRAVELING, ADVENTURING, OTHER }
+public enum Activity { COMBAT, RESTING,MOVING,OTHER }
+//public enum CombatState { MOVINGTOTARGET, DOINGHIT, RESTING, LOOTING, NONE, DEAD }
 
 public class UnitAi : MonoBehaviour
 {
@@ -19,8 +22,10 @@ public class UnitAi : MonoBehaviour
     //public int oldTargetIndex;
     public int newTargetIndex;
 
+    public Task task;
     public Activity activity;
-    public CombatState combatState;
+    
+    //public CombatState combatState;
 
     GoRandomly goRandomly;
     UnitTargetPicker unitTargetPicker;
@@ -37,8 +42,9 @@ public class UnitAi : MonoBehaviour
     public GameObject attacker;//who attacked us
 
     public bool attackOnCD;
-    bool _inCombat;
-
+    [SerializeField] public bool inCombat;
+    
+    bool _targetInRange;
 
     private void Awake()
     {
@@ -55,54 +61,89 @@ public class UnitAi : MonoBehaviour
     {
         //activity = Activity.FIGHT;
         attackOnCD = false;
+        _targetInRange = false;
+        inCombat = false;
+
     }
 
     private void Update()
     {
-            switch (activity)
-            {
-                case Activity.RANDOMAUTOMOVE:
-                    {//random automovement in base area for initial testing only
-                        RandomAutoMove();
-                        
-                        break;
-                    }
-                case Activity.KILLINGMOBS:
-                    {
-                        KillingMobs();
-                    break;
-                }
-                case Activity.IDLE:
-                    {
-                        //characterAnimation.Idle();
-                        // ************* set source of dmg as target, if status idle change status to fight
-                        break;
-                    }
-            }
-    }
-    /*
-    void OnTriggerEnter2D(Collider2D otherCollider)
-    {
-        if (otherCollider.gameObject == target)
+        if (unitHealth.healthState != HealthState.DEAD)
         {
-            unitCombat.Attack(target);
-            //unitCombat.AttackPreAnimation(target);
+            ActivitySwitch();
+            if (false)
+            {//will be worked on later
+                IsInCombat();
+                if (inCombat)
+                {
+                    //CombatSwitch();
+                    KillingMobs();
+                }
+                else
+                {
+                    ActivitySwitch();
+                }
+            }
         }
     }
-    */
 
-    void RandomAutoMove()
+    void ActivitySwitch()
     {
-        goRandomly.isAi = true;
-        goRandomly.goRandomly = true;
-        goRandomly.GoRandomlyIfShouldAndNotPaused();
+        switch (task)
+        {
+
+            case Task.ADVENTURING:
+                {
+                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat)
+                    {
+                        unitHealth.Resting();
+                    }
+                    else
+                    {
+                        KillingMobs();
+                    }
+                    break;
+                }
+            case Task.IDLE:
+                {
+                    characterAnimation.Idle();
+                    // ************* set source of dmg as target, if status idle change status to fight
+                    break;
+                }
+            case Task.OTHER:
+                {
+                    break;
+                }
+            case Task.COMBAT:
+                {
+                    Combat();
+
+                    break;
+                }
+        }
+    }
+
+    void IsInCombat()
+    {
+        inCombat = (!(attacker=null));
+    }
+    void CombatSwitch()
+    { 
+        
+    }
+    void Combat()
+    {
+        if (target == null)
+        {
+            target = attacker;
+        }
+        AttackOrMoveToTarget();
     }
     void KillingMobs()
     {
         //Debug.Log("arenacombat state");
         if (target == null)
         {
-
             unitTargetPicker.FindClosestEnemy();
             //Debug.Log("arenacombat state p.1 ok");
             target = unitTargetPicker.target;
@@ -110,15 +151,54 @@ public class UnitAi : MonoBehaviour
             //Debug.Log($"Target is: "+ target.name);
             //target.gameObject.GetComponent<ObjectInfo>().TellInfo();
         }
-
+        //this is AttackTargetInRangeOrMoveTOTarget(); but done better
         AttackTargetInRangeOrMoveTOTarget();
-        //problem here
-        /*
-        unitMovement.Move(target.transform);
-        */
-        //Debug.Log("arenacombat state p.2 ok");
+    }
 
+    void AttackOrMoveToTarget()
+    {
+        unitMovement.TurnCorrectDirection(target);
+        CheckIfTargetInRange();
+        if (target != null && !attackOnCD)
+        { 
+            if (_targetInRange)
+            {
+                unitCombat.AttackHit(target);
+            }
+            else
+            {
+                unitMovement.Move(target);
+            }
+        }
+    }
+
+
+    void CheckIfTargetInRange()
+    { 
+        _targetInRange= Vector2.Distance(this.transform.position, target.transform.position) < unitStatsAndInfo.range;
+    }
+    void MoveToTarget()
+    {
         
+    }
+    void AttackHitTarget()
+    {
+        
+    }
+    void FindClosestEnemy()
+    { 
+        
+    }
+    public void IfImIdleMakeMeCombat()
+    {
+        if (task == Task.IDLE)
+        {
+            task= Task.COMBAT;
+        }
+        if (activity == Activity.RESTING)
+        { 
+            activity= Activity.COMBAT;
+        }
     }
     void AttackTargetInRangeOrMoveTOTarget()
     {
@@ -137,6 +217,17 @@ public class UnitAi : MonoBehaviour
             }
         }
     }
+    public void TargetDied()
+    {
+        target = null;
+        attacker = null;
+        inCombat = false;
+        if (objectInfo.type == "Enemy")
+        {
+            task = Task.IDLE;
+            unitHealth.healthCurrent = unitHealth.healthMax;
+        }
+    }
 }
 
 
@@ -153,3 +244,20 @@ if (unitMovement == null)
     Debug.Log("unitMovement is not assigned.");
     return;
 }*/
+
+
+//discontinued methods
+/*
+void OnTriggerEnter2D(Collider2D otherCollider)
+{
+    if (otherCollider.gameObject == target)
+    {
+        unitCombat.Attack(target);
+        //unitCombat.AttackPreAnimation(target);
+    }
+}
+*/
+
+
+
+

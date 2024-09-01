@@ -12,4 +12,5 @@ public class ArenaSettingSO : ScriptableObject
 
     [Header("SOs of unit settings")]
     public UnitRaceSO unitRaceSO;
+    public UnitSO unitSettingSO;
 }
