@@ -49,6 +49,7 @@ public class ObjectSpawner : MonoBehaviour
 
     int nameCounter = 0;
 
+    
     private void Awake()
     {
         

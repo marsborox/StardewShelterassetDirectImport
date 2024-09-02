@@ -7,6 +7,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
 public enum HealthState { ALIVE, DEAD }
+
 public class UnitHealth : MonoBehaviour
 {
 //fuckallhasbeendoneonthisday
@@ -34,9 +35,11 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] public bool healthLow { get; private set; }
     [SerializeField] public bool healthFull { get; private set; }
     */
-    bool _restingTick;
+    [SerializeField] public bool _restingTick;
     //Activity activity;
     // Start is called before the first frame update
+    IEnumerator restingRoutine;
+    
     private void Awake()
     {
         unitStatsAndInfo=GetComponent<UnitStatsAndInfo>();
@@ -58,13 +61,15 @@ public class UnitHealth : MonoBehaviour
     void Update()
     {
         AliveDeadSwitch();
-        if (unitAi.activity != Activity.RESTING) 
+        if (isResting&&unitAi.activity != Activity.RESTING ) 
         {
             _restingTick = false;
-            StopCoroutine(RestingHealPerTick());
+            StopCoroutine(restingRoutine);
+            _restingTick = false;
+            Debug.Log("Rest Done1");
             //isResting=false;
-            
         }
+   
     }
     void AliveDeadSwitch()
     {
@@ -95,26 +100,7 @@ public class UnitHealth : MonoBehaviour
         if (!unitAi.inCombat)
         { unitAi.inCombat = true; }
     }
-    public void Die()
-    {
-        gameObject.tag = ("DeadEnemyUnit");
-        
 
-        Debug.Log("I am dying");
-
-        unitAi.attacker.GetComponent<UnitAi>().TargetDied(); 
-        
-        unitAi.target = null;
-        unitAi.attacker = null;
-        unitAi.inCombat=false;
-        gameObject.GetComponent<UnitAi>().task = Task.OTHER;
-        healthState = HealthState.DEAD;
-        StopAllCoroutines();
-        this.characterAnimation.Die();
-        
-        StartCoroutine(Despawnm());
-        
-    }
 
     void ControlHealthBarSize()
     {
@@ -139,15 +125,20 @@ public class UnitHealth : MonoBehaviour
         characterAnimation.Crouch();
         if (!_restingTick)
         {
-            StartCoroutine(RestingHealPerTick());
+            restingRoutine = RestingHealPerTick();
+            StartCoroutine(restingRoutine);
         }
-        
+
         if (healthFull)
         {
             isResting = false;
+            _restingTick = false;
+            StopCoroutine(restingRoutine);
+            unitAi.activity = Activity.OTHER;
         }
+        
     }
-    public IEnumerator RestingHealPerTick()
+    private IEnumerator RestingHealPerTick()
     {
         _restingTick = true;
         yield return new WaitForSeconds(_restingTickTime);
@@ -171,4 +162,25 @@ public class UnitHealth : MonoBehaviour
             Die();
         }
     }
+    public void Die()
+    {
+        gameObject.tag = ("DeadEnemyUnit");
+
+
+        Debug.Log("I am dying");
+
+        unitAi.attacker.GetComponent<UnitAi>().TargetDied();
+
+        unitAi.target = null;
+        unitAi.attacker = null;
+        unitAi.inCombat = false;
+        gameObject.GetComponent<UnitAi>().task = Task.OTHER;
+        healthState = HealthState.DEAD;
+        StopAllCoroutines();
+        this.characterAnimation.Die();
+
+        StartCoroutine(Despawnm());
+
+    }
+
 }

@@ -73,7 +73,7 @@ public class UnitAi : MonoBehaviour
             ActivitySwitch();
             if (false)
             {//will be worked on later
-                IsInCombat();
+                //IsInCombat();
                 if (inCombat)
                 {
                     //CombatSwitch();
@@ -94,7 +94,7 @@ public class UnitAi : MonoBehaviour
 
             case Task.ADVENTURING:
                 {
-                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat)
+                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat/*&&!unitHealth.healthFull*/)
                     {
                         unitHealth.Resting();
                     }
@@ -122,11 +122,11 @@ public class UnitAi : MonoBehaviour
                 }
         }
     }
-
+    /*
     void IsInCombat()
     {
         inCombat = (!(attacker=null));
-    }
+    }*/
     void CombatSwitch()
     { 
         
