@@ -11,24 +11,24 @@ using static UnityEngine.GraphicsBuffer;
 public class UnitMovement : MonoBehaviour
 {
     [SerializeField] float movementSpeed = 5f;
-    
+
     UnitAi unitAi;
     Rigidbody2D myRigidbody2D;
     CharacterAnimation characterAnimation;
-    
+
     private void Awake()
     {
         unitAi = GetComponent<UnitAi>();
-        characterAnimation=GetComponent<CharacterAnimation>();
+        characterAnimation = GetComponent<CharacterAnimation>();
         //myRigidbody2D=GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
-        
+
     }
 
     public float GetMoveSpeed()
-    { 
+    {
         return movementSpeed;
     }
 
@@ -37,17 +37,31 @@ public class UnitMovement : MonoBehaviour
         unitAi.activity = Activity.MOVING;
         Vector2 targetPosition = target.transform.position;
 
+        Transform targetTransform = target.transform;
+        TurnCorrectDirection(targetTransform);
+
+        float delta = movementSpeed * Time.deltaTime;
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, delta);
+        this.characterAnimation.Run();
+    }
+    public void Move(Transform target)
+    {
+        unitAi.activity = Activity.MOVING;
+        Vector2 targetPosition = target.position;
+        
+        
         TurnCorrectDirection(target);
 
         float delta = movementSpeed * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(transform.position,targetPosition,delta);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, delta);
         this.characterAnimation.Run();
     }
     public void Stop()
     {
         Vector2 targetposition = transform.position;
     }
-    public void TurnCorrectDirection(GameObject target)
+
+    public void TurnCorrectDirection(Transform target)
     {
         bool movingLeft = target.transform.position.x < this.transform.position.x;
         if (movingLeft)

@@ -94,7 +94,7 @@ public class UnitAi : MonoBehaviour
 
             case Task.ADVENTURING:
                 {
-                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat/*&&!unitHealth.healthFull*/)
+                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat)
                     {
                         unitHealth.Resting();
                     }
