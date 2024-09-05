@@ -345,8 +345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newTargetIndex: 0
+  task: 0
   activity: 0
-  combatState: 0
   target: {fileID: 0}
   attacker: {fileID: 0}
   attackOnCD: 0
@@ -393,6 +393,11 @@ MonoBehaviour:
   healthFraction: 0
   healthBarSprite: {fileID: 7013358919063866715}
   lowHPTresholdPercentage: 20
+  healthState: 0
+  isResting: 0
+  healthLow: 0
+  healthFull: 0
+  _restingTick: 0
 --- !u!114 &5376207527515098220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   targetName: 
-  enemyTag: EnemyUnit
+  tagOfEnemy: 
 --- !u!20 &2429379806064018633
 Camera:
   m_ObjectHideFlags: 0
@@ -1193,6 +1198,7 @@ GameObject:
   - component: {fileID: 1493022526292086530}
   - component: {fileID: 7276605960052237564}
   - component: {fileID: 2146322922525796919}
+  - component: {fileID: 4671370569209894518}
   m_Layer: 0
   m_Name: BarsCanvas
   m_TagString: Untagged
@@ -1284,3 +1290,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4671370569209894518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9021671979248505789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a878ccbf2cd764b93ba2723e182557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

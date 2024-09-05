@@ -15,12 +15,22 @@ public class UnitMovement : MonoBehaviour
     UnitAi unitAi;
     Rigidbody2D myRigidbody2D;
     CharacterAnimation characterAnimation;
+    UnitBarCanvasFixer unitBarCanvasFixer;
 
+    float _myCharXTransform;
+    
     private void Awake()
     {
         unitAi = GetComponent<UnitAi>();
         characterAnimation = GetComponent<CharacterAnimation>();
+        unitBarCanvasFixer= GetComponentInChildren<UnitBarCanvasFixer>();
         //myRigidbody2D=GetComponent<Rigidbody2D>();
+
+    }
+    private void Start()
+    {
+        _myCharXTransform = transform.localScale.x;
+
     }
     private void Update()
     {
@@ -63,14 +73,20 @@ public class UnitMovement : MonoBehaviour
 
     public void TurnCorrectDirection(Transform target)
     {
+        
         bool movingLeft = target.transform.position.x < this.transform.position.x;
+
         if (movingLeft)
         {
-            transform.localScale = new Vector2(-1f, 1f);
+            transform.localScale = new Vector2(-_myCharXTransform, transform.localScale.y);
+            unitBarCanvasFixer.FixFlip(-1f);
         }
         else
         {
-            transform.localScale = new Vector2(1f, 1f);
+            transform.localScale = new Vector2(_myCharXTransform, transform.localScale.y);
+            unitBarCanvasFixer.FixFlip(1f);
         }
+
+
     }
 }

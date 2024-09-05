@@ -157,7 +157,7 @@ public class UnitAi : MonoBehaviour
 
     void AttackOrMoveToTarget()
     {
-        unitMovement.TurnCorrectDirection(target);
+        unitMovement.TurnCorrectDirection(target.transform);
         CheckIfTargetInRange();
         if (target != null && !attackOnCD)
         { 
