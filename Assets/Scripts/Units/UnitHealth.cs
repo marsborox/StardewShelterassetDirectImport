@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
 
-public enum HealthState { ALIVE, DEAD }
+
+public enum HealthState { FULL,LOW,DEAD, ALIVE}
 
 public class UnitHealth : MonoBehaviour
 {
@@ -14,28 +15,30 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] public int healthMax;
     [SerializeField] public int healthCurrent;
     [SerializeField] float healthFraction;
+    [SerializeField] public bool isResting;
+    [SerializeField] public bool healthLow;
+    [SerializeField] public bool healthFull;
+    [SerializeField] public bool _restingTick;
     [SerializeField] Image healthBarSprite;
 
     UnitStatsAndInfo unitStatsAndInfo;
     UnitAi unitAi;
     CharacterAnimation characterAnimation;
     ObjectInfo objectInfo;
-    float _despawnTime=5f;
-    float _restingTickTime = 5f;
-    public int lowHPTresholdPercentage;
-    float _restingHealPerSecond;
 
     public HealthState healthState;
 
-    [SerializeField] public bool isResting;
-    [SerializeField] public bool healthLow;
-    [SerializeField] public bool healthFull;
     /*
     [SerializeField] public bool isResting { get; private set; }
     [SerializeField] public bool healthLow { get; private set; }
     [SerializeField] public bool healthFull { get; private set; }
     */
-    [SerializeField] public bool _restingTick;
+    public int lowHPTresholdPercentage;
+    float _despawnTime=5f;
+    float _restingTickHealPercentage = 20;
+    float _lastRestingTickTime;
+    float _restingTickCD = 5f;
+    float _restingHealPerSecond;
     //Activity activity;
     // Start is called before the first frame update
     IEnumerator restingRoutine;
@@ -55,43 +58,25 @@ public class UnitHealth : MonoBehaviour
         isResting = false;
         _restingTick = false;
         lowHPTresholdPercentage = 40;//must be done better
+        _lastRestingTickTime=Time.deltaTime;
     }
 
     // Update is called once per frame
     void Update()
     {
         AliveDeadSwitch();
-        if (isResting&&unitAi.activity != Activity.RESTING ) 
-        {
-            _restingTick = false;
-            StopCoroutine(restingRoutine);
-            _restingTick = false;
-            Debug.Log("Rest Done1");
-            //isResting=false;
-        }
-   
     }
     void AliveDeadSwitch()
     {
-        switch (healthState)
+        if (healthState != HealthState.DEAD)
         {
-            case HealthState.ALIVE:
-                {
-                    ControlHealthBarSize();
-                    CheckHP();
-                    break;
-                }
-            case HealthState.DEAD: 
-                {
-
-                    break;
-                }
+            ControlHealthBarSize();
+            CheckHP2();
         }
     }
 
     public void TakeDamage(int damage)
     {
-
         healthCurrent -= damage;
         if (unitAi.target = null)
         { 
@@ -107,13 +92,7 @@ public class UnitHealth : MonoBehaviour
         healthFraction = (float)healthCurrent / (float)healthMax;
         healthBarSprite.fillAmount = healthFraction;
     }
-    public IEnumerator Despawnm()
-    {
-        yield return new WaitForSeconds(_despawnTime);
-        Destroy(this.gameObject);
-        gameObject.transform.parent.transform.parent.GetComponent<ObjectSpawner>().UnitDied();
-    }
-
+    
     public void Resting()
     {
         if (!isResting)
@@ -136,18 +115,34 @@ public class UnitHealth : MonoBehaviour
             StopCoroutine(restingRoutine);
             unitAi.activity = Activity.OTHER;
         }
-        
+    }
+    
+    public void Resting2()
+    {
+        characterAnimation.Crouch();
+        if (!_restingTick)
+        {
+            CalcRestingHeal();
+            restingRoutine = RestingHealPerTick();
+            StartCoroutine(restingRoutine);
+        }
+        if (healthState == HealthState.FULL)
+        {
+            StopCoroutine(restingRoutine);
+            _restingTick = false;
+            unitAi.activity = Activity.OTHER;
+        }
     }
     private IEnumerator RestingHealPerTick()
     {
         _restingTick = true;
-        yield return new WaitForSeconds(_restingTickTime);
-        healthCurrent = healthCurrent + (int)Mathf.Round(_restingHealPerSecond*_restingTickTime);
+        yield return new WaitForSeconds(_restingTickCD);
+        healthCurrent = healthCurrent + (int)Mathf.Round(_restingHealPerSecond*_restingTickCD);
         _restingTick = false;
     }
     void CalcRestingHeal()
     { //5% per second
-        _restingHealPerSecond = healthMax / 20;
+        _restingHealPerSecond = healthMax / _restingTickHealPercentage;
     }
     void CheckHP()
     {
@@ -162,15 +157,29 @@ public class UnitHealth : MonoBehaviour
             Die();
         }
     }
+    void CheckHP2()
+    {
+        if (healthCurrent >= healthMax)
+        {
+            healthCurrent = healthMax;
+            healthState = HealthState.FULL; 
+        }
+        else if (healthCurrent < 1)
+        {
+            Die();
+            
+        }
+        else if ((((float)healthCurrent / (float)healthMax) * 100) < lowHPTresholdPercentage)
+        { healthState = HealthState.LOW; }
+
+        else
+        { healthState = HealthState.ALIVE; }
+    }
     public void Die()
     {
         gameObject.tag = ("DeadEnemyUnit");
-
-
         Debug.Log("I am dying");
-
         unitAi.attacker.GetComponent<UnitAi>().TargetDied();
-
         unitAi.target = null;
         unitAi.attacker = null;
         unitAi.inCombat = false;
@@ -178,9 +187,13 @@ public class UnitHealth : MonoBehaviour
         healthState = HealthState.DEAD;
         StopAllCoroutines();
         this.characterAnimation.Die();
-
         StartCoroutine(Despawnm());
-
+    }
+    public IEnumerator Despawnm()
+    {
+        yield return new WaitForSeconds(_despawnTime);
+        Destroy(this.gameObject);
+        gameObject.transform.parent.transform.parent.GetComponent<ObjectSpawner>().UnitDied();
     }
 
 }

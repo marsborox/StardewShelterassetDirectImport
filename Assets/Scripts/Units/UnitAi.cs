@@ -17,7 +17,6 @@ public enum Activity { COMBAT, RESTING,MOVING,OTHER }
 
 public class UnitAi : MonoBehaviour
 {
-    
     //must be value so we start with something to compare
     //public int oldTargetIndex;
     public int newTargetIndex;
@@ -94,15 +93,30 @@ public class UnitAi : MonoBehaviour
 
             case Task.ADVENTURING:
                 {
-                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat)
+                    if (activity == Activity.RESTING)
                     {
-                        unitHealth.Resting();
+                        unitHealth.Resting2();
+                    }
+                    else if ((unitHealth.healthState == HealthState.LOW) && !inCombat)
+                    {
+                        //unitHealth.Resting();
+                        activity = Activity.RESTING;
                     }
                     else
                     {
                         KillingMobs();
                     }
                     break;
+                    /*
+                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat)
+                    {
+                        unitHealth.Resting2();
+                    }
+                    else
+                    {
+                        KillingMobs();
+                    }
+                    break;*/
                 }
             case Task.IDLE:
                 {

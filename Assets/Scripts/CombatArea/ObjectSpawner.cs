@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
+using System;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
 using UnityEngine;
@@ -48,7 +48,7 @@ public class ObjectSpawner : MonoBehaviour
     static List<GameObject> spawnedGameObjectList = new List<GameObject>();
 
     int nameCounter = 0;
-
+    public static Action OnEnemySpawn;
     
     private void Awake()
     {
@@ -64,8 +64,8 @@ public class ObjectSpawner : MonoBehaviour
     private void Update()
     {
         SpawnObjectsOnMap();
-
     }
+
     public void UnitDied()
     {
         spawnedEnemyUnits--;
@@ -89,13 +89,16 @@ public class ObjectSpawner : MonoBehaviour
         //GameObject spawningObject;
         if (totalSpawnedObjects < _arenaSetting.maxObjectsInArea)
         {
-            int random = Random.Range(0, 2);
+            int random = UnityEngine.Random.Range(0, 2);
             //Debug.Log(random);
             if (random == 0 && spawnedEnemyUnits < _arenaSetting.maxEnemyUnitsInArea)
             {
                 //SpawnObjectRandomlyOrig(enemyUnit);
                 SpawnEnemy();
                 //spawn Unit
+                //attempt to do it as event not good idea at all
+                //SpawnObjectRandomly(enemyUnit);
+                //OnEnemySpawn?.Invoke();
             }
             else if (random == 1 && spawnedLootChests < _arenaSetting.maxLootChestsInArea)
             {
@@ -106,6 +109,25 @@ public class ObjectSpawner : MonoBehaviour
         }
         else return;
     }
+    private void OnEnemySpawnEnable()
+    {
+        
+        OnEnemySpawn += SetUnitRace;
+        OnEnemySpawn += SetUnitVisuals;
+        OnEnemySpawn += SetUnitClass;
+        OnEnemySpawn += SetUnitStats;
+        OnEnemySpawn += SetUnitTypeTagCounters;
+        OnEnemySpawn += SetUnitStateIdle;
+    }
+    private void OnEnemySpawnDisable()
+    {
+        OnEnemySpawn -= SetUnitRace;
+        OnEnemySpawn -= SetUnitVisuals;
+        OnEnemySpawn -= SetUnitClass;
+        OnEnemySpawn -= SetUnitStats;
+        OnEnemySpawn -= SetUnitTypeTagCounters;
+        OnEnemySpawn -= SetUnitStateIdle;
+    }
     void SpawnEnemy()
     {
         SpawnObjectRandomly(enemyUnit);
@@ -114,16 +136,13 @@ public class ObjectSpawner : MonoBehaviour
         SetUnitVisuals();
         SetUnitClass();
         SetUnitStats();
-        spawnedGameObject.GetComponent<CharacterBuilder>().Rebuild();//this will reload visuals
-        spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
         SetUnitTypeTagCounters();
         SetUnitStateIdle();
-
     }
     void SpawnLootChest()
     {
         SpawnObjectRandomly(lootChest);
-        SetNameAndCounters();
+        SetLootChestCounters();
     }
 
     void SpawnObjectRandomly(GameObject gameObject)
@@ -134,8 +153,8 @@ public class ObjectSpawner : MonoBehaviour
         spawnedGameObject.transform.parent = combatAreaSpawn.transform;
 
         //random place in Map relative to parent object (centre)
-        float vectorX = (Random.Range(-maxXaxisOfArea, maxXaxisOfArea) + combatAreaSpawn.transform.position.x);
-        float vectorY = (Random.Range(-maxYaxisOfArea, maxYaxisOfArea) + combatAreaSpawn.transform.position.y);
+        float vectorX = (UnityEngine.Random.Range(-maxXaxisOfArea, maxXaxisOfArea) + combatAreaSpawn.transform.position.x);
+        float vectorY = (UnityEngine.Random.Range(-maxYaxisOfArea, maxYaxisOfArea) + combatAreaSpawn.transform.position.y);
         float vectorZ = 0f;
 
         Vector3 spawnPointVector = new Vector3(vectorX, vectorY, vectorZ);
@@ -153,86 +172,7 @@ public class ObjectSpawner : MonoBehaviour
         // set name and type
     }
 
-    void SetNameAndCounters() //discontinuing
-    {
-        string name;
-        name = spawnedGameObject.GetComponent<ObjectInfo>().name + nameCounter;
-        nameCounter++;
-        ObjectInfo objectInfo;
-        objectInfo = FindObjectOfType<ObjectInfo>();
-        objectInfo.SetName(name);
-        //Debug.Log(name);
-        string type = objectInfo.GetType();
 
-        if (type == "Unit")
-        {
-            objectInfo.SetType("Enemy");
-            
-            spawnedEnemyUnits++;
-            totalSpawnedObjects++;
-        }
-        else if (type == "LootChest")
-        {
-            spawnedLootChests++;
-            totalSpawnedObjects++;
-        }
-
-        //spawnedGameObjectList.Add(gameObject.name,gameObject.GetType});
-        //add to list
-    }
-    void SpawnObjectRandomlyOrig(GameObject gameObject)
-    {
-        spawnedGameObject = Instantiate(gameObject);
-
-        //this will set parent object
-        spawnedGameObject.transform.parent = combatAreaSpawn.transform;
-
-        //random place in Map relative to parent object (centre)
-        float vectorX = (Random.Range(-maxXaxisOfArea, maxXaxisOfArea) + combatAreaSpawn.transform.position.x);
-        float vectorY = (Random.Range(-maxYaxisOfArea, maxYaxisOfArea) + combatAreaSpawn.transform.position.y);
-        float vectorZ = 0f;
-
-        Vector3 spawnPointVector = new Vector3(vectorX, vectorY, vectorZ);
-        //selfQuaternion  needed for vector3
-        //Quaternion rotation = Quaternion.identity;
-
-        //place where we want him
-        spawnedGameObject.transform.position = spawnPointVector;
-        //Debug.Log("shouldHaveSpawn " + vectorX + " " + vectorY);
-
-        //float realX = spawnedGameObject.transform.position.x;
-        //float realY = spawnedGameObject.transform.position.y;
-        //Debug.Log("spawnedin "+realX +" " +realY );
-
-        // set name and type
-
-        string name;
-        name = gameObject.GetComponent<ObjectInfo>().name + nameCounter;
-        nameCounter++;
-        ObjectInfo objectInfo;
-        objectInfo = FindObjectOfType<ObjectInfo>();
-        objectInfo.SetName(name);
-        //Debug.Log(name);
-        string type = objectInfo.GetType();
-
-        if (type == "Unit")
-        {
-            objectInfo.SetType("Enemy");
-
-            spawnedEnemyUnits++;
-            totalSpawnedObjects++;
-
-
-        }
-        else if (type == "LootChest")
-        {
-            spawnedLootChests++;
-            totalSpawnedObjects++;
-        }
-
-        //spawnedGameObjectList.Add(gameObject.name,gameObject.GetType});
-        //add to list
-    }
 
     void SetUnitRace()
     {
@@ -247,8 +187,9 @@ public class ObjectSpawner : MonoBehaviour
         spawnedGameObject.GetComponent<CharacterBuilder>().Hair = "";
     }
     void SetUnitClass()
-    { 
-        
+    {
+        //armor set here
+        spawnedGameObject.GetComponent<CharacterBuilder>().Rebuild();//this will reload visuals
     }
     void SetUnitStats()
     {
@@ -265,7 +206,13 @@ public class ObjectSpawner : MonoBehaviour
     {
         spawnedGameObject.GetComponent<ObjectInfo>().SetType("Enemy");
         spawnedGameObject.gameObject.tag = "EnemyUnit";
+        spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
         spawnedEnemyUnits++;
+        totalSpawnedObjects++;
+    }
+    void SetLootChestCounters()
+    {
+        spawnedLootChests++;
         totalSpawnedObjects++;
     }
     void SetUnitStateIdle()
@@ -280,6 +227,8 @@ public class ObjectSpawner : MonoBehaviour
     void SpawnLootCrate()
     {
         Instantiate(lootChest);
+        spawnedLootChests++;
+        totalSpawnedObjects++;
     }
     void SetSOsSettings()
     {
@@ -320,8 +269,8 @@ public class ObjectSpawner : MonoBehaviour
         {
             float x;
             float y;
-            x = Random.Range(-maxXaxisOfArea, maxXaxisOfArea);
-            y = Random.Range(-maxYaxisOfArea, maxYaxisOfArea);
+            x = UnityEngine.Random.Range(-maxXaxisOfArea, maxXaxisOfArea);
+            y = UnityEngine.Random.Range(-maxYaxisOfArea, maxYaxisOfArea);
             Debug.Log(x + "  " + y);
         }
     }
@@ -335,3 +284,84 @@ public class ObjectSpawner : MonoBehaviour
     }*/
 
 }
+
+/*void SetNameAndCounters() //discontinuing
+{
+    string name;
+    name = spawnedGameObject.GetComponent<ObjectInfo>().name + nameCounter;
+    nameCounter++;
+    ObjectInfo objectInfo;
+    objectInfo = FindObjectOfType<ObjectInfo>();
+    objectInfo.SetName(name);
+    //Debug.Log(name);
+    string type = objectInfo.GetType();
+
+    if (type == "Unit")
+    {
+        objectInfo.SetType("Enemy");
+
+        spawnedEnemyUnits++;
+        totalSpawnedObjects++;
+    }
+    else if (type == "LootChest")
+    {
+        spawnedLootChests++;
+        totalSpawnedObjects++;
+    }
+
+    //spawnedGameObjectList.Add(gameObject.name,gameObject.GetType});
+    //add to list
+}*/
+/*void SpawnObjectRandomlyOrig(GameObject gameObject)
+{//discontinued
+    spawnedGameObject = Instantiate(gameObject);
+
+    //this will set parent object
+    spawnedGameObject.transform.parent = combatAreaSpawn.transform;
+
+    //random place in Map relative to parent object (centre)
+    float vectorX = (UnityEngine.Random.Range(-maxXaxisOfArea, maxXaxisOfArea) + combatAreaSpawn.transform.position.x);
+    float vectorY = (UnityEngine.Random.Range(-maxYaxisOfArea, maxYaxisOfArea) + combatAreaSpawn.transform.position.y);
+    float vectorZ = 0f;
+
+    Vector3 spawnPointVector = new Vector3(vectorX, vectorY, vectorZ);
+    //selfQuaternion  needed for vector3
+    //Quaternion rotation = Quaternion.identity;
+
+    //place where we want him
+    spawnedGameObject.transform.position = spawnPointVector;
+    //Debug.Log("shouldHaveSpawn " + vectorX + " " + vectorY);
+
+    //float realX = spawnedGameObject.transform.position.x;
+    //float realY = spawnedGameObject.transform.position.y;
+    //Debug.Log("spawnedin "+realX +" " +realY );
+
+    // set name and type
+
+    string name;
+    name = gameObject.GetComponent<ObjectInfo>().name + nameCounter;
+    nameCounter++;
+    ObjectInfo objectInfo;
+    objectInfo = FindObjectOfType<ObjectInfo>();
+    objectInfo.SetName(name);
+    //Debug.Log(name);
+    string type = objectInfo.GetType();
+
+    if (type == "Unit")
+    {
+        objectInfo.SetType("Enemy");
+
+        spawnedEnemyUnits++;
+        totalSpawnedObjects++;
+
+
+    }
+    else if (type == "LootChest")
+    {
+        spawnedLootChests++;
+        totalSpawnedObjects++;
+    }
+
+    //spawnedGameObjectList.Add(gameObject.name,gameObject.GetType});
+    //add to list
+}*/
