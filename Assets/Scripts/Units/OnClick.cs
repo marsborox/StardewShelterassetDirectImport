@@ -6,14 +6,14 @@ public class OnClick : MonoBehaviour
 {
     Unit unit;
     ObjectInfo objectInfo;
-    // Start is called before the first frame update
+    
     void Start()
     {
         unit = GetComponent<Unit>();
         objectInfo = GetComponent<ObjectInfo>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
@@ -23,6 +23,7 @@ public class OnClick : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) 
         
         {
+            //working now lets make UI to display
             objectInfo.TellInfo();
         }
     }

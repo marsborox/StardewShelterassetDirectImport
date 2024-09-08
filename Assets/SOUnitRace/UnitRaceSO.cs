@@ -9,6 +9,8 @@ public class UnitRaceSO : ScriptableObject
 
     [SerializeField] public string race;
     [SerializeField] public string skinColorHex;
+    [SerializeField] public EnemyType enemyType;
+    
 
     // desired format
     //ZombieB#F6CA9F/0:0:0

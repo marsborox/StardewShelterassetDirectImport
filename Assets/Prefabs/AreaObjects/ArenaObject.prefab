@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 950463462721449064}
   - component: {fileID: 1273141251640733778}
   m_Layer: 0
-  m_Name: LootChest
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7930957927447717898}
   - component: {fileID: 1266087414013115492}
   m_Layer: 0
-  m_Name: LootChest
+  m_Name: ArenaObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

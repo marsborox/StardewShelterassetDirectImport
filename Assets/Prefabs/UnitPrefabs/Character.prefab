@@ -27,6 +27,9 @@ GameObject:
   - component: {fileID: 5109316991668489838}
   - component: {fileID: 3685965744314170107}
   - component: {fileID: 2429379806064018633}
+  - component: {fileID: 8094717672684067246}
+  - component: {fileID: -1940452179069308007}
+  - component: {fileID: -1786462305780246496}
   m_Layer: 0
   m_Name: Character
   m_TagString: HeroUnit
@@ -348,6 +351,7 @@ MonoBehaviour:
   newTargetIndex: 0
   task: 0
   activity: 0
+  enemyType: 0
   target: {fileID: 0}
   attacker: {fileID: 0}
   attackOnCD: 0
@@ -508,6 +512,42 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &8094717672684067246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375063816128229675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd5f7d9de3e20344ba1185ab669d8c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1940452179069308007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375063816128229675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae78c331784ba949b939fbf3dbee2d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1786462305780246496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375063816128229675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2214b29bf606dd44ea1dd28293db7d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &375063817183276843
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3713773549555442576
 Transform:
   m_ObjectHideFlags: 0

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6db3968f4b1241a48aeb256de7c47240, type: 3}
-  m_Name: ArenaSetting1
-  m_EditorClassIdentifier: Assembly-CSharp::AreaSetting1
-  maxObjectsInArea: 10
-  maxLootChestsInArea: 6
-  maxEnemyUnitsInArea: 8
-  unitRaceSO: {fileID: 11400000, guid: e0cc92041e815b14a992b10b31bf0198, type: 2}
-  unitSettingSO: {fileID: 11400000, guid: 7f4a173f4149e004f93284d175f1bcad, type: 2}
+  m_Name: Furry_Forest
+  m_EditorClassIdentifier: 
+  maxObjectsInArea: 30
+  maxLootChestsInArea: 5
+  maxEnemyUnitsInArea: 30
+  unitRaceSO: {fileID: 11400000, guid: 55fc966264a1a0a41a96f5960ca5aa3f, type: 2}
+  unitSettingSO: {fileID: 11400000, guid: a8107e9cee5e10646ad83ccf440a9e78, type: 2}

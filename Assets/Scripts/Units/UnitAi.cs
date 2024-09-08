@@ -11,8 +11,9 @@ using UnityEngine;
 
 using static UnityEngine.GraphicsBuffer;
 
-public enum Task { IDLE, LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT,RANDOMAUTOMOVE,TRAVELING, ADVENTURING, OTHER }
-public enum Activity { COMBAT, RESTING,MOVING,OTHER }
+public enum Task { /*IDLE,*/ LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT,RANDOMAUTOMOVE,TRAVELING, ADVENTURING, OTHER,ENEMY }
+public enum EnemyType {HUMANOID,MONSTER,BEAST }
+public enum Activity { IDLE, COMBAT, RESTING,MOVING,OTHER, }
 //public enum CombatState { MOVINGTOTARGET, DOINGHIT, RESTING, LOOTING, NONE, DEAD }
 
 public class UnitAi : MonoBehaviour
@@ -23,6 +24,7 @@ public class UnitAi : MonoBehaviour
 
     public Task task;
     public Activity activity;
+    public EnemyType enemyType;
     
     //public CombatState combatState;
 
@@ -69,24 +71,24 @@ public class UnitAi : MonoBehaviour
     {
         if (unitHealth.healthState != HealthState.DEAD)
         {
-            ActivitySwitch();
+            TaskSwitch();
             if (false)
             {//will be worked on later
                 //IsInCombat();
                 if (inCombat)
                 {
                     //CombatSwitch();
-                    KillingMobs();
+                    KillingEnemies();
                 }
                 else
                 {
-                    ActivitySwitch();
+                    TaskSwitch();
                 }
             }
         }
     }
 
-    void ActivitySwitch()
+    void TaskSwitch()
     {
         switch (task)
         {
@@ -104,7 +106,7 @@ public class UnitAi : MonoBehaviour
                     }
                     else
                     {
-                        KillingMobs();
+                        KillingEnemies();
                     }
                     break;
                     /*
@@ -118,20 +120,20 @@ public class UnitAi : MonoBehaviour
                     }
                     break;*/
                 }
-            case Task.IDLE:
-                {
-                    characterAnimation.Idle();
-                    // ************* set source of dmg as target, if status idle change status to fight
-                    break;
-                }
+            
+                
             case Task.OTHER:
                 {
                     break;
                 }
             case Task.COMBAT:
                 {
-                    Combat();
-
+                    
+                    break;
+                }
+            case Task.ENEMY:
+                {
+                    EnemyBehavior();
                     break;
                 }
         }
@@ -141,7 +143,7 @@ public class UnitAi : MonoBehaviour
     {
         inCombat = (!(attacker=null));
     }*/
-    void CombatSwitch()
+    void ActivitySwitch()
     { 
         
     }
@@ -153,7 +155,7 @@ public class UnitAi : MonoBehaviour
         }
         AttackOrMoveToTarget();
     }
-    void KillingMobs()
+    void KillingEnemies()
     {
         //Debug.Log("arenacombat state");
         if (target == null)
@@ -205,13 +207,13 @@ public class UnitAi : MonoBehaviour
     }
     public void IfImIdleMakeMeCombat()
     {
-        if (task == Task.IDLE)
+        if (activity == Activity.IDLE)
         {
-            task= Task.COMBAT;
+            activity = Activity.COMBAT;
         }
         if (activity == Activity.RESTING)
-        { 
-            activity= Activity.COMBAT;
+        {
+            activity = Activity.COMBAT;
         }
     }
     void AttackTargetInRangeOrMoveTOTarget()
@@ -236,11 +238,48 @@ public class UnitAi : MonoBehaviour
         target = null;
         attacker = null;
         inCombat = false;
-        if (objectInfo.type == "Enemy")
+        if (objectInfo.type == "EnemyType")
         {
-            task = Task.IDLE;
+            activity = Activity.IDLE;
             unitHealth.healthCurrent = unitHealth.healthMax;
         }
+    }
+    public void EnemyBehavior()
+    {
+
+        switch (enemyType)
+        {
+            case EnemyType.HUMANOID:
+                {
+                    EnemyActivitySwitch();
+                    //if we are low health call friends
+                    //bcs FUCK the player Mrgllll glrrm gl!
+                    break;
+                }
+            case EnemyType.BEAST:
+                {
+                    EnemyActivitySwitch();
+                    break;
+                }
+        }
+    
+    }
+    public void EnemyActivitySwitch()
+    {
+        switch (activity)
+
+        {
+            case Activity.IDLE:
+                {
+                    characterAnimation.Idle();
+                    break;
+                }
+            case Activity.COMBAT:
+                {
+                    Combat();
+                    break;
+                }
+        };
     }
 }
 
@@ -271,6 +310,9 @@ void OnTriggerEnter2D(Collider2D otherCollider)
     }
 }
 */
+
+
+
 
 
 

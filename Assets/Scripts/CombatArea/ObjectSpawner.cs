@@ -110,14 +110,15 @@ public class ObjectSpawner : MonoBehaviour
         else return;
     }
     private void OnEnemySpawnEnable()
-    {
+    {//does not work as we wanted
+        //when we spawn we need stuff in order not simultaneously
         
         OnEnemySpawn += SetUnitRace;
         OnEnemySpawn += SetUnitVisuals;
         OnEnemySpawn += SetUnitClass;
         OnEnemySpawn += SetUnitStats;
         OnEnemySpawn += SetUnitTypeTagCounters;
-        OnEnemySpawn += SetUnitStateIdle;
+        OnEnemySpawn += SetEnemyUnitStates;
     }
     private void OnEnemySpawnDisable()
     {
@@ -126,7 +127,7 @@ public class ObjectSpawner : MonoBehaviour
         OnEnemySpawn -= SetUnitClass;
         OnEnemySpawn -= SetUnitStats;
         OnEnemySpawn -= SetUnitTypeTagCounters;
-        OnEnemySpawn -= SetUnitStateIdle;
+        OnEnemySpawn -= SetEnemyUnitStates;
     }
     void SpawnEnemy()
     {
@@ -137,7 +138,7 @@ public class ObjectSpawner : MonoBehaviour
         SetUnitClass();
         SetUnitStats();
         SetUnitTypeTagCounters();
-        SetUnitStateIdle();
+        SetEnemyUnitStates();
     }
     void SpawnLootChest()
     {
@@ -204,20 +205,27 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SetUnitTypeTagCounters()
     {
-        spawnedGameObject.GetComponent<ObjectInfo>().SetType("Enemy");
+        spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyType");
         spawnedGameObject.gameObject.tag = "EnemyUnit";
         spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
         spawnedEnemyUnits++;
         totalSpawnedObjects++;
+        
     }
     void SetLootChestCounters()
     {
         spawnedLootChests++;
         totalSpawnedObjects++;
     }
-    void SetUnitStateIdle()
+    void SetEnemyUnitStates()
     {
-        spawnedGameObject.GetComponent<UnitAi>().task = Task.IDLE;
+        spawnedGameObject.GetComponent<UnitAi>().task = Task.ENEMY;
+        
+        EnemyTypeEnum(_spawnedEnemyUnitRaceSO.enemyType);
+    }
+    void EnemyTypeEnum(EnemyType enemy)
+    {
+        spawnedGameObject.GetComponent<UnitAi>().enemyType = enemy;
     }
 
     void AddSpawnedObjectToList()

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db3968f4b1241a48aeb256de7c47240, type: 3}
+  m_Name: Dead_Desert
+  m_EditorClassIdentifier: Assembly-CSharp::AreaSetting1
+  maxObjectsInArea: 10
+  maxLootChestsInArea: 6
+  maxEnemyUnitsInArea: 8
+  unitRaceSO: {fileID: 11400000, guid: e0cc92041e815b14a992b10b31bf0198, type: 2}
+  unitSettingSO: {fileID: 11400000, guid: 7f4a173f4149e004f93284d175f1bcad, type: 2}
