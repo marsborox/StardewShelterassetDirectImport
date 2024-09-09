@@ -22,7 +22,7 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] Image healthBarSprite;
 
     UnitStatsAndInfo unitStatsAndInfo;
-    UnitAi unitAi;
+    UnitAiOld unitAi;
     CharacterAnimation characterAnimation;
     ObjectInfo objectInfo;
 
@@ -46,7 +46,7 @@ public class UnitHealth : MonoBehaviour
     private void Awake()
     {
         unitStatsAndInfo=GetComponent<UnitStatsAndInfo>();
-        unitAi=GetComponent<UnitAi>();
+        unitAi=GetComponent<UnitAiOld>();
         characterAnimation = GetComponent<CharacterAnimation>();
         objectInfo = GetComponent<ObjectInfo>();
     }
@@ -100,7 +100,7 @@ public class UnitHealth : MonoBehaviour
             CalcRestingHeal();
         }
         isResting = true;
-        unitAi.activity = Activity.RESTING;
+        unitAi.activityOld = ActivityOld.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -113,7 +113,7 @@ public class UnitHealth : MonoBehaviour
             isResting = false;
             _restingTick = false;
             StopCoroutine(restingRoutine);
-            unitAi.activity = Activity.OTHER;
+            unitAi.activityOld = ActivityOld.OTHER;
         }
     }
     
@@ -130,7 +130,7 @@ public class UnitHealth : MonoBehaviour
         {
             StopCoroutine(restingRoutine);
             _restingTick = false;
-            unitAi.activity = Activity.OTHER;
+            unitAi.activityOld = ActivityOld.OTHER;
         }
     }
     private IEnumerator RestingHealPerTick()
@@ -179,11 +179,11 @@ public class UnitHealth : MonoBehaviour
     {
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
-        unitAi.attacker.GetComponent<UnitAi>().TargetDied();
+        unitAi.attacker.GetComponent<UnitAiOld>().TargetDied();
         unitAi.target = null;
         unitAi.attacker = null;
         unitAi.inCombat = false;
-        gameObject.GetComponent<UnitAi>().task = Task.OTHER;
+        gameObject.GetComponent<UnitAiOld>().taskOld = TaskOld.OTHER;
         healthState = HealthState.DEAD;
         StopAllCoroutines();
         this.characterAnimation.Die();

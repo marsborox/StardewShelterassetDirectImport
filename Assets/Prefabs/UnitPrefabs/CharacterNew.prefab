@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 375063816128229652}
   - component: {fileID: 375063816128229648}
-  - component: {fileID: 6348910745738404033}
   - component: {fileID: 375063816128229649}
   - component: {fileID: 1518708408748348103}
   - component: {fileID: 8053676341395069874}
@@ -31,7 +30,7 @@ GameObject:
   - component: {fileID: -1940452179069308007}
   - component: {fileID: -1786462305780246496}
   m_Layer: 0
-  m_Name: Character
+  m_Name: CharacterNew
   m_TagString: HeroUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,26 +76,6 @@ MonoBehaviour:
     FireMuzzle: {fileID: 3053177360814094405}
     FireMuzzlePosition: {x: 0, y: 0}
     Detached: 1
---- !u!114 &6348910745738404033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375063816128229675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6877f4f0b5245d48a6b84b14759070e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  newTargetIndex: 0
-  taskOld: 0
-  activityOld: 0
-  enemyType: 0
-  target: {fileID: 0}
-  attacker: {fileID: 0}
-  attackOnCD: 0
-  inCombat: 0
 --- !u!114 &375063816128229649
 MonoBehaviour:
   m_ObjectHideFlags: 0

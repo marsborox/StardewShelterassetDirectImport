@@ -19,6 +19,9 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] GameObject heroUnit;
     [SerializeField] GameObject heroCamp;
 
+    [SerializeField] GameObject heroUnitNew;
+    [SerializeField] GameObject enemyUnitNew;
+
     [Header("ScriptableObjects")]
     [SerializeField]  ArenaSettingSO _arenaSetting;
     UnitRaceSO _spawnedEnemyUnitRaceSO;
@@ -81,7 +84,21 @@ public class ObjectSpawner : MonoBehaviour
         spawnedHero.transform.parent = combatAreaSpawn.transform;
         spawnedHero.transform.position = heroCamp.transform.position;
         SetHeroStats();
-        spawnedHero.GetComponent<UnitAi>().task = Task.ADVENTURING;
+        spawnedHero.GetComponent<UnitAiOld>().taskOld = TaskOld.ADVENTURING;
+        
+    }
+    void SpawnHeroOnCampNew()
+    {//temp method will remove later
+        spawnedHero = Instantiate(heroUnitNew);
+        spawnedGameObject.AddComponent<UnitAiHeros>();
+        spawnedHero.GetComponent<ObjectInfo>().SetType("Hero");
+        spawnedHero.gameObject.tag = "HeroUnit";
+        spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
+        spawnedHero.transform.parent = combatAreaSpawn.transform;
+        spawnedHero.transform.position = heroCamp.transform.position;
+        SetHeroStats();
+        spawnedHero.GetComponent<UnitAiOld>().taskOld = TaskOld.ADVENTURING;
+
     }
 
     void SpawnObjectsOnMap()
@@ -132,6 +149,19 @@ public class ObjectSpawner : MonoBehaviour
     void SpawnEnemy()
     {
         SpawnObjectRandomly(enemyUnit);
+
+        //SetNameAndCounters();
+        SetUnitRace();
+        SetUnitVisuals();
+        SetUnitClass();
+        SetUnitStats();
+        SetUnitTypeTagCounters();
+        SetEnemyUnitStates();
+    }
+    void SpawnEnemyNew()
+    {
+        SpawnObjectRandomly(enemyUnitNew);
+        spawnedGameObject.AddComponent<UnitAiMobs>();
         //SetNameAndCounters();
         SetUnitRace();
         SetUnitVisuals();
@@ -219,13 +249,13 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SetEnemyUnitStates()
     {
-        spawnedGameObject.GetComponent<UnitAi>().task = Task.ENEMY;
+        spawnedGameObject.GetComponent<UnitAiOld>().taskOld = TaskOld.ENEMY;
         
         EnemyTypeEnum(_spawnedEnemyUnitRaceSO.enemyType);
     }
     void EnemyTypeEnum(EnemyType enemy)
     {
-        spawnedGameObject.GetComponent<UnitAi>().enemyType = enemy;
+        spawnedGameObject.GetComponent<UnitAiOld>().enemyType = enemy;
     }
 
     void AddSpawnedObjectToList()

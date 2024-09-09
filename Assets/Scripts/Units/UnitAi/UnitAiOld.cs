@@ -11,19 +11,19 @@ using UnityEngine;
 
 using static UnityEngine.GraphicsBuffer;
 
-public enum Task { /*IDLE,*/ LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT,RANDOMAUTOMOVE,TRAVELING, ADVENTURING, OTHER,ENEMY }
-public enum EnemyType {HUMANOID,MONSTER,BEAST }
-public enum Activity { IDLE, COMBAT, RESTING,MOVING,OTHER, }
+public enum TaskOld { /*IDLE,*/ LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT,RANDOMAUTOMOVE,TRAVELING, ADVENTURING, OTHER,ENEMY }//only heros will need this
+public enum EnemyType {HUMANOID,MONSTER,BEAST }//only for mobs will be reworked
+public enum ActivityOld { IDLE, COMBAT, RESTING,MOVING,OTHER, }
 //public enum CombatState { MOVINGTOTARGET, DOINGHIT, RESTING, LOOTING, NONE, DEAD }
 
-public class UnitAi : MonoBehaviour
+public class UnitAiOld : MonoBehaviour
 {
     //must be value so we start with something to compare
     //public int oldTargetIndex;
     public int newTargetIndex;
 
-    public Task task;
-    public Activity activity;
+    public TaskOld taskOld;
+    public ActivityOld activityOld;
     public EnemyType enemyType;
     
     //public CombatState combatState;
@@ -90,19 +90,19 @@ public class UnitAi : MonoBehaviour
 
     void TaskSwitch()
     {
-        switch (task)
+        switch (taskOld)
         {
 
-            case Task.ADVENTURING:
+            case TaskOld.ADVENTURING:
                 {
-                    if (activity == Activity.RESTING)
+                    if (activityOld == ActivityOld.RESTING)
                     {
                         unitHealth.Resting2();
                     }
                     else if ((unitHealth.healthState == HealthState.LOW) && !inCombat)
                     {
                         //unitHealth.Resting();
-                        activity = Activity.RESTING;
+                        activityOld = ActivityOld.RESTING;
                     }
                     else
                     {
@@ -121,17 +121,16 @@ public class UnitAi : MonoBehaviour
                     break;*/
                 }
             
-                
-            case Task.OTHER:
+            case TaskOld.OTHER:
                 {
                     break;
                 }
-            case Task.COMBAT:
+            case TaskOld.COMBAT:
                 {
                     
                     break;
                 }
-            case Task.ENEMY:
+            case TaskOld.ENEMY:
                 {
                     EnemyBehavior();
                     break;
@@ -172,7 +171,7 @@ public class UnitAi : MonoBehaviour
     }
 
     void AttackOrMoveToTarget()
-    {
+    {//universal done
         unitMovement.TurnCorrectDirection(target.transform);
         CheckIfTargetInRange();
         if (target != null && !attackOnCD)
@@ -187,37 +186,24 @@ public class UnitAi : MonoBehaviour
             }
         }
     }
-
-
     void CheckIfTargetInRange()
-    { 
+    { //universal done
         _targetInRange= Vector2.Distance(this.transform.position, target.transform.position) < unitStatsAndInfo.range;
     }
-    void MoveToTarget()
-    {
-        
-    }
-    void AttackHitTarget()
-    {
-        
-    }
-    void FindClosestEnemy()
-    { 
-        
-    }
+
     public void IfImIdleMakeMeCombat()
-    {
-        if (activity == Activity.IDLE)
+    {//only enemies
+        if (activityOld == ActivityOld.IDLE)
         {
-            activity = Activity.COMBAT;
+            activityOld = ActivityOld.COMBAT;
         }
-        if (activity == Activity.RESTING)
+        if (activityOld == ActivityOld.RESTING)
         {
-            activity = Activity.COMBAT;
+            activityOld = ActivityOld.COMBAT;
         }
     }
     void AttackTargetInRangeOrMoveTOTarget()
-    {
+    {//this is old will be discontinued
         if (target != null && !attackOnCD)
         {
             //must be divided to different methods in future - ust check range if within range...
@@ -234,19 +220,19 @@ public class UnitAi : MonoBehaviour
         }
     }
     public void TargetDied()
-    {
+    {//universal done
         target = null;
         attacker = null;
         inCombat = false;
         if (objectInfo.type == "EnemyType")
         {
-            activity = Activity.IDLE;
+            activityOld = ActivityOld.IDLE;
             unitHealth.healthCurrent = unitHealth.healthMax;
         }
     }
     public void EnemyBehavior()
     {
-
+        //only enemy //we will have to do 
         switch (enemyType)
         {
             case EnemyType.HUMANOID:
@@ -265,21 +251,21 @@ public class UnitAi : MonoBehaviour
     
     }
     public void EnemyActivitySwitch()
-    {
-        switch (activity)
+    {//only enemy
+        switch (activityOld)
 
         {
-            case Activity.IDLE:
+            case ActivityOld.IDLE:
                 {
                     characterAnimation.Idle();
                     break;
                 }
-            case Activity.COMBAT:
+            case ActivityOld.COMBAT:
                 {
                     Combat();
                     break;
                 }
-        };
+        }
     }
 }
 

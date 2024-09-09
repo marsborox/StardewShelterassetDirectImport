@@ -12,7 +12,7 @@ public class UnitMovement : MonoBehaviour
 {
     [SerializeField] float movementSpeed = 5f;
 
-    UnitAi unitAi;
+    UnitAiOld unitAi;
     Rigidbody2D myRigidbody2D;
     CharacterAnimation characterAnimation;
     UnitBarCanvasFixer unitBarCanvasFixer;
@@ -21,7 +21,7 @@ public class UnitMovement : MonoBehaviour
     
     private void Awake()
     {
-        unitAi = GetComponent<UnitAi>();
+        unitAi = GetComponent<UnitAiOld>();
         characterAnimation = GetComponent<CharacterAnimation>();
         unitBarCanvasFixer= GetComponentInChildren<UnitBarCanvasFixer>();
         //myRigidbody2D=GetComponent<Rigidbody2D>();
@@ -44,7 +44,7 @@ public class UnitMovement : MonoBehaviour
 
     public void Move(GameObject target)
     {
-        unitAi.activity = Activity.MOVING;
+        unitAi.activityOld = ActivityOld.MOVING;
         Vector2 targetPosition = target.transform.position;
 
         Transform targetTransform = target.transform;
@@ -56,7 +56,7 @@ public class UnitMovement : MonoBehaviour
     }
     public void Move(Transform target)
     {
-        unitAi.activity = Activity.MOVING;
+        unitAi.activityOld = ActivityOld.MOVING;
         Vector2 targetPosition = target.position;
         
         

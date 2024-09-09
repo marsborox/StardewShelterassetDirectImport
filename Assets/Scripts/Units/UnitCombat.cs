@@ -10,7 +10,7 @@ using static UnityEngine.GraphicsBuffer;
 public class UnitCombat : MonoBehaviour
 {
     CharacterAnimation characterAnimation;
-    UnitAi unitAi;
+    UnitAiOld unitAiOld;
     UnitStatsAndInfo unitStatsAndInfo;
 
     GameObject _target;
@@ -21,7 +21,7 @@ public class UnitCombat : MonoBehaviour
     private void Awake()
     {
         characterAnimation = GetComponent<CharacterAnimation>();
-        unitAi = GetComponent<UnitAi>();
+        unitAiOld = GetComponent<UnitAiOld>();
         unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
     }
     void Start()
@@ -43,15 +43,15 @@ public class UnitCombat : MonoBehaviour
     {//attack pre animation
      //do damage
      //StartCoroutine(Wait());
-        unitAi.activity = Activity.COMBAT;
-        unitAi.attackOnCD = true;
+        unitAiOld.activityOld = ActivityOld.COMBAT;
+        unitAiOld.attackOnCD = true;
         _target = target;
-        target.gameObject.GetComponent<UnitAi>().attacker = this.gameObject;
+        target.gameObject.GetComponent<UnitAiOld>().attacker = this.gameObject;
         //target.gameObject.GetComponent<UnitAi>().target = this.gameObject;
         
-        target.gameObject.GetComponent<UnitAi>().IfImIdleMakeMeCombat();
+        target.gameObject.GetComponent<UnitAiOld>().IfImIdleMakeMeCombat();
         
-        unitAi.inCombat = true;
+        unitAiOld.inCombat = true;
         characterAnimation.Idle();
         characterAnimation.Slash();
         //unitAi.target.gameObject.GetComponent<UnitHealth>().TakeDamage();
@@ -71,7 +71,7 @@ public class UnitCombat : MonoBehaviour
 
         
         yield return new WaitForSeconds(unitStatsAndInfo.attackSpeed);
-        unitAi.attackOnCD = false;
+        unitAiOld.attackOnCD = false;
         //unitAi.activity = Activity.IDLE;
     }
     
