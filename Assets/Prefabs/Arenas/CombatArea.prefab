@@ -95,9 +95,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxXaxisOfArea: 11
   maxYaxisOfArea: 8
-  enemyUnit: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
+  enemyUnit: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
   lootChest: {fileID: 7146800563469770476, guid: b28999912676c6a41bff1dbf49c92358, type: 3}
-  heroUnit: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
+  heroUnit: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
   heroCamp: {fileID: 3699591622992356812}
   _arenaSetting: {fileID: 11400000, guid: b397a933e8024e540b41f4253f13c60f, type: 2}
   spawnedHeroSO: {fileID: 11400000, guid: cce2fa2dcba8bc84a9d34171d6fe3750, type: 2}

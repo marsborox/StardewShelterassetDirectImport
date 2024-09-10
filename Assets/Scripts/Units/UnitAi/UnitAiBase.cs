@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
+
 using UnityEditor.Experimental.GraphView;
 
 using UnityEngine;
@@ -22,6 +24,7 @@ public class UnitAiBase : MonoBehaviour
 
     public UnitHealth unitHealth;
     public UnitTargetPicker unitTargetPicker;
+    public CharacterAnimation characterAnimation;
 
     public GameObject target;
     public GameObject attacker;//who attacked us
@@ -36,6 +39,7 @@ public class UnitAiBase : MonoBehaviour
         unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
         unitHealth = GetComponent<UnitHealth>();
         unitTargetPicker = GetComponent<UnitTargetPicker>();
+        characterAnimation = GetComponent<CharacterAnimation>();
     }
     void Start()
     {
@@ -76,10 +80,21 @@ public class UnitAiBase : MonoBehaviour
         target = null;
         attacker = null;
         inCombat = false;
-        if (objectInfo.type == "EnemyType")
+        if (objectInfo.type == "EnemyUnit")
         {
             activity = Activity.IDLE;
             unitHealth.healthCurrent = unitHealth.healthMax;
+        }
+    }
+    public void IfImIdleMakeMeCombat()
+    {//only enemies
+        if (activity == Activity.IDLE)
+        {
+            activity = Activity.COMBAT;
+        }
+        if (activity == Activity.RESTING)
+        {
+            activity = Activity.COMBAT;
         }
     }
 }

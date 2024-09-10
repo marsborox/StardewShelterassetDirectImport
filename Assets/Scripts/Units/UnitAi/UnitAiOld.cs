@@ -20,7 +20,7 @@ public class UnitAiOld : MonoBehaviour
 {
     //must be value so we start with something to compare
     //public int oldTargetIndex;
-    public int newTargetIndex;
+    //public int newTargetIndex;
 
     public TaskOld taskOld;
     public ActivityOld activityOld;
@@ -55,7 +55,7 @@ public class UnitAiOld : MonoBehaviour
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         unitHealth = GetComponent<UnitHealth>();
-        characterAnimation = GetComponent<CharacterAnimation>();
+        //characterAnimation = GetComponent<CharacterAnimation>();
         unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
     }
     void Start()
@@ -64,9 +64,7 @@ public class UnitAiOld : MonoBehaviour
         attackOnCD = false;
         _targetInRange = false;
         inCombat = false;
-
     }
-
     private void Update()
     {
         if (unitHealth.healthState != HealthState.DEAD)
@@ -120,7 +118,6 @@ public class UnitAiOld : MonoBehaviour
                     }
                     break;*/
                 }
-            
             case TaskOld.OTHER:
                 {
                     break;
@@ -155,7 +152,7 @@ public class UnitAiOld : MonoBehaviour
         AttackOrMoveToTarget();
     }
     void KillingEnemies()
-    {
+    {//only heros
         //Debug.Log("arenacombat state");
         if (target == null)
         {
@@ -224,7 +221,7 @@ public class UnitAiOld : MonoBehaviour
         target = null;
         attacker = null;
         inCombat = false;
-        if (objectInfo.type == "EnemyType")
+        if (objectInfo.type == "EnemyUnit")
         {
             activityOld = ActivityOld.IDLE;
             unitHealth.healthCurrent = unitHealth.healthMax;

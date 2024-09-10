@@ -15,7 +15,7 @@ public class UnitAiHeros : UnitAiBase
     // Update is called once per frame
     void Update()
     {
-        
+        TaskSwitch();
     }
 
     void TaskSwitch()

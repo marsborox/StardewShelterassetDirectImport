@@ -15,7 +15,7 @@ public class UnitTargetPicker : MonoBehaviour
 
     public void FindClosestEnemy()
     {
-        //Debug.Log("FINDING ENEMIES");
+        Debug.Log("FINDING ENEMIES");
         ListObjectsInMap();
         ListEnemies();
         GetClosestObject(enemyList);
@@ -24,9 +24,9 @@ public class UnitTargetPicker : MonoBehaviour
 
     void ListObjectsInMap()
     {
-        //Debug.Log("Listing objects");
+        Debug.Log("Listing objects");
         objectList.Clear();
-        //Debug.Log("ObjectList cleared");
+        Debug.Log("ObjectList cleared");
 
         Transform parentTransform = this.transform.parent;
         if (parentTransform != null)//this is just to hceck if its null to avoid crash
@@ -35,7 +35,7 @@ public class UnitTargetPicker : MonoBehaviour
             {
                 objectList.Add(transformObject.gameObject);
             }
-            //Debug.Log($"Listing objects OK, listCount: "+objectList.Count);
+            Debug.Log($"Listing objects OK, listCount: "+objectList.Count);
         }
         else
         {
@@ -44,18 +44,18 @@ public class UnitTargetPicker : MonoBehaviour
     }
     void ListEnemies()
     {
-        //Debug.Log("Listing enemies");
+        Debug.Log("Listing enemies");
         enemyList.Clear();
         foreach (GameObject gameObject in objectList)
         {
-            //Debug.Log($"Object: {gameObject.name}, Tag: {gameObject.tag}");
+            Debug.Log($"Object: {gameObject.name}, Tag: {gameObject.tag}");
             if (gameObject.tag == tagOfEnemy)
             {
                 enemyList.Add(gameObject);
-                //Debug.Log("logged enemy into enemyList");
+                Debug.Log("logged enemy into enemyList");
             }
         }
-        //Debug.Log("Listing enemies OK");
+        Debug.Log("Listing enemies OK");
     }
     /*
     void ListEnemies()
@@ -76,15 +76,15 @@ public class UnitTargetPicker : MonoBehaviour
     */
     GameObject GetClosestObject(List<GameObject> providedList)
     {//this may be broken
-        //Debug.Log("Finding target");
+        Debug.Log("Finding target");
         GameObject bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
-        //Debug.Log($"log entry prior to search in list+ listcount: "+providedList.Count);
+        Debug.Log($"log entry prior to search in list+ listcount: "+providedList.Count);
         
         foreach (GameObject potentialTarget in providedList)
         {
-            //Debug.Log("finding target in provided list");
+            Debug.Log("finding target in provided list");
             Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;
             if (dSqrToTarget < closestDistanceSqr)
@@ -93,17 +93,17 @@ public class UnitTargetPicker : MonoBehaviour
                 bestTarget = potentialTarget;
             }
         }
-       // Debug.Log("Finding target OK");
+        Debug.Log("Finding target OK");
         target = bestTarget;
         if (target == null)
         { 
             Debug.Log("target NULL in unit target picker");
             //FindClosestEnemy();
         }
-        //Debug.Log(target.name);
+        Debug.Log(target.name);
         //returning closest gameObject
         targetName = target.name;
-        //Debug.Log($"target returned:" +targetName);
+        Debug.Log($"target returned:" +targetName);
         return target;
     }
     void TargetDistance()

@@ -7,7 +7,7 @@ using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
 using UnityEngine;
 
-public class ObjectSpawner : MonoBehaviour
+public class ObjectSpawnerOldBackup : MonoBehaviour
 {
     [Header("Max y and x axis of area")]
     [SerializeField] float maxXaxisOfArea;
@@ -71,18 +71,32 @@ public class ObjectSpawner : MonoBehaviour
         spawnedEnemyUnits--;
         totalSpawnedObjects--;
     }
+
     void SpawnHeroOnCamp()
     {//temp method will remove later
         spawnedHero = Instantiate(heroUnit);
-        spawnedHero.AddComponent<UnitAiHeros>();
         spawnedHero.GetComponent<ObjectInfo>().SetType("Hero");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
         spawnedHero.transform.parent = combatAreaSpawn.transform;
         spawnedHero.transform.position = heroCamp.transform.position;
         SetHeroStats();
-        spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
+        spawnedHero.GetComponent<UnitAiOld>().taskOld = TaskOld.ADVENTURING;
+        
     }
+    void SpawnHeroOnCampNew()
+    {//temp method will remove later
+        spawnedHero = Instantiate(heroUnit);
+        spawnedHero.GetComponent<ObjectInfo>().SetType("Hero");
+        spawnedHero.gameObject.tag = "HeroUnit";
+        spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
+        spawnedHero.transform.parent = combatAreaSpawn.transform;
+        spawnedHero.transform.position = heroCamp.transform.position;
+        SetHeroStats();
+        spawnedHero.GetComponent<UnitAiOld>().taskOld = TaskOld.ADVENTURING;
+
+    }
+
     void SpawnObjectsOnMap()
     {
         //GameObject spawningObject;
@@ -108,22 +122,43 @@ public class ObjectSpawner : MonoBehaviour
         }
         else return;
     }
+    private void OnEnemySpawnEnable()
+    {//does not work as we wanted
+        //when we spawn we need stuff in order not simultaneously
+        
+        OnEnemySpawn += SetUnitRace;
+        OnEnemySpawn += SetUnitVisuals;
+        OnEnemySpawn += SetUnitClass;
+        OnEnemySpawn += SetUnitStats;
+        OnEnemySpawn += SetUnitTypeTagCounters;
+        OnEnemySpawn += SetEnemyUnitStates;
+    }
+    private void OnEnemySpawnDisable()
+    {
+        OnEnemySpawn -= SetUnitRace;
+        OnEnemySpawn -= SetUnitVisuals;
+        OnEnemySpawn -= SetUnitClass;
+        OnEnemySpawn -= SetUnitStats;
+        OnEnemySpawn -= SetUnitTypeTagCounters;
+        OnEnemySpawn -= SetEnemyUnitStates;
+    }
     void SpawnEnemy()
     {
         SpawnObjectRandomly(enemyUnit);
-        spawnedGameObject.AddComponent<UnitAiMobs>();
         //SetNameAndCounters();
         SetUnitRace();
         SetUnitVisuals();
         SetUnitClass();
         SetUnitStats();
         SetUnitTypeTagCounters();
+        SetEnemyUnitStates();
     }
     void SpawnLootChest()
     {
         SpawnObjectRandomly(lootChest);
         SetLootChestCounters();
     }
+
     void SpawnObjectRandomly(GameObject gameObject)
     {
         spawnedGameObject = Instantiate(gameObject);
@@ -150,6 +185,9 @@ public class ObjectSpawner : MonoBehaviour
 
         // set name and type
     }
+
+
+
     void SetUnitRace()
     {
         //CharacterBuilder characterBuilder;
@@ -180,7 +218,7 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SetUnitTypeTagCounters()
     {
-        spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyUnit");
+        spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyType");
         spawnedGameObject.gameObject.tag = "EnemyUnit";
         spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
         spawnedEnemyUnits++;
@@ -192,18 +230,17 @@ public class ObjectSpawner : MonoBehaviour
         spawnedLootChests++;
         totalSpawnedObjects++;
     }
-    /*
     void SetEnemyUnitStates()
     {
-        spawnedGameObject.GetComponent<UnitAiMobs>().task = Task.ENEMY;
+        spawnedGameObject.GetComponent<UnitAiOld>().taskOld = TaskOld.ENEMY;
         
         EnemyTypeEnum(_spawnedEnemyUnitRaceSO.enemyType);
     }
     void EnemyTypeEnum(EnemyType enemy)
     {
-        spawnedGameObject.GetComponent<UnitAiMobs>().enemyType = enemy;
+        spawnedGameObject.GetComponent<UnitAiOld>().enemyType = enemy;
     }
-    */
+
     void AddSpawnedObjectToList()
     {
         spawnedGameObjectList.Add(spawnedUnit);

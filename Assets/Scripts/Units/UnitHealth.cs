@@ -22,7 +22,7 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] Image healthBarSprite;
 
     UnitStatsAndInfo unitStatsAndInfo;
-    UnitAiOld unitAi;
+    UnitAiBase unitAiBase;
     CharacterAnimation characterAnimation;
     ObjectInfo objectInfo;
 
@@ -46,7 +46,7 @@ public class UnitHealth : MonoBehaviour
     private void Awake()
     {
         unitStatsAndInfo=GetComponent<UnitStatsAndInfo>();
-        unitAi=GetComponent<UnitAiOld>();
+        unitAiBase = GetComponent<UnitAiBase>();
         characterAnimation = GetComponent<CharacterAnimation>();
         objectInfo = GetComponent<ObjectInfo>();
     }
@@ -78,12 +78,12 @@ public class UnitHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         healthCurrent -= damage;
-        if (unitAi.target = null)
-        { 
-            unitAi.target = unitAi.attacker;
+        if (unitAiBase.target = null)
+        {
+            unitAiBase.target = unitAiBase.attacker;
         }
-        if (!unitAi.inCombat)
-        { unitAi.inCombat = true; }
+        if (!unitAiBase.inCombat)
+        { unitAiBase.inCombat = true; }
     }
 
 
@@ -100,7 +100,7 @@ public class UnitHealth : MonoBehaviour
             CalcRestingHeal();
         }
         isResting = true;
-        unitAi.activityOld = ActivityOld.RESTING;
+        unitAiBase.activity = Activity.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -113,7 +113,7 @@ public class UnitHealth : MonoBehaviour
             isResting = false;
             _restingTick = false;
             StopCoroutine(restingRoutine);
-            unitAi.activityOld = ActivityOld.OTHER;
+            unitAiBase.activity = Activity.OTHER;
         }
     }
     
@@ -130,7 +130,7 @@ public class UnitHealth : MonoBehaviour
         {
             StopCoroutine(restingRoutine);
             _restingTick = false;
-            unitAi.activityOld = ActivityOld.OTHER;
+            unitAiBase.activity = Activity.OTHER;
         }
     }
     private IEnumerator RestingHealPerTick()
@@ -179,11 +179,11 @@ public class UnitHealth : MonoBehaviour
     {
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
-        unitAi.attacker.GetComponent<UnitAiOld>().TargetDied();
-        unitAi.target = null;
-        unitAi.attacker = null;
-        unitAi.inCombat = false;
-        gameObject.GetComponent<UnitAiOld>().taskOld = TaskOld.OTHER;
+        unitAiBase.attacker.GetComponent<UnitAiBase>().TargetDied();
+        unitAiBase.target = null;
+        unitAiBase.attacker = null;
+        unitAiBase.inCombat = false;
+        //gameObject.GetComponent<UnitAiBase>().task = Task.OTHER; //*************************
         healthState = HealthState.DEAD;
         StopAllCoroutines();
         this.characterAnimation.Die();
