@@ -188,17 +188,6 @@ public class UnitAiOld : MonoBehaviour
         _targetInRange= Vector2.Distance(this.transform.position, target.transform.position) < unitStatsAndInfo.range;
     }
 
-    public void IfImIdleMakeMeCombat()
-    {//only enemies
-        if (activityOld == ActivityOld.IDLE)
-        {
-            activityOld = ActivityOld.COMBAT;
-        }
-        if (activityOld == ActivityOld.RESTING)
-        {
-            activityOld = ActivityOld.COMBAT;
-        }
-    }
     void AttackTargetInRangeOrMoveTOTarget()
     {//this is old will be discontinued
         if (target != null && !attackOnCD)
@@ -214,6 +203,17 @@ public class UnitAiOld : MonoBehaviour
             {
                 unitCombat.AttackHit(target);
             }
+        }
+    }
+    public void IfImIdleMakeMeCombat()
+    {//only enemies
+        if (activityOld == ActivityOld.IDLE)
+        {
+            activityOld = ActivityOld.COMBAT;
+        }
+        if (activityOld == ActivityOld.RESTING)
+        {
+            activityOld = ActivityOld.COMBAT;
         }
     }
     public void TargetDied()

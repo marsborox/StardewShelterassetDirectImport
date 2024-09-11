@@ -15,8 +15,8 @@ public class UnitCombat : MonoBehaviour
 
     GameObject _target;
 
-    
-    
+    public bool attackOnCD;//move this to combat
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -26,6 +26,7 @@ public class UnitCombat : MonoBehaviour
     }
     void Start()
     {
+        attackOnCD = false;
         //_inCombat = false;
     }
 
@@ -44,7 +45,7 @@ public class UnitCombat : MonoBehaviour
      //do damage
      //StartCoroutine(Wait());
         //unitAiBase.activity = Activity.COMBAT;// *********************************
-        unitAiBase.attackOnCD = true;// **********************************
+        attackOnCD = true;// **********************************
         _target = target;
         target.gameObject.GetComponent<UnitAiBase>().attacker = this.gameObject; //******************
         //target.gameObject.GetComponent<UnitAi>().target = this.gameObject;
@@ -71,7 +72,7 @@ public class UnitCombat : MonoBehaviour
 
         
         yield return new WaitForSeconds(unitStatsAndInfo.attackSpeed);
-        unitAiBase.attackOnCD = false; // *********************************
+        attackOnCD = false; // *********************************
         //unitAi.activity = Activity.IDLE;
     }
     

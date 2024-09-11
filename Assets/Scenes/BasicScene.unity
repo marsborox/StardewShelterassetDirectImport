@@ -10571,6 +10571,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Forest
       objectReference: {fileID: 0}
+    - target: {fileID: 4014979892241649155, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
       propertyPath: _arenaSetting
       value: 

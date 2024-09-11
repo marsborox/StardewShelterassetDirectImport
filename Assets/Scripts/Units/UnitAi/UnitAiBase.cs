@@ -29,7 +29,7 @@ public class UnitAiBase : MonoBehaviour
     public GameObject target;
     public GameObject attacker;//who attacked us
 
-    public bool attackOnCD;//move this to combat
+   
     bool _targetInRange;
     [SerializeField] public bool inCombat;
     private void Awake()
@@ -40,10 +40,11 @@ public class UnitAiBase : MonoBehaviour
         unitHealth = GetComponent<UnitHealth>();
         unitTargetPicker = GetComponent<UnitTargetPicker>();
         characterAnimation = GetComponent<CharacterAnimation>();
+        objectInfo = GetComponent<ObjectInfo>();
     }
     void Start()
     {
-        attackOnCD = false;
+        
         _targetInRange = false;
         inCombat = false;
     }
@@ -58,7 +59,7 @@ public class UnitAiBase : MonoBehaviour
     {
         unitMovement.TurnCorrectDirection(target.transform);
         CheckIfTargetInRange();
-        if (target != null && !attackOnCD)
+        if (target != null && !unitCombat.attackOnCD)
         {
             if (_targetInRange)
             {

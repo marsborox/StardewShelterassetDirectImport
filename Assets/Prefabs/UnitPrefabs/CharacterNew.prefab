@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 375063816128229652}
   - component: {fileID: 375063816128229648}
-  - component: {fileID: -6138519429127834880}
   - component: {fileID: 375063816128229649}
   - component: {fileID: 1518708408748348103}
   - component: {fileID: 8053676341395069874}
@@ -30,6 +29,7 @@ GameObject:
   - component: {fileID: 8094717672684067246}
   - component: {fileID: -1940452179069308007}
   - component: {fileID: -1786462305780246496}
+  - component: {fileID: 4080849767391986925}
   m_Layer: 0
   m_Name: CharacterNew
   m_TagString: HeroUnit
@@ -77,27 +77,6 @@ MonoBehaviour:
     FireMuzzle: {fileID: 3053177360814094405}
     FireMuzzlePosition: {x: 0, y: 0}
     Detached: 1
---- !u!114 &-6138519429127834880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375063816128229675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9153da9c621825d4793d6b8ad6eab4ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activity: 0
-  unitMovement: {fileID: 0}
-  unitHealth: {fileID: 0}
-  unitTargetPicker: {fileID: 0}
-  characterAnimation: {fileID: 0}
-  target: {fileID: 0}
-  attacker: {fileID: 0}
-  attackOnCD: 0
-  inCombat: 0
 --- !u!114 &375063816128229649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,6 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be2adbc356010745baa14bafd5452d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackOnCD: 0
 --- !u!114 &7030218684168222634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +529,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2214b29bf606dd44ea1dd28293db7d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4080849767391986925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375063816128229675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9153da9c621825d4793d6b8ad6eab4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activity: 0
+  unitMovement: {fileID: 0}
+  unitHealth: {fileID: 0}
+  unitTargetPicker: {fileID: 0}
+  characterAnimation: {fileID: 0}
+  target: {fileID: 0}
+  attacker: {fileID: 0}
+  inCombat: 0
 --- !u!1 &375063817183276843
 GameObject:
   m_ObjectHideFlags: 0
