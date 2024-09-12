@@ -18,6 +18,8 @@ public enum ActivityOld { IDLE, COMBAT, RESTING,MOVING,OTHER, }
 
 public class UnitAiOld : MonoBehaviour
 {
+
+
     //must be value so we start with something to compare
     //public int oldTargetIndex;
     //public int newTargetIndex;

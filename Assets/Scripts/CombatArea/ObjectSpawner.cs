@@ -75,7 +75,7 @@ public class ObjectSpawner : MonoBehaviour
     {//temp method will remove later
         spawnedHero = Instantiate(heroUnit);
         spawnedHero.AddComponent<UnitAiHeros>();
-        spawnedHero.GetComponent<ObjectInfo>().SetType("Hero");
+        spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
         spawnedHero.transform.parent = combatAreaSpawn.transform;
@@ -109,7 +109,12 @@ public class ObjectSpawner : MonoBehaviour
         else return;
     }
     void SpawnEnemy()
-    {
+        //***********************************************************
+    {//rework, we must attach all scripts in different way, problem with class initiation
+        //chatgpt got us usggestions
+        //mabye doing it as event would be solution
+        //**********************************************************
+
         SpawnObjectRandomly(enemyUnit);
         spawnedGameObject.AddComponent<UnitAiMobs>();
         //SetNameAndCounters();

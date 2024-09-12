@@ -13,7 +13,7 @@ public class UnitCombat : MonoBehaviour
     UnitAiBase unitAiBase;
     UnitStatsAndInfo unitStatsAndInfo;
 
-    GameObject _target;
+    [SerializeField] GameObject _target;
 
     public bool attackOnCD;//move this to combat
 
@@ -44,10 +44,13 @@ public class UnitCombat : MonoBehaviour
     {//attack pre animation
      //do damage
      //StartCoroutine(Wait());
-        //unitAiBase.activity = Activity.COMBAT;// *********************************
+     //unitAiBase.activity = Activity.COMBAT;// *********************************
+        Debug.Log("DOING ATTACK HIT");
         attackOnCD = true;// **********************************
-        _target = target;
-        target.gameObject.GetComponent<UnitAiBase>().attacker = this.gameObject; //******************
+        _target = target;//problem here
+        Debug.Log("local _target set");
+        Debug.Log(_target);
+        target.gameObject.GetComponent<UnitAiBase>().attacker = this.gameObject; //mabye problem here too
         //target.gameObject.GetComponent<UnitAi>().target = this.gameObject;
         
         target.gameObject.GetComponent<UnitAiBase>().IfImIdleMakeMeCombat(); //********************
