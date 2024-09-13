@@ -78,7 +78,8 @@ public class UnitHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         healthCurrent -= damage;
-        if (unitAiBase.target = null)
+
+        if (unitAiBase.target == null)
         {
             unitAiBase.target = unitAiBase.attacker;
         }
@@ -180,6 +181,7 @@ public class UnitHealth : MonoBehaviour
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
         unitAiBase.attacker.GetComponent<UnitAiBase>().TargetDied();
+        Debug.Log("");
         unitAiBase.target = null;
         unitAiBase.attacker = null;
         unitAiBase.inCombat = false;

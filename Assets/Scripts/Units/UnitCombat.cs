@@ -47,7 +47,7 @@ public class UnitCombat : MonoBehaviour
      //unitAiBase.activity = Activity.COMBAT;// *********************************
         Debug.Log("DOING ATTACK HIT");
         attackOnCD = true;// **********************************
-        _target = target;//problem here
+        _target = target;
         Debug.Log("local _target set");
         Debug.Log(_target);
         target.gameObject.GetComponent<UnitAiBase>().attacker = this.gameObject; //mabye problem here too
