@@ -270,53 +270,6 @@ public class UnitAiOld : MonoBehaviour
 
 
 
-class Character : MonoBehaviour
-{
-    public int health;
-}
-class Hero : Character
-{
-    void HeroAction()
-    { }
-}
-class NPC : Character
-{
-    void NPCAction()
-    { }
-}
-
-class Spawner : MonoBehaviour
-{
-    GameObject UnitPrefab;
-    GameObject spawnedHero;
-    GameObject spawnedNPC;
-
-    void SpawnHero()
-    {//will be event
-        spawnedHero = Instantiate(UnitPrefab);
-        spawnedHero.AddComponent<Hero>();
-    }
-    void SpawnNPC()
-    {
-        spawnedNPC = Instantiate(spawnedHero);
-        spawnedNPC.AddComponent<NPC>();
-    }
-    class Health : MonoBehaviour
-    {
-        Character character;
-
-        private void Awake()
-        {
-            character = GetComponent<Character>();
-        }
-
-        void HealthMethod()
-        {
-            character.health--;
-        }
-    }
-}
-
 //testing methods
 /*
 if (targetTransform == null)
