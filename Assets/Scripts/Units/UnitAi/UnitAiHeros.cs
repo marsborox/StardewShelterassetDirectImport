@@ -25,18 +25,18 @@ public class UnitAiHeros : UnitAiBase
 
             case Task.ADVENTURING:
                 {
-                    if (activity == Activity.RESTING)
+                    if (activity == CombatActivity.RESTING)
                     {
                         unitHealth.Resting2();
                     }
-                    else if ((unitHealth.healthState == HealthState.LOW) && !inCombat)
+                    else if ((healthState == HealthState.LOW) && !inCombat)
                     {
                         //unitHealth.Resting();
-                        activity = Activity.RESTING;
+                        activity = CombatActivity.RESTING;
                     }
                     else
                     {
-                        KillingEnemies();
+                        unitCombat.KillingEnemies();
                     }
                     break;
                     /*
@@ -64,19 +64,5 @@ public class UnitAiHeros : UnitAiBase
         }
     }
 
-    void KillingEnemies()
-    {
-        //Debug.Log("arenacombat state");
-        if (target == null)
-        {
-            unitTargetPicker.FindClosestEnemy();
-            //Debug.Log("arenacombat state p.1 ok");
-            target = unitTargetPicker.target;
-            //Debug.Log($"targetpicker target"+ unitTargetPicker.target.name);
-            //Debug.Log($"Target is: "+ target.name);
-            //target.gameObject.GetComponent<ObjectInfo>().TellInfo();
-        }
-        //this is AttackTargetInRangeOrMoveTOTarget(); but done better
-        AttackOrMoveToTarget();
-    }
+
 }

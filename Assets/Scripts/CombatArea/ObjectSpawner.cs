@@ -49,6 +49,12 @@ public class ObjectSpawner : MonoBehaviour
 
     int nameCounter = 0;
     public static Action OnEnemySpawn;
+
+
+
+    public delegate void SpawnEvent(GameObject gameObject);
+
+    public static SpawnEvent OnMobSpawn, OnHeroSpawn;
     
     private void Awake()
     {
@@ -66,6 +72,8 @@ public class ObjectSpawner : MonoBehaviour
         SpawnObjectsOnMap();
     }
 
+
+
     public void UnitDied()
     {
         spawnedEnemyUnits--;
@@ -73,8 +81,11 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SpawnHeroOnCamp()
     {//temp method will remove later
+
+
         spawnedHero = Instantiate(heroUnit);
-        spawnedHero.AddComponent<UnitAiHeros>();
+        OnHeroSpawn?.Invoke(spawnedHero);
+
         spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
@@ -83,6 +94,43 @@ public class ObjectSpawner : MonoBehaviour
         SetHeroStats();
         spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
     }
+    void SpawnMobs()
+        //***********************************************************
+    {//rework, we must attach all scripts in different way, problem with class initiation
+        //chatgpt got us usggestions
+        //mabye doing it as event would be solution
+        //**********************************************************
+
+        SpawnObjectRandomly(enemyUnit);
+        OnMobSpawn?.Invoke(spawnedGameObject);
+
+        //SetNameAndCounters();
+        SetUnitRace();
+        SetUnitVisuals();
+        SetUnitClass();
+        SetUnitStats();
+        SetUnitTypeTagCounters();
+    }
+
+    private void OnEnable()
+    {
+        OnMobSpawn += AddClassAiMobs;
+        OnHeroSpawn += AddClassAiHeros;
+        
+    }
+    private void OnDisable()
+    {
+        OnMobSpawn -= AddClassAiMobs;
+        OnHeroSpawn -= AddClassAiHeros;
+        
+    }
+    //*************************************** methods that will subscribe to events
+
+    void AddClassAiMobs(GameObject gameObject)
+    { gameObject.AddComponent<UnitAiMobs>(); }
+    void AddClassAiHeros(GameObject gameObject)
+    { gameObject.AddComponent<UnitAiHeros>(); }
+
     void SpawnObjectsOnMap()
     {
         //GameObject spawningObject;
@@ -93,7 +141,7 @@ public class ObjectSpawner : MonoBehaviour
             if (random == 0 && spawnedEnemyUnits < _arenaSetting.maxEnemyUnitsInArea)
             {
                 //SpawnObjectRandomlyOrig(enemyUnit);
-                SpawnEnemy();
+                SpawnMobs();
                 //spawn Unit
                 //attempt to do it as event not good idea at all
                 //SpawnObjectRandomly(enemyUnit);
@@ -107,22 +155,6 @@ public class ObjectSpawner : MonoBehaviour
             }
         }
         else return;
-    }
-    void SpawnEnemy()
-        //***********************************************************
-    {//rework, we must attach all scripts in different way, problem with class initiation
-        //chatgpt got us usggestions
-        //mabye doing it as event would be solution
-        //**********************************************************
-
-        SpawnObjectRandomly(enemyUnit);
-        spawnedGameObject.AddComponent<UnitAiMobs>();
-        //SetNameAndCounters();
-        SetUnitRace();
-        SetUnitVisuals();
-        SetUnitClass();
-        SetUnitStats();
-        SetUnitTypeTagCounters();
     }
     void SpawnLootChest()
     {
@@ -197,6 +229,11 @@ public class ObjectSpawner : MonoBehaviour
         spawnedLootChests++;
         totalSpawnedObjects++;
     }
+
+    
+
+
+
     /*
     void SetEnemyUnitStates()
     {

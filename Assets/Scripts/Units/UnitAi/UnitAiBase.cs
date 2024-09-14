@@ -9,43 +9,42 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 
-public enum Activity { IDLE, COMBAT, RESTING, MOVING, OTHER, }
+
 public class UnitAiBase : MonoBehaviour
 {
     //universal class for all units in game
-    public Activity activity;
-
+    public CombatActivity activity;
+    public HealthState healthState;
 
     public UnitMovement unitMovement;
-    UnitCombat unitCombat;
-    UnitStatsAndInfo unitStatsAndInfo;
-    ObjectInfo objectInfo;
+    public UnitCombat unitCombat;
+    //UnitStatsAndInfo unitStatsAndInfo;
+    //ObjectInfo objectInfo;
 
 
     public UnitHealth unitHealth;
     public UnitTargetPicker unitTargetPicker;
     public CharacterAnimation characterAnimation;
+    
 
-    public GameObject target;
-    public GameObject attacker;//who attacked us
 
    
-    bool _targetInRange;
+    //bool _targetInRange;
     [SerializeField] public bool inCombat;
     private void Awake()
     {
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
-        unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
+        //unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
         unitHealth = GetComponent<UnitHealth>();
         unitTargetPicker = GetComponent<UnitTargetPicker>();
         characterAnimation = GetComponent<CharacterAnimation>();
-        objectInfo = GetComponent<ObjectInfo>();
+        //objectInfo = GetComponent<ObjectInfo>();
     }
     void Start()
     {
         
-        _targetInRange = false;
+        
         inCombat = false;
     }
 
@@ -55,47 +54,19 @@ public class UnitAiBase : MonoBehaviour
         
     }
 
-    public void AttackOrMoveToTarget()
-    {
-        unitMovement.TurnCorrectDirection(target.transform);
-        CheckIfTargetInRange();
-        if (target != null && !unitCombat.attackOnCD)
-        {
-            if (_targetInRange)
-            {
-                unitCombat.AttackHit(target);
-            }
-            else
-            {
-                unitMovement.Move(target);
-            }
-        }
-    }
-    void CheckIfTargetInRange()
-    {
-        _targetInRange = Vector2.Distance(this.transform.position, target.transform.position) < unitStatsAndInfo.range;
-    }
 
-    public void TargetDied()
-    {//universal done
-        target = null;
-        attacker = null;
-        inCombat = false;
-        if (objectInfo.type == "EnemyUnit")
-        {
-            activity = Activity.IDLE;
-            unitHealth.healthCurrent = unitHealth.healthMax;
-        }
-    }
+
+
+
     public void IfImIdleMakeMeCombat()
     {//only enemies
-        if (activity == Activity.IDLE)
+        if (activity == CombatActivity.IDLE)
         {
-            activity = Activity.COMBAT;
+            activity = CombatActivity.COMBAT;
         }
-        if (activity == Activity.RESTING)
+        if (activity == CombatActivity.RESTING)
         {
-            activity = Activity.COMBAT;
+            activity = CombatActivity.COMBAT;
         }
     }
 }

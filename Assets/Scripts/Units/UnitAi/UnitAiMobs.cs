@@ -36,18 +36,11 @@ public class UnitAiMobs : UnitAiBase
                 }
             case MobsActivity.COMBAT:
                 {
-                    Combat();
+                    unitCombat.Combat();
                     break;
                 }
         }
     }
 
-    void Combat()
-    {
-        if (target == null)
-        {
-            target = attacker;
-        }
-        AttackOrMoveToTarget();
-    }
+
 }

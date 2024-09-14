@@ -19,20 +19,22 @@ public class UnitHealth : MonoBehaviour
     [SerializeField] public bool healthLow;
     [SerializeField] public bool healthFull;
     [SerializeField] public bool _restingTick;
-    [SerializeField] Image healthBarSprite;
 
     UnitStatsAndInfo unitStatsAndInfo;
-    UnitAiBase unitAiBase;
+    
     CharacterAnimation characterAnimation;
     ObjectInfo objectInfo;
+    UnitBars unitBars;
+    UnitCombat unitCombat;
 
     public HealthState healthState;
-
+    CombatActivity activity;
     /*
     [SerializeField] public bool isResting { get; private set; }
     [SerializeField] public bool healthLow { get; private set; }
     [SerializeField] public bool healthFull { get; private set; }
     */
+    [SerializeField] Image _healthBarSprite;
     public int lowHPTresholdPercentage;
     float _despawnTime=5f;
     float _restingTickHealPercentage = 20;
@@ -45,13 +47,15 @@ public class UnitHealth : MonoBehaviour
     
     private void Awake()
     {
+        
         unitStatsAndInfo=GetComponent<UnitStatsAndInfo>();
-        unitAiBase = GetComponent<UnitAiBase>();
         characterAnimation = GetComponent<CharacterAnimation>();
         objectInfo = GetComponent<ObjectInfo>();
+        unitCombat= GetComponent<UnitCombat>();
     }
     void Start()
     {
+        //_healthBarSprite = unitBars.healthBarSprite;
         healthMax = unitStatsAndInfo.health;
         healthCurrent = healthMax;
         healthLow = false;
@@ -70,27 +74,18 @@ public class UnitHealth : MonoBehaviour
     {
         if (healthState != HealthState.DEAD)
         {
-            ControlHealthBarSize();
+            ControlHealthBarSize(); //seems to be broken
             CheckHP2();
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        healthCurrent -= damage;
-        if (unitAiBase.target = null)
-        {
-            unitAiBase.target = unitAiBase.attacker;
-        }
-        if (!unitAiBase.inCombat)
-        { unitAiBase.inCombat = true; }
-    }
+
 
 
     void ControlHealthBarSize()
     {
         healthFraction = (float)healthCurrent / (float)healthMax;
-        healthBarSprite.fillAmount = healthFraction;
+        _healthBarSprite.fillAmount = healthFraction;
     }
     
     public void Resting()
@@ -100,7 +95,7 @@ public class UnitHealth : MonoBehaviour
             CalcRestingHeal();
         }
         isResting = true;
-        unitAiBase.activity = Activity.RESTING;
+        activity = CombatActivity.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -113,7 +108,7 @@ public class UnitHealth : MonoBehaviour
             isResting = false;
             _restingTick = false;
             StopCoroutine(restingRoutine);
-            unitAiBase.activity = Activity.OTHER;
+            activity = CombatActivity.OTHER;
         }
     }
     
@@ -130,7 +125,7 @@ public class UnitHealth : MonoBehaviour
         {
             StopCoroutine(restingRoutine);
             _restingTick = false;
-            unitAiBase.activity = Activity.OTHER;
+            activity = CombatActivity.OTHER;
         }
     }
     private IEnumerator RestingHealPerTick()
@@ -179,10 +174,10 @@ public class UnitHealth : MonoBehaviour
     {
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
-        unitAiBase.attacker.GetComponent<UnitAiBase>().TargetDied();
-        unitAiBase.target = null;
-        unitAiBase.attacker = null;
-        unitAiBase.inCombat = false;
+        unitCombat.attacker.GetComponent<UnitCombat>().TargetDied();
+        unitCombat.target = null;
+        unitCombat.attacker = null;
+        unitCombat.inCombat = false;
         //gameObject.GetComponent<UnitAiBase>().task = Task.OTHER; //*************************
         healthState = HealthState.DEAD;
         StopAllCoroutines();

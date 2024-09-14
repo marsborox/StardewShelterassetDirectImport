@@ -10,21 +10,21 @@ using static UnityEngine.GraphicsBuffer;
 
 public class UnitMovement : MonoBehaviour
 {
-    Activity activity;
+    CombatActivity activity;
     [SerializeField] float movementSpeed = 5f;
 
-    UnitAiBase unitAi;
+    
     Rigidbody2D myRigidbody2D;
     CharacterAnimation characterAnimation;
-    UnitBarCanvasFixer unitBarCanvasFixer;
+    UnitBars unitBars;
 
     float _myCharXTransform;
     
     private void Awake()
     {
-        unitAi = GetComponent<UnitAiBase>();
+        
         characterAnimation = GetComponent<CharacterAnimation>();
-        unitBarCanvasFixer= GetComponentInChildren<UnitBarCanvasFixer>();
+        unitBars= GetComponentInChildren<UnitBars>();
         //myRigidbody2D=GetComponent<Rigidbody2D>();
 
     }
@@ -45,7 +45,7 @@ public class UnitMovement : MonoBehaviour
 
     public void Move(GameObject target)
     {
-        activity = Activity.MOVING; //need to fix
+        activity = CombatActivity.MOVING; //need to fix
         Vector2 targetPosition = target.transform.position;
 
         Transform targetTransform = target.transform;
@@ -57,7 +57,7 @@ public class UnitMovement : MonoBehaviour
     }
     public void Move(Transform target)
     {
-        activity = Activity.MOVING; //need to fix
+        activity = CombatActivity.MOVING; //need to fix
         Vector2 targetPosition = target.position;
         
         
@@ -80,12 +80,12 @@ public class UnitMovement : MonoBehaviour
         if (movingLeft)
         {
             transform.localScale = new Vector2(-_myCharXTransform, transform.localScale.y);
-            unitBarCanvasFixer.FixFlip(-1f);
+            unitBars.FixFlip(-1f);
         }
         else
         {
             transform.localScale = new Vector2(_myCharXTransform, transform.localScale.y);
-            unitBarCanvasFixer.FixFlip(1f);
+            unitBars.FixFlip(1f);
         }
 
 
