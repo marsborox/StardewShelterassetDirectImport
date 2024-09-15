@@ -48,9 +48,6 @@ public class ObjectSpawner : MonoBehaviour
     static List<GameObject> spawnedGameObjectList = new List<GameObject>();
 
     int nameCounter = 0;
-    public static Action OnEnemySpawn;
-
-
 
     public delegate void SpawnEvent(GameObject gameObject);
 
@@ -70,6 +67,16 @@ public class ObjectSpawner : MonoBehaviour
     private void Update()
     {
         SpawnObjectsOnMap();
+    }
+    private void OnEnable()
+    {
+        OnMobSpawn += AddClassAiMobs;
+        OnHeroSpawn += AddClassAiHeros;
+    }
+    private void OnDisable()
+    {
+        OnMobSpawn -= AddClassAiMobs;
+        OnHeroSpawn -= AddClassAiHeros;
     }
 
 
@@ -112,18 +119,6 @@ public class ObjectSpawner : MonoBehaviour
         SetUnitTypeTagCounters();
     }
 
-    private void OnEnable()
-    {
-        OnMobSpawn += AddClassAiMobs;
-        OnHeroSpawn += AddClassAiHeros;
-        
-    }
-    private void OnDisable()
-    {
-        OnMobSpawn -= AddClassAiMobs;
-        OnHeroSpawn -= AddClassAiHeros;
-        
-    }
     //*************************************** methods that will subscribe to events
 
     void AddClassAiMobs(GameObject gameObject)

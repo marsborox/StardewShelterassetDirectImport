@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
@@ -14,7 +15,7 @@ public class UnitAiBase : MonoBehaviour
 {
     //universal class for all units in game
     public CombatActivity activity;
-    public HealthState healthState;
+    
 
     public UnitMovement unitMovement;
     public UnitCombat unitCombat;
@@ -31,6 +32,8 @@ public class UnitAiBase : MonoBehaviour
    
     //bool _targetInRange;
     [SerializeField] public bool inCombat;
+
+
     private void Awake()
     {
         unitMovement = GetComponent<UnitMovement>();
@@ -43,8 +46,6 @@ public class UnitAiBase : MonoBehaviour
     }
     void Start()
     {
-        
-        
         inCombat = false;
     }
 
@@ -54,8 +55,15 @@ public class UnitAiBase : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        unitCombat.underAttack += IfImIdleMakeMeCombat;
+    }
 
-
+    private void OnDisable()
+    {
+        unitCombat.underAttack -= IfImIdleMakeMeCombat;
+    }
 
 
     public void IfImIdleMakeMeCombat()
@@ -68,5 +76,7 @@ public class UnitAiBase : MonoBehaviour
         {
             activity = CombatActivity.COMBAT;
         }
+        unitCombat.inCombat = true;
     }
+
 }

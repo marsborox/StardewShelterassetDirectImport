@@ -29,7 +29,7 @@ public class UnitAiHeros : UnitAiBase
                     {
                         unitHealth.Resting2();
                     }
-                    else if ((healthState == HealthState.LOW) && !inCombat)
+                    else if ((unitHealth.healthState == HealthState.LOW) && !inCombat)
                     {
                         //unitHealth.Resting();
                         activity = CombatActivity.RESTING;

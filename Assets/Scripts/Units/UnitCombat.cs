@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
 
 using UnityEngine;
@@ -9,6 +12,7 @@ using static UnityEngine.GraphicsBuffer;
 public enum CombatActivity { IDLE, COMBAT, RESTING, MOVING, OTHER, }
 public class UnitCombat : MonoBehaviour
 {
+    CombatActivity CombatActivity;
     CharacterAnimation characterAnimation;
     
     UnitStatsAndInfo unitStatsAndInfo;
@@ -17,17 +21,20 @@ public class UnitCombat : MonoBehaviour
     UnitHealth unitHealth;
     UnitTargetPicker unitTargetPicker;
 
-    CombatActivity CombatActivity;
 
-    [SerializeField] GameObject _target;
+    [SerializeField] public GameObject target;
 
     public bool attackOnCD;
 
     public bool inCombat;
     public bool _targetInRange;
-    public GameObject target;
+
+    //public GameObject target;
     public GameObject attacker;//who attacked us
-    // Start is called before the first frame update
+
+    public delegate void UnderAttack();
+    public UnderAttack underAttack;
+
     private void Awake()
     {
         unitHealth = GetComponent<UnitHealth>();
@@ -51,7 +58,7 @@ public class UnitCombat : MonoBehaviour
     }
     public void Attack2(GameObject target)
     {//discontinued
-        target.gameObject.GetComponent<UnitCombat>().TakeDamage(unitStatsAndInfo.damage);
+        //target.gameObject.GetComponent<UnitCombat>().TakeDamage(unitStatsAndInfo.damage, this.gameObject);
         characterAnimation.Slash();
     }
     public void AttackHit(GameObject target)
@@ -61,9 +68,9 @@ public class UnitCombat : MonoBehaviour
      //unitAiBase.activity = Activity.COMBAT;// *********************************
         //Debug.Log("DOING ATTACK HIT");
         attackOnCD = true;// **********************************
-        _target = target;//problem here
-        //Debug.Log("local _target set");
-        //Debug.Log(_target);
+        target = target;//problem here
+        //Debug.Log("local target set");
+        //Debug.Log(target);
         target.gameObject.GetComponent<UnitCombat>().attacker = this.gameObject; //mabye problem here too
         //target.gameObject.GetComponent<UnitAi>().target = this.gameObject;
         
@@ -72,44 +79,29 @@ public class UnitCombat : MonoBehaviour
         inCombat = true;
         characterAnimation.Idle();
         characterAnimation.Slash();
+
+        //target.gameObject.GetComponent<UnitCombat>().TakeDamage(unitStatsAndInfo.damage); //***********done post animation
         //unitAi.target.gameObject.GetComponent<UnitHealth>().TakeDamage();
         //unitAi.activity= Activity.IDLE;
     }
 
     public void AttackAnimationEvent()
     {
-        _target.gameObject.GetComponent<UnitCombat>().TakeDamage(unitStatsAndInfo.damage);
-        _target = null;
+        target.gameObject.GetComponent<UnitCombat>().TakeDamage(unitStatsAndInfo.damage,this.gameObject);
+        target = null;
         StartCoroutine(AttackCooldown());
     }
     public IEnumerator AttackCooldown()
     {
         //after slash is performed
-        //unitAi.activity = Activity.IDLE;
-
         
         yield return new WaitForSeconds(unitStatsAndInfo.attackSpeed);
         attackOnCD = false; // *********************************
         //unitAi.activity = Activity.IDLE;
     }
-    public void AttackOrMoveToTarget() //move to combat
-    {
-        unitMovement.TurnCorrectDirection(target.transform);
-        CheckIfTargetInRange();
-        if (target != null && !attackOnCD)
-        {
-            if (_targetInRange)
-            {
-                AttackHit(target);
-            }
-            else
-            {
-                unitMovement.Move(target);
-            }
-        }
-    }
     public void TargetDied()
     {
+        //Debug.Log("target died");
         target = null;
         attacker = null;
         inCombat = false;
@@ -140,22 +132,45 @@ public class UnitCombat : MonoBehaviour
         //this is AttackTargetInRangeOrMoveTOTarget(); but done better
         AttackOrMoveToTarget();
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject source)
     {
+        attacker = source;
         unitHealth.healthCurrent -= damage;
-        if (target = null)
+        if (target == null)
         {
+            Debug.Log("Target was null so we assign");
             target = attacker;
         }
         if (!inCombat)
-        { inCombat = true; }
+        { 
+            inCombat = true;
+            underAttack?.Invoke();
+        }
     }
     public void Combat()
-    {
+    {//somehting wrong int his method
+        Debug.Log("combat initiated");
         if (target == null)
         {
             target = attacker;
         }
+        Debug.Log("will move to target");
         AttackOrMoveToTarget();
+    }
+    public void AttackOrMoveToTarget() //move to combat
+    {
+        unitMovement.TurnCorrectDirection(target.transform);
+        CheckIfTargetInRange();
+        if (target != null && !attackOnCD)
+        {
+            if (_targetInRange)
+            {
+                AttackHit(target);
+            }
+            else
+            {
+                unitMovement.Move(target);
+            }
+        }
     }
 }

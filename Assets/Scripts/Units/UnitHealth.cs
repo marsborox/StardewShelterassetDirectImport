@@ -80,12 +80,10 @@ public class UnitHealth : MonoBehaviour
     }
 
 
-
-
     void ControlHealthBarSize()
     {
         healthFraction = (float)healthCurrent / (float)healthMax;
-        _healthBarSprite.fillAmount = healthFraction;
+        //_healthBarSprite.fillAmount = healthFraction;
     }
     
     public void Resting()
@@ -172,6 +170,7 @@ public class UnitHealth : MonoBehaviour
     }
     public void Die()
     {
+        healthState = HealthState.DEAD;
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
         unitCombat.attacker.GetComponent<UnitCombat>().TargetDied();
@@ -179,7 +178,6 @@ public class UnitHealth : MonoBehaviour
         unitCombat.attacker = null;
         unitCombat.inCombat = false;
         //gameObject.GetComponent<UnitAiBase>().task = Task.OTHER; //*************************
-        healthState = HealthState.DEAD;
         StopAllCoroutines();
         this.characterAnimation.Die();
         StartCoroutine(Despawnm());
