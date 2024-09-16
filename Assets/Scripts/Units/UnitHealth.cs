@@ -28,7 +28,7 @@ public class UnitHealth : MonoBehaviour
     UnitCombat unitCombat;
 
     public HealthState healthState;
-    CombatActivity combatActivity;
+    
     /*
     [SerializeField] public bool isResting { get; private set; }
     [SerializeField] public bool healthLow { get; private set; }
@@ -93,7 +93,7 @@ public class UnitHealth : MonoBehaviour
             CalcRestingHeal();
         }
         isResting = true;
-        combatActivity = CombatActivity.RESTING;
+        unitCombat.combatActivity = CombatActivity.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -106,13 +106,13 @@ public class UnitHealth : MonoBehaviour
             isResting = false;
             _restingTick = false;
             StopCoroutine(restingRoutine);
-            combatActivity = CombatActivity.OTHER;
+            unitCombat.combatActivity = CombatActivity.OTHER;
         }
     }
     
     public void Resting2()
     {
-        combatActivity = CombatActivity.RESTING;
+        unitCombat.combatActivity = CombatActivity.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -124,7 +124,7 @@ public class UnitHealth : MonoBehaviour
         {
             StopCoroutine(restingRoutine);
             _restingTick = false;
-            combatActivity = CombatActivity.OTHER;
+            unitCombat.combatActivity = CombatActivity.OTHER;
         }
     }
     private IEnumerator RestingHealPerTick()

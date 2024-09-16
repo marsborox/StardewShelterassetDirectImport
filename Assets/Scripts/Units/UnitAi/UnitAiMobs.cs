@@ -40,7 +40,7 @@ public class UnitAiMobs : UnitAiBase
                     break;
                 }
         }//why TF it works without declaration? erhaps it being otuside of class or whatever
-        switch (combatActivity) 
+        switch (unitCombat.combatActivity) 
         {
             case CombatActivity.IDLE:
                 {
