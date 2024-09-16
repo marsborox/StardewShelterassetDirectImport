@@ -28,7 +28,7 @@ public class UnitHealth : MonoBehaviour
     UnitCombat unitCombat;
 
     public HealthState healthState;
-    CombatActivity activity;
+    CombatActivity combatActivity;
     /*
     [SerializeField] public bool isResting { get; private set; }
     [SerializeField] public bool healthLow { get; private set; }
@@ -83,7 +83,7 @@ public class UnitHealth : MonoBehaviour
     void ControlHealthBarSize()
     {
         healthFraction = (float)healthCurrent / (float)healthMax;
-        //_healthBarSprite.fillAmount = healthFraction;
+        _healthBarSprite.fillAmount = healthFraction;
     }
     
     public void Resting()
@@ -93,7 +93,7 @@ public class UnitHealth : MonoBehaviour
             CalcRestingHeal();
         }
         isResting = true;
-        activity = CombatActivity.RESTING;
+        combatActivity = CombatActivity.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -106,12 +106,13 @@ public class UnitHealth : MonoBehaviour
             isResting = false;
             _restingTick = false;
             StopCoroutine(restingRoutine);
-            activity = CombatActivity.OTHER;
+            combatActivity = CombatActivity.OTHER;
         }
     }
     
     public void Resting2()
     {
+        combatActivity = CombatActivity.RESTING;
         characterAnimation.Crouch();
         if (!_restingTick)
         {
@@ -123,7 +124,7 @@ public class UnitHealth : MonoBehaviour
         {
             StopCoroutine(restingRoutine);
             _restingTick = false;
-            activity = CombatActivity.OTHER;
+            combatActivity = CombatActivity.OTHER;
         }
     }
     private IEnumerator RestingHealPerTick()

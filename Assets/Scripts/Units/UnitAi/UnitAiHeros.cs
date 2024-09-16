@@ -25,14 +25,14 @@ public class UnitAiHeros : UnitAiBase
 
             case Task.ADVENTURING:
                 {
-                    if (activity == CombatActivity.RESTING)
+                    /*if (combatActivity == CombatActivity.RESTING)
                     {
                         unitHealth.Resting2();
-                    }
-                    else if ((unitHealth.healthState == HealthState.LOW) && !inCombat)
+                    }*/
+                    /*else*/ if ((unitHealth.healthState == HealthState.LOW) && !unitCombat.inCombat|| combatActivity == CombatActivity.RESTING)
                     {
-                        //unitHealth.Resting();
-                        activity = CombatActivity.RESTING;
+                        unitHealth.Resting2();
+                        //unitCombat.combatActivity = CombatActivity.RESTING;
                     }
                     else
                     {

@@ -12,7 +12,7 @@ public enum MobsActivity { IDLE, COMBAT,}
 public class UnitAiMobs : UnitAiBase
 {
     MobsActivity mobsActivity;
-    // Start is called before the first frame update
+    
     void Start()
     {
         
@@ -35,6 +35,19 @@ public class UnitAiMobs : UnitAiBase
                     break;
                 }
             case MobsActivity.COMBAT:
+                {
+                    unitCombat.Combat();
+                    break;
+                }
+        }//why TF it works without declaration? erhaps it being otuside of class or whatever
+        switch (combatActivity) 
+        {
+            case CombatActivity.IDLE:
+                {
+                    characterAnimation.Idle();
+                    break;
+                }
+            case CombatActivity.COMBAT:
                 {
                     unitCombat.Combat();
                     break;

@@ -14,7 +14,7 @@ using static UnityEngine.GraphicsBuffer;
 public class UnitAiBase : MonoBehaviour
 {
     //universal class for all units in game
-    public CombatActivity activity;
+    public CombatActivity combatActivity;
     
 
     public UnitMovement unitMovement;
@@ -31,7 +31,7 @@ public class UnitAiBase : MonoBehaviour
 
    
     //bool _targetInRange;
-    [SerializeField] public bool inCombat;
+    //[SerializeField] public bool inCombat;
 
 
     private void Awake()
@@ -46,7 +46,7 @@ public class UnitAiBase : MonoBehaviour
     }
     void Start()
     {
-        inCombat = false;
+        
     }
 
     
@@ -68,13 +68,13 @@ public class UnitAiBase : MonoBehaviour
 
     public void IfImIdleMakeMeCombat()
     {//only enemies
-        if (activity == CombatActivity.IDLE)
+        if (combatActivity == CombatActivity.IDLE)
         {
-            activity = CombatActivity.COMBAT;
+            combatActivity = CombatActivity.COMBAT;
         }
-        if (activity == CombatActivity.RESTING)
+        if (combatActivity == CombatActivity.RESTING)
         {
-            activity = CombatActivity.COMBAT;
+            combatActivity = CombatActivity.COMBAT;
         }
         unitCombat.inCombat = true;
     }

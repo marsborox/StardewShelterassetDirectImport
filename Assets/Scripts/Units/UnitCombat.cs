@@ -9,10 +9,10 @@ using UnityEngine;
 
 using static UnityEngine.GraphicsBuffer;
 
-public enum CombatActivity { IDLE, COMBAT, RESTING, MOVING, OTHER, }
+public enum CombatActivity { IDLE, COMBAT, RESTING, MOVING, DEAD, OTHER, }
 public class UnitCombat : MonoBehaviour
 {
-    CombatActivity CombatActivity;
+    public CombatActivity combatActivity;
     CharacterAnimation characterAnimation;
     
     UnitStatsAndInfo unitStatsAndInfo;
@@ -107,7 +107,7 @@ public class UnitCombat : MonoBehaviour
         inCombat = false;
         if (objectInfo.type == "EnemyUnit")
         {
-            CombatActivity = CombatActivity.IDLE;
+            combatActivity = CombatActivity.IDLE;
             unitHealth.healthCurrent = unitHealth.healthMax;
         }
     }
@@ -148,7 +148,7 @@ public class UnitCombat : MonoBehaviour
         }
     }
     public void Combat()
-    {//somehting wrong int his method
+    {//somehting wrong in this method
         Debug.Log("combat initiated");
         if (target == null)
         {
