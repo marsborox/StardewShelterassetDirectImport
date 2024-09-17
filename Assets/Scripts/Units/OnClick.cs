@@ -6,11 +6,13 @@ public class OnClick : MonoBehaviour
 {
     Unit unit;
     ObjectInfo objectInfo;
-    
+    MainUI mainUI;
+
     void Start()
     {
         unit = GetComponent<Unit>();
         objectInfo = GetComponent<ObjectInfo>();
+        mainUI = GetComponentInParent<MainUI>();
     }
 
     
@@ -23,8 +25,11 @@ public class OnClick : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) 
         
         {
+            mainUI.activeUnit=this.gameObject;
+            mainUI.RefreshUI();
             //working now lets make UI to display
-            objectInfo.TellInfo();
+            //objectInfo.TellInfo();
+            Debug.Log("");
         }
     }
 

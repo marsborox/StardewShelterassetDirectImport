@@ -52,6 +52,11 @@ public class UnitAiMobs : UnitAiBase
                     unitCombat.Combat();
                     break;
                 }
+            case CombatActivity.DEAD:
+                {
+                    characterAnimation.Die();
+                    break;
+                }
         }
     }
 

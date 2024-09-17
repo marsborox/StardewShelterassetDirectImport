@@ -172,15 +172,17 @@ public class UnitHealth : MonoBehaviour
     public void Die()
     {
         healthState = HealthState.DEAD;
+        unitCombat.combatActivity=CombatActivity.DEAD;
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
         unitCombat.attacker.GetComponent<UnitCombat>().TargetDied();
         unitCombat.target = null;
         unitCombat.attacker = null;
         unitCombat.inCombat = false;
-        //gameObject.GetComponent<UnitAiBase>().task = Task.OTHER; //*************************
-        StopAllCoroutines();
         this.characterAnimation.Die();
+
+        StopAllCoroutines();
+        
         StartCoroutine(Despawnm());
     }
     public IEnumerator Despawnm()

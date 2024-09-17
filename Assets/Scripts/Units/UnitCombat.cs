@@ -138,7 +138,7 @@ public class UnitCombat : MonoBehaviour
         unitHealth.healthCurrent -= damage;
         if (target == null)
         {
-            Debug.Log("Target was null so we assign");
+            //Debug.Log("Target was null so we assign");
             target = attacker;
         }
         if (!inCombat)
@@ -148,13 +148,13 @@ public class UnitCombat : MonoBehaviour
         }
     }
     public void Combat()
-    {//somehting wrong in this method
-        Debug.Log("combat initiated");
+    {
+        //Debug.Log("combat initiated");
         if (target == null)
         {
             target = attacker;
         }
-        Debug.Log("will move to target");
+        //Debug.Log("will move to target");
         AttackOrMoveToTarget();
     }
     public void AttackOrMoveToTarget() //move to combat
