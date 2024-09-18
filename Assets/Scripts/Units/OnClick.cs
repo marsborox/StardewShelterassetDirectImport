@@ -12,7 +12,7 @@ public class OnClick : MonoBehaviour
     {
         unit = GetComponent<Unit>();
         objectInfo = GetComponent<ObjectInfo>();
-        mainUI = GetComponentInParent<MainUI>();
+        mainUI = FindObjectOfType<MainUI>();
     }
 
     
@@ -29,7 +29,7 @@ public class OnClick : MonoBehaviour
             mainUI.RefreshUI();
             //working now lets make UI to display
             //objectInfo.TellInfo();
-            Debug.Log("");
+            Debug.Log("clicked on something");
         }
     }
 

@@ -5554,6 +5554,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1211229045}
   m_CullTransparentMesh: 1
+--- !u!114 &1218436169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1514146239073206765, guid: 5751c3dc6077fae4783bec7cf9836a3a, type: 3}
+  m_PrefabInstance: {fileID: 5149876116111921399}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1219637572
 GameObject:
   m_ObjectHideFlags: 0
@@ -9141,7 +9152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae90f66b30c86e4d9cd7a7b216a1814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 0}
+  health: {fileID: 1218436169}
   mana: {fileID: 0}
   energy: {fileID: 0}
   name: {fileID: 0}
@@ -9149,9 +9160,9 @@ MonoBehaviour:
   activity: {fileID: 0}
   combatState: {fileID: 0}
   hp: {fileID: 0}
-  range: {fileID: 0}
-  damage: {fileID: 0}
-  attackSpeed: {fileID: 0}
+  range: {fileID: 2104035815}
+  damage: {fileID: 739948579}
+  attackSpeed: {fileID: 1546926754}
   activeUnit: {fileID: 0}
   temp: 0
 --- !u!1 &1729083389
