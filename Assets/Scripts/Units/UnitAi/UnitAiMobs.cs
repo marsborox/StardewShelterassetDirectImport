@@ -21,6 +21,7 @@ public class UnitAiMobs : UnitAiBase
     // Update is called once per frame
     void Update()
     {
+        unitStatsAndInfo.taskString = mobsActivity.ToString();
         EnemyActivitySwitch();
     }
 

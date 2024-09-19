@@ -13,7 +13,7 @@ public class MainUI : MonoBehaviour
     [Header("Stats")]
     public TextMeshProUGUI name;
     public TextMeshProUGUI xp;
-    public TextMeshProUGUI activity;
+    public TextMeshProUGUI task;
     public TextMeshProUGUI combatState;
     public TextMeshProUGUI hp;
     public TextMeshProUGUI range;
@@ -51,10 +51,15 @@ public class MainUI : MonoBehaviour
             health.SetText(activeUnit.GetComponent<UnitHealth>().healthCurrent + " / " + activeUnit.GetComponent<UnitHealth>().healthMax.ToString());
 
 
+            task.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().taskString);
+
+            combatState.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().combatActivityString);
 
             range.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().range.ToString());
             damage.SetText(activeUnit.GetComponent <UnitStatsAndInfo>().damage.ToString());
             attackSpeed.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().attackSpeed.ToString());
+
+
         }
 
         {

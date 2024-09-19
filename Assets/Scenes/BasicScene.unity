@@ -8816,7 +8816,7 @@ GameObject:
   - component: {fileID: 1671222144}
   - component: {fileID: 1671222143}
   m_Layer: 5
-  m_Name: Activity
+  m_Name: Task
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9157,8 +9157,8 @@ MonoBehaviour:
   energy: {fileID: 0}
   name: {fileID: 0}
   xp: {fileID: 0}
-  activity: {fileID: 0}
-  combatState: {fileID: 0}
+  task: {fileID: 1671222143}
+  combatState: {fileID: 440314797}
   hp: {fileID: 0}
   range: {fileID: 2104035815}
   damage: {fileID: 739948579}
@@ -10245,7 +10245,7 @@ GameObject:
   - component: {fileID: 1891397949}
   - component: {fileID: 1891397948}
   m_Layer: 5
-  m_Name: Activity
+  m_Name: Task
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10290,7 +10290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Activity:'
+  m_text: 'Task:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

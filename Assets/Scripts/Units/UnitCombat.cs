@@ -54,7 +54,8 @@ public class UnitCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Debug.Log(combatActivity.ToString());
+        unitStatsAndInfo.combatActivityString=combatActivity.ToString();
     }
     public void Attack2(GameObject target)
     {//discontinued
@@ -72,7 +73,7 @@ public class UnitCombat : MonoBehaviour
         //Debug.Log("local target set");
         //Debug.Log(target);
         target.gameObject.GetComponent<UnitCombat>().attacker = this.gameObject; //mabye problem here too
-        //target.gameObject.GetComponent<UnitAi>().target = this.gameObject;
+        
         
         target.gameObject.GetComponent<UnitAiBase>().IfImIdleMakeMeCombat(); //********************
 

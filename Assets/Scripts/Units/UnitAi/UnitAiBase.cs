@@ -10,12 +10,13 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 
-
 public class UnitAiBase : MonoBehaviour
 {
+    
+
     //universal class for all units in game
     //public CombatActivity combatActivity;
-    
+
 
     public UnitMovement unitMovement;
     public UnitCombat unitCombat;
@@ -26,10 +27,11 @@ public class UnitAiBase : MonoBehaviour
     public UnitHealth unitHealth;
     public UnitTargetPicker unitTargetPicker;
     public CharacterAnimation characterAnimation;
-    
+
+    public UnitStatsAndInfo unitStatsAndInfo;
 
 
-   
+
     //bool _targetInRange;
     //[SerializeField] public bool inCombat;
 
@@ -42,6 +44,7 @@ public class UnitAiBase : MonoBehaviour
         unitHealth = GetComponent<UnitHealth>();
         unitTargetPicker = GetComponent<UnitTargetPicker>();
         characterAnimation = GetComponent<CharacterAnimation>();
+        unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
         //objectInfo = GetComponent<ObjectInfo>();
     }
     void Start()

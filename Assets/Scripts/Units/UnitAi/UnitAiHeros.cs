@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Task { IDLE, LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT, RANDOMAUTOMOVE, TRAVELING, ADVENTURING, OTHER }//only heros will need this
+//only heros will need this
+public enum Task { IDLE, LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT, RANDOMAUTOMOVE, TRAVELING, ADVENTURING, OTHER }
 public class UnitAiHeros : UnitAiBase
 {
     public Task task;
-    
+
     void Start()
     {
         
@@ -15,6 +16,8 @@ public class UnitAiHeros : UnitAiBase
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(task.ToString());
+        unitStatsAndInfo.taskString = task.ToString();
         TaskSwitch();
     }
 

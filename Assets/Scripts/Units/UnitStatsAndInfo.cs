@@ -8,7 +8,10 @@ using UnityEngine.UI;
 
 public class UnitStatsAndInfo : MonoBehaviour
 {
-    
+    public string taskString;
+    public string combatActivityString;
+
+
     public int range;
     public int damage;
     public float attackSpeed;
