@@ -58,6 +58,8 @@ public class UnitAiBase : MonoBehaviour
         
     }
 
+    public virtual string GetActivity() { return "Unknown";  }
+
     private void OnEnable()
     {
         unitCombat.underAttack += IfImIdleMakeMeCombat;

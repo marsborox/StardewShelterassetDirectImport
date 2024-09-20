@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
@@ -11,13 +12,16 @@ using static UnityEngine.GraphicsBuffer;
 public enum MobsActivity { IDLE, COMBAT,}
 public class UnitAiMobs : UnitAiBase
 {
-    MobsActivity mobsActivity;
+    public MobsActivity mobsActivity;
     
     void Start()
     {
         
     }
-
+    public override string GetActivity()
+    {
+        return Enum.GetName(typeof(MobsActivity), mobsActivity);
+    }
     // Update is called once per frame
     void Update()
     {

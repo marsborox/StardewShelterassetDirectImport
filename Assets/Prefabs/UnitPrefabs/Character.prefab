@@ -417,11 +417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be2adbc356010745baa14bafd5452d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
+  combatActivity: 0
+  target: {fileID: 0}
   attackOnCD: 0
   inCombat: 0
   _targetInRange: 0
-  target: {fileID: 0}
   attacker: {fileID: 0}
 --- !u!114 &-9092269722877264455
 MonoBehaviour:
@@ -448,6 +448,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa6946938c4d9d4ab8ba2c77925ed69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  taskString: 
+  combatActivityString: 
   range: 0
   damage: 0
   attackSpeed: 0

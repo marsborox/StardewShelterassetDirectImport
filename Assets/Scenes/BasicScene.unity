@@ -12117,6 +12117,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Desert
       objectReference: {fileID: 0}
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: heroUnit
+      value: 
+      objectReference: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: enemyUnit
+      value: 
+      objectReference: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

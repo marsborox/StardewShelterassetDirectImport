@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,10 @@ public class UnitAiHeros : UnitAiBase
         unitStatsAndInfo.taskString = task.ToString();
         TaskSwitch();
     }
-
+    public override string GetActivity()
+    {
+        return Enum.GetName(typeof(Task), task);
+    }
     void TaskSwitch()
     {
         switch (task)

@@ -51,14 +51,37 @@ public class MainUI : MonoBehaviour
             health.SetText(activeUnit.GetComponent<UnitHealth>().healthCurrent + " / " + activeUnit.GetComponent<UnitHealth>().healthMax.ToString());
 
 
-            task.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().taskString);
+            //task.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().taskString);
 
             combatState.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().combatActivityString);
 
             range.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().range.ToString());
             damage.SetText(activeUnit.GetComponent <UnitStatsAndInfo>().damage.ToString());
             attackSpeed.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().attackSpeed.ToString());
+            //attackSpeed.SetText(activeUnit.GetComponent<UnitAiBase>().attackSpeed.ToString());
+            task.SetText(activeUnit.GetComponent<UnitAiBase>().GetActivity());// like newest kind of stuff
+            /*
+            if (x is UnitAiHeros)
+            {
+                task.SetText(Enum.GetName(typeof(Task), ((UnitAiHeros)x).task));
 
+            }
+            else if (x is UnitAiMobs)
+            {
+                task.SetText("doing MOB stuff");
+            }
+            *****************************************
+            
+            switch(x)
+            {
+                case UnitAiHeros y:
+                    task.SetText(Enum.GetName(typeof(Task), y.task));
+                    break;
+                case UnitAiMobs y:
+                    task.SetText(Enum.GetName(typeof(MobsActivity), y.mobsActivity));
+                    break;
+            }
+            */
 
         }
 
