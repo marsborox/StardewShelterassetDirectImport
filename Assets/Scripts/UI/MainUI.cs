@@ -59,6 +59,8 @@ public class MainUI : MonoBehaviour
             damage.SetText(activeUnit.GetComponent <UnitStatsAndInfo>().damage.ToString());
             attackSpeed.SetText(activeUnit.GetComponent<UnitStatsAndInfo>().attackSpeed.ToString());
             //attackSpeed.SetText(activeUnit.GetComponent<UnitAiBase>().attackSpeed.ToString());
+
+
             task.SetText(activeUnit.GetComponent<UnitAiBase>().GetActivity());// like newest kind of stuff
             /*
             if (x is UnitAiHeros)

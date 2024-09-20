@@ -120,12 +120,15 @@ public class ObjectSpawner : MonoBehaviour
     }
 
     //*************************************** methods that will subscribe to events
-
+    
     void AddClassAiMobs(GameObject gameObject)
     { gameObject.AddComponent<UnitAiMobs>(); }
     void AddClassAiHeros(GameObject gameObject)
-    { gameObject.AddComponent<UnitAiHeros>(); }
-
+    { 
+        gameObject.AddComponent<UnitAiHeros>();
+        gameObject.AddComponent<Inventory>();
+    }
+    
     void SpawnObjectsOnMap()
     {
         //GameObject spawningObject;
