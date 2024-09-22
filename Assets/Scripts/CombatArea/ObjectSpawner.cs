@@ -127,6 +127,7 @@ public class ObjectSpawner : MonoBehaviour
     { 
         gameObject.AddComponent<UnitAiHeros>();
         gameObject.AddComponent<Inventory>();
+        
     }
     
     void SpawnObjectsOnMap()
