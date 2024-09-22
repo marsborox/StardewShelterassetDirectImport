@@ -6,6 +6,7 @@ using System;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ObjectSpawner : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class ObjectSpawner : MonoBehaviour
     GameObject spawnedGameObject;
     GameObject spawnedHero;
 
-
+    private ObjectPool<GameObject> _spawnedObjectPool;
     //ObjectInfo objectInfo;
     //this is name of parent object of arena
     [SerializeField] public GameObject combatAreaSpawn;//unused only for centre
@@ -62,7 +63,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         SetSOsSettings();
         SpawnHeroOnCamp();
-
+        CreateGameObjectPool();
     }
     private void Update()
     {
@@ -78,10 +79,13 @@ public class ObjectSpawner : MonoBehaviour
         OnMobSpawn -= AddClassAiMobs;
         OnHeroSpawn -= AddClassAiHeros;
     }
+    public void CreateGameObjectPool()
+    {
 
 
 
-    public void UnitDied()
+    }
+        public void UnitDied()
     {
         spawnedEnemyUnits--;
         totalSpawnedObjects--;
