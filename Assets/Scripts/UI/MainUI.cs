@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class MainUI : MonoBehaviour
 {
@@ -20,29 +21,24 @@ public class MainUI : MonoBehaviour
     public TextMeshProUGUI damage;
     public TextMeshProUGUI attackSpeed;
 
+    [SerializeField]  public  Button gearButton;
+
+    bool gearOn;
     public GameObject activeUnit;
 
     public int temp;
 
     UnitHealth unitHealth;
     UnitStatsAndInfo unitStatsAndInfo;
-    public void ActiveUnit()
+
+    private void Awake()
     {
-        unitHealth = activeUnit.GetComponent<UnitHealth>();
-
-
-
-
-        unitStatsAndInfo=activeUnit.GetComponent<UnitStatsAndInfo>();
+        gearButton = GetComponent<Button>();
     }
-    public void RefreshUI()
-    { 
-        
-        //mana
-        //energy
-        //name
-        //xp
-        //activity.SetText(activeUnit.);
+    private void Start()
+    {
+        gearButton.onClick.AddListener(GearButton);
+        gearOn = false;
     }
     void Update()
     {
@@ -62,43 +58,46 @@ public class MainUI : MonoBehaviour
 
 
             task.SetText(activeUnit.GetComponent<UnitAiBase>().GetActivity());// like newest kind of stuff
-            /*
-            if (x is UnitAiHeros)
-            {
-                task.SetText(Enum.GetName(typeof(Task), ((UnitAiHeros)x).task));
-
-            }
-            else if (x is UnitAiMobs)
-            {
-                task.SetText("doing MOB stuff");
-            }
-            *****************************************
-            
-            switch(x)
-            {
-                case UnitAiHeros y:
-                    task.SetText(Enum.GetName(typeof(Task), y.task));
-                    break;
-                case UnitAiMobs y:
-                    task.SetText(Enum.GetName(typeof(MobsActivity), y.mobsActivity));
-                    break;
-            }
-            */
 
         }
+    
+    }
+    public void ActiveUnit()
+    {
+        unitHealth = activeUnit.GetComponent<UnitHealth>();
 
+
+
+
+        unitStatsAndInfo=activeUnit.GetComponent<UnitStatsAndInfo>();
+    }
+    public void RefreshUI()
+    { 
+        
+        //mana
+        //energy
+        //name
+        //xp
+        //activity.SetText(activeUnit.);
+    }
+    void GearButton()
+    {
+        Debug.Log("GearButton pressed");
+        //Color32 color;
+        if (!gearOn)
         {
-            //health.SetText(unitHealth.healthCurrent + " / " + unitHealth.healthCurrent);
-
-
-
-
-            //shits broken for some reason
-            //or where is the reason we should expect this crap to work??
-            //range.SetText(unitStatsAndInfo.range.ToString());
-
-            //damage.SetText(unitStatsAndInfo.damage.ToString());
-            //attackSpeed.SetText(unitStatsAndInfo.attackSpeed.ToString());
+            gearOn = true;
+            //set color pressed
+            //set gear window active
+            gearButton.GetComponent<Image>().color = new Color32(200, 200, 200, 255);
+        }
+        else 
+        {
+            gearOn = false;
+            //set color depressed
+            //deactivate gear window
+            gearButton.GetComponent<Image>().color=new Color32(255,255,255,255);
+            
         }
     }
 }
