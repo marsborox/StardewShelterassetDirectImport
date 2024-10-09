@@ -21,9 +21,11 @@ public class MainUI : MonoBehaviour
     public TextMeshProUGUI damage;
     public TextMeshProUGUI attackSpeed;
 
-    [SerializeField]  public  Button gearButton;
+    [SerializeField]  public  Button equipmentButton;
+    bool equipmentOn;
+    [SerializeField]public GameObject equipmentUI;
 
-    bool gearOn;
+
     public GameObject activeUnit;
 
     public int temp;
@@ -33,12 +35,13 @@ public class MainUI : MonoBehaviour
 
     private void Awake()
     {
-        gearButton = GetComponent<Button>();
+        //gearButton = transform.GetComponent<Button>();
     }
     private void Start()
     {
-        gearButton.onClick.AddListener(GearButton);
-        gearOn = false;
+        equipmentButton.onClick.AddListener(EquipmentButton);
+        equipmentOn = false;
+        equipmentUI.SetActive(equipmentOn);
     }
     void Update()
     {
@@ -66,9 +69,6 @@ public class MainUI : MonoBehaviour
     {
         unitHealth = activeUnit.GetComponent<UnitHealth>();
 
-
-
-
         unitStatsAndInfo=activeUnit.GetComponent<UnitStatsAndInfo>();
     }
     public void RefreshUI()
@@ -80,24 +80,25 @@ public class MainUI : MonoBehaviour
         //xp
         //activity.SetText(activeUnit.);
     }
-    void GearButton()
+    void EquipmentButton()
     {
-        Debug.Log("GearButton pressed");
+        Debug.Log("equipmentButton pressed");
         //Color32 color;
-        if (!gearOn)
+        if (!equipmentOn)
         {
-            gearOn = true;
+            equipmentOn = true;
             //set color pressed
             //set gear window active
-            gearButton.GetComponent<Image>().color = new Color32(200, 200, 200, 255);
+            equipmentButton.GetComponent<Image>().color = new Color32(200, 200, 200, 255);
+            equipmentUI.SetActive(equipmentOn);
         }
         else 
         {
-            gearOn = false;
+            equipmentOn = false;
             //set color depressed
             //deactivate gear window
-            gearButton.GetComponent<Image>().color=new Color32(255,255,255,255);
-            
+            equipmentButton.GetComponent<Image>().color=new Color32(255,255,255,255);
+            equipmentUI.SetActive(equipmentOn);
         }
     }
 }
