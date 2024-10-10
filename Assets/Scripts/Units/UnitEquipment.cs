@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EQuipmentUI : MonoBehaviour
+public class UnitEquipment : MonoBehaviour
 {
     public GameObject HeadSlot;
     public GameObject ChestSlot;
@@ -11,5 +11,14 @@ public class EQuipmentUI : MonoBehaviour
     public GameObject MainHandSlot;
     public GameObject OffHandSlot;
 
+    void Start()
+    {
+        
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }
