@@ -11,5 +11,4 @@ public class EQuipmentUI : MonoBehaviour
     public GameObject MainHandSlot;
     public GameObject OffHandSlot;
 
-
 }

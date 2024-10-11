@@ -17,8 +17,10 @@ public class UnitStatsAndInfo : MonoBehaviour
     public float attackSpeed;
     public int health;
 
+    public int carryingCapacity;
     public UnitSO unitSettings;
     
+
     void Start()
     {
         

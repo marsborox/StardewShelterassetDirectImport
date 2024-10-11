@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class BackPack : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<Item> items = new List<Item>();
+
+
+    private void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Add(Item item)
     {
-        
+        items.Add(item);
+        //add weight
+    }
+
+    public void Remove(Item item)
+    {
+        items.Remove(item);
+        //remove weight
     }
 }
