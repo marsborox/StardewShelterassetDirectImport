@@ -62,7 +62,7 @@ public class ObjectSpawner : MonoBehaviour
     private void Start()
     {
         SetSOsSettings();
-        SpawnHeroOnCamp();
+        //SpawnHeroOnCamp();
         CreateGameObjectPool();
     }
     private void Update()
@@ -72,12 +72,12 @@ public class ObjectSpawner : MonoBehaviour
     private void OnEnable()
     {
         OnMobSpawn += AddClassAiMobs;
-        OnHeroSpawn += AddClassAiHeros;
+        //OnHeroSpawn += AddClassAiHeros;
     }
     private void OnDisable()
     {
         OnMobSpawn -= AddClassAiMobs;
-        OnHeroSpawn -= AddClassAiHeros;
+        //OnHeroSpawn -= AddClassAiHeros;
     }
     public void CreateGameObjectPool()
     {
@@ -107,9 +107,7 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SpawnMobs()
         //***********************************************************
-    {//rework, we must attach all scripts in different way, problem with class initiation
-        //chatgpt got us usggestions
-        //mabye doing it as event would be solution
+    {   // attaches inherited script
         //**********************************************************
 
         SpawnObjectRandomly(enemyUnit);

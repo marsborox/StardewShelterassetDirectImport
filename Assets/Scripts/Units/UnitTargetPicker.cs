@@ -66,7 +66,7 @@ public class UnitTargetPicker : MonoBehaviour
         //Debug.Log($"log entry prior to search in list+ listcount: "+providedList.Count);
         
         foreach (GameObject potentialTarget in providedList)
-        {
+        {//find closest
             //Debug.Log("finding target in provided list");
             Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;

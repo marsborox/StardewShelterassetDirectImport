@@ -11,6 +11,7 @@ public class UnitEquipment : MonoBehaviour
     public GameObject MainHandSlot;
     public GameObject OffHandSlot;
 
+
     void Start()
     {
         
@@ -21,4 +22,5 @@ public class UnitEquipment : MonoBehaviour
     {
         
     }
+
 }

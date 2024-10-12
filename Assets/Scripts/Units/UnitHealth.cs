@@ -75,7 +75,7 @@ public class UnitHealth : MonoBehaviour
         if (healthState != HealthState.DEAD)
         {
             ControlHealthBarSize(); //seems to be broken
-            CheckHP2();
+            CheckHP();
         }
     }
 
@@ -138,20 +138,8 @@ public class UnitHealth : MonoBehaviour
     { //5% per second
         _restingHealPerSecond = healthMax / _restingTickHealPercentage;
     }
+
     void CheckHP()
-    {
-        healthLow = (( (float)healthCurrent/ (float)healthMax)*100)<lowHPTresholdPercentage;
-        healthFull = (healthCurrent >= healthMax);
-        if (healthCurrent > healthMax)
-        { 
-            healthCurrent= healthMax;
-        }
-        if (healthCurrent < 1)
-        { 
-            Die();
-        }
-    }
-    void CheckHP2()
     {
         if (healthCurrent >= healthMax)
         {
