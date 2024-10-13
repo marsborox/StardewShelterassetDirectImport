@@ -44,7 +44,7 @@ public class ObjectSpawner : MonoBehaviour
     private ObjectPool<GameObject> _spawnedObjectPool;
     //ObjectInfo objectInfo;
     //this is name of parent object of arena
-    [SerializeField] public GameObject combatAreaSpawn;//unused only for centre
+    [SerializeField] public GameObject combatAreaSpawn;//objects spawn here
 
     static List<GameObject> spawnedGameObjectList = new List<GameObject>();
 
@@ -52,7 +52,7 @@ public class ObjectSpawner : MonoBehaviour
 
     public delegate void SpawnEvent(GameObject gameObject);
 
-    public static SpawnEvent OnMobSpawn, OnHeroSpawn;
+    public event SpawnEvent OnMobSpawn, OnHeroSpawn;
     
     private void Awake()
     {
@@ -62,7 +62,7 @@ public class ObjectSpawner : MonoBehaviour
     private void Start()
     {
         SetSOsSettings();
-        //SpawnHeroOnCamp();
+        SpawnHeroOnCamp();
         CreateGameObjectPool();
     }
     private void Update()
@@ -72,12 +72,12 @@ public class ObjectSpawner : MonoBehaviour
     private void OnEnable()
     {
         OnMobSpawn += AddClassAiMobs;
-        //OnHeroSpawn += AddClassAiHeros;
+        OnHeroSpawn += AddClassHeros;
     }
     private void OnDisable()
     {
         OnMobSpawn -= AddClassAiMobs;
-        //OnHeroSpawn -= AddClassAiHeros;
+        OnHeroSpawn -= AddClassHeros;
     }
     public void CreateGameObjectPool()
     {
@@ -90,21 +90,7 @@ public class ObjectSpawner : MonoBehaviour
         spawnedEnemyUnits--;
         totalSpawnedObjects--;
     }
-    void SpawnHeroOnCamp()
-    {//temp method will remove later
 
-
-        spawnedHero = Instantiate(heroUnit);
-        OnHeroSpawn?.Invoke(spawnedHero);
-
-        spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
-        spawnedHero.gameObject.tag = "HeroUnit";
-        spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
-        spawnedHero.transform.parent = combatAreaSpawn.transform;
-        spawnedHero.transform.position = heroCamp.transform.position;
-        SetHeroStats();
-        spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
-    }
     void SpawnMobs()
         //***********************************************************
     {   // attaches inherited script
@@ -125,12 +111,7 @@ public class ObjectSpawner : MonoBehaviour
     
     void AddClassAiMobs(GameObject gameObject)
     { gameObject.AddComponent<UnitAiMobs>(); }
-    void AddClassAiHeros(GameObject gameObject)
-    { 
-        gameObject.AddComponent<UnitAiHeros>();
-        gameObject.AddComponent<BackPack>();
-        gameObject.AddComponent<UnitEquipment>();
-    }
+
     
     void SpawnObjectsOnMap()
     {
@@ -210,12 +191,7 @@ public class ObjectSpawner : MonoBehaviour
         spawnedGameObject.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedEnemyUnitSO;
         spawnedGameObject.GetComponent<UnitStatsAndInfo>().SetStats();
     }
-    void SetHeroStats()
-    {
-        //temp method for testing will be removed
-        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
-        spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
-    }
+
     void SetUnitTypeTagCounters()
     {
         spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyUnit");
@@ -230,10 +206,6 @@ public class ObjectSpawner : MonoBehaviour
         spawnedLootChests++;
         totalSpawnedObjects++;
     }
-
-    
-
-
 
     /*
     void SetEnemyUnitStates()
@@ -286,10 +258,7 @@ public class ObjectSpawner : MonoBehaviour
         totalSpawnedObjects++;
     }*/
 
-    void CheckObjectsInArena()
-    {
 
-    }
     void GiveMeRandomTransforms(int count)
     {
         for (int i = 0; i < count; i++)
@@ -302,6 +271,37 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
 
+    #region SpawnHero
+    //whole region will be removed eventually
+    public void SpawnHeroOnCamp()
+    {
+        spawnedHero = Instantiate(heroUnit);
+        OnHeroSpawn?.Invoke(spawnedHero);
+
+        spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
+        spawnedHero.gameObject.tag = "HeroUnit";
+        spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
+        spawnedHero.transform.parent = combatAreaSpawn.transform; 
+        spawnedHero.transform.position = heroCamp.transform.position;
+        SetHeroStats();
+        spawnedHero.GetComponent<UnitAiHeros>().task = Task.IDLE;
+
+    }
+    void AddClassHeros(GameObject gameObject)
+    {
+        gameObject.AddComponent<UnitAiHeros>();
+        gameObject.AddComponent<BackPack>();
+        gameObject.AddComponent<UnitEquipment>();
+    }
+    void SetHeroStats()
+    {
+        //temp method for testing will be removed
+        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
+        spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
+    }
+
+    #endregion
+}
     /*void SpawnMeSomeUnits(int count)
     {
         for (int i = 0; i < count; i++)
@@ -310,7 +310,6 @@ public class ObjectSpawner : MonoBehaviour
         }
     }*/
 
-}
 
 /*void SetNameAndCounters() //discontinuing
 {

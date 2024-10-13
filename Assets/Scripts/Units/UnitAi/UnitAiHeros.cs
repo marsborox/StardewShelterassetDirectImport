@@ -67,6 +67,11 @@ public class UnitAiHeros : UnitAiBase
 
                     break;
                 }
+            case Task.IDLE:
+                {
+                    break;
+                }
+
 
         }
     }

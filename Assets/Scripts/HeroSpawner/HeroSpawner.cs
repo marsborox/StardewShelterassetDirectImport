@@ -14,9 +14,16 @@ public class HeroSpawner : MonoBehaviour
     GameObject spawnedHero;
     // Start is called before the first frame update
 
-    public static SpawnEvent OnHeroSpawn;
+    public event SpawnEvent OnHeroSpawn;
 
     public GameObject arenas;
+    //delegate in objectSpawner
+    
+    private void Awake()
+    {
+        
+       
+    }
     void Start()
     {
         
@@ -30,18 +37,18 @@ public class HeroSpawner : MonoBehaviour
     private void OnEnable()
     {
         //OnMobSpawn += AddClassAiMobs;
-        OnHeroSpawn += AddClassAiHeros;
+        OnHeroSpawn += AddClassHeros;
     }
     private void OnDisable()
     {
         //OnMobSpawn -= AddClassAiMobs;
-        OnHeroSpawn -= AddClassAiHeros;
+        OnHeroSpawn -= AddClassHeros;
     }
 
 
     public void SpawnHeroOnCamp()
     {//temp method will remove later
-
+        
 
         spawnedHero = Instantiate(heroUnit);
         OnHeroSpawn?.Invoke(spawnedHero);
@@ -53,9 +60,10 @@ public class HeroSpawner : MonoBehaviour
         spawnedHero.transform.position = heroCamp.transform.position;
         SetHeroStats();
         spawnedHero.GetComponent<UnitAiHeros>().task = Task.IDLE;
+        
     }
 
-    void AddClassAiHeros(GameObject gameObject)
+    void AddClassHeros(GameObject gameObject)
     {
         gameObject.AddComponent<UnitAiHeros>();
         gameObject.AddComponent<BackPack>();
