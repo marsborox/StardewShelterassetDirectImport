@@ -284,7 +284,7 @@ public class ObjectSpawner : MonoBehaviour
         spawnedHero.transform.parent = combatAreaSpawn.transform; 
         spawnedHero.transform.position = heroCamp.transform.position;
         SetHeroStats();
-        spawnedHero.GetComponent<UnitAiHeros>().task = Task.IDLE;
+        spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
 
     }
     void AddClassHeros(GameObject gameObject)

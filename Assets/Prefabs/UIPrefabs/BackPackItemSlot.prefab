@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8591367328356460617}
   - component: {fileID: 792749729298279863}
-  - component: {fileID: -4883978424516228813}
+  - component: {fileID: 6615551618039174646}
   m_Layer: 5
-  m_Name: ItemSlot
+  m_Name: BackPackItemSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715352185424554178}
   m_CullTransparentMesh: 1
---- !u!114 &-4883978424516228813
+--- !u!114 &6615551618039174646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1715352185424554178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a55ac58420c76794783eab6280f31092, type: 3}
+  m_Script: {fileID: 11500000, guid: 2696c4f0a78d28c469c3f8932906a686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 4224263919449998880}
