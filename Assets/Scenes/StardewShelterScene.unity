@@ -8241,7 +8241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7d55908da8a3a4cae4fb24069c2ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroUnit: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
+  heroUnit: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
   heroCamp: {fileID: 725735570}
   spawnedHeroSO: {fileID: 11400000, guid: cce2fa2dcba8bc84a9d34171d6fe3750, type: 2}
   arenas: {fileID: 1953132765}
@@ -12543,37 +12543,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2410361289661426653, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_Color.b
-      value: 0.3488341
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410361289661426653, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_Color.g
-      value: 0.6320754
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410361289661426653, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_Color.r
-      value: 0.42634344
-      objectReference: {fileID: 0}
     - target: {fileID: 4014979892241649155, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
       propertyPath: m_Name
       value: Forest
-      objectReference: {fileID: 0}
-    - target: {fileID: 4014979892241649155, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: _arenaSetting
-      value: 
-      objectReference: {fileID: 11400000, guid: b579a4e080569f148a6f985a8b639c72, type: 2}
-    - target: {fileID: 8842063648356914746, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 15.37
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842063648356914746, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.08
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13354,12 +13326,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemSlot: {fileID: 1715352185424554178, guid: bf45d145012dd814fbdabd632970a4a5, type: 3}
   _itemSlot2: {fileID: 6615551618039174646, guid: a9e9771c2dd5eb640a6e9a37ae61b4e1, type: 3}
-  _backPack: []
-  _freeList: []
-  _usedList: []
-  collectionCheck: 1
-  _itemSlotCapacity: 5
-  _maxItemSlotCapacity: 1000
 --- !u!114 &2061145770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14381,22 +14347,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2410361289661426653, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4495763
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410361289661426653, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: m_Color.g
+      value: 0.816951
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410361289661426653, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8792453
+      objectReference: {fileID: 0}
     - target: {fileID: 4014979892241649155, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
       propertyPath: m_Name
       value: Desert
       objectReference: {fileID: 0}
-    - target: {fileID: 4014979892241649155, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: _arenaSetting
+      value: 
+      objectReference: {fileID: 11400000, guid: b397a933e8024e540b41f4253f13c60f, type: 2}
+    - target: {fileID: 8842063648356914746, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: heroUnit
-      value: 
-      objectReference: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
-    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
-      propertyPath: enemyUnit
-      value: 
-      objectReference: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
+    - target: {fileID: 8842063648356914746, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

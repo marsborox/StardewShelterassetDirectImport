@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.UI;
+
 
 
 public class BackPackItemSlot : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Image _image;
-    [SerializeField] TextMeshProUGUI _count;
-    public IObjectPool<BackPackItemSlot> objectPool;
+    [SerializeField] public Sprite sprite;
+    [SerializeField] public TextMeshProUGUI count;
 
-    public IObjectPool<BackPackItemSlot> ObjectPool { set => objectPool = value; }
     void Start()
     {
 
@@ -32,9 +30,9 @@ public class BackPackItemSlot : MonoBehaviour
     {
 
     }
-    void Deactivate()
+    public void SetSprite(Sprite importedSprite)
     {
-        objectPool.Release(this);
+        sprite = importedSprite;
     }
 }
 

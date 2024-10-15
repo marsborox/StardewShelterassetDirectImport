@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using TMPro;
-
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class ItemSlot : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Image _image;
-    [SerializeField] TextMeshProUGUI _count;
+    [SerializeField] public Sprite sprite;
+    [SerializeField] public TextMeshProUGUI count;
     void Start()
     {
         

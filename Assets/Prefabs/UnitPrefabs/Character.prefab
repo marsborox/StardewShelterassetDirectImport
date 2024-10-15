@@ -454,6 +454,7 @@ MonoBehaviour:
   damage: 0
   attackSpeed: 0
   health: 0
+  carryingCapacity: 0
   unitSettings: {fileID: 0}
 --- !u!114 &8368413831877543906
 MonoBehaviour:
