@@ -11,60 +11,57 @@ public class BackPackUI : MonoBehaviour
     // Start is called before the first frame update
 
     MainUI _mainUI;
-    [SerializeField] GameObject _itemSlot;
-    [SerializeField] BackPackItemSlot _itemSlot2;
-
-    private int _poolSize;
-    //private bool _expandable;
     
+    [SerializeField] BackPackItemSlot _itemSlot;
+    int _spawnedSlots;
     private void Awake()
     {
         _mainUI = FindObjectOfType<MainUI>();
     }
     void Start()
     {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        SpawnSlots();
     }
     private void OnEnable()
     {
-        SpawnSlots();
-
 
     }
     private void OnDisable()
     {
-        DestroySlots();
+        _spawnedSlots = 0;
+        //DestroySlots();
     }
     void SpawnSlots()
     {
-        Item importedItem;
-        int numberOfSlots = _mainUI.activeUnit.GetComponent<BackPack>().items.Count;
-        Debug.Log(numberOfSlots);
-        for (int i = 0; i< _mainUI.activeUnit.GetComponent<BackPack>().items.Count; i++)
-
+        
+        int numberOfSlotsToSpawn = _mainUI.activeUnit.GetComponent<BackPack>().items.Count;
+        if (!(_spawnedSlots == numberOfSlotsToSpawn))
         {
-            BackPackItemSlot itemSlot = Instantiate(_itemSlot2);
-            itemSlot.transform.parent = transform;
+            DestroySlots();
+            _spawnedSlots = numberOfSlotsToSpawn;
+            Debug.Log("Change Detected");
+            Debug.Log(numberOfSlotsToSpawn);
+            for (int i = 0; i < _mainUI.activeUnit.GetComponent<BackPack>().items.Count; i++)
 
-            
-            //broken for some reason need some fix mess with image sprite stuff
-            //itemSlot.GetComponent<Image>().sprite =_mainUI.activeUnit.GetComponent<BackPack>().items[i].itemIcon;
-        }/*
-        foreach (Item item in _mainUI.activeUnit.GetComponent<BackPack>().items)
-        {
-            BackPackItemSlot itemSlot =Instantiate(_itemSlot2);
-            itemSlot.transform.parent = transform;
-            
-            itemSlot.image=item.GetComponent<Image>();
-        }*/
+            {
+                BackPackItemSlot itemSlot = Instantiate(_itemSlot);
+                //Display IMG first is from tutorial but i like second one more for...reasons
+                //itemSlot.transform.GetChild(0).GetComponent<Image>().sprite = _mainUI.activeUnit.GetComponent<BackPack>().items[i].itemIcon;
+                itemSlot.GetComponent<BackPackItemSlot>().image.sprite = _mainUI.activeUnit.GetComponent<BackPack>().items[i].itemIcon;
+
+                itemSlot.transform.parent = transform;
+            }
+        }
     }
     void DestroySlots()
     {
+
         for (var i = transform.childCount - 1; i >= 0; i--)
         {
             Object.Destroy(transform.GetChild(i).gameObject);

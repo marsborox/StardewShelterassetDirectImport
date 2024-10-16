@@ -562,7 +562,7 @@ namespace Assets.PixelFantasy.PixelTileEngine.Scripts
         {
             var texture = Cursor.sprite.texture;
 
-            SaveFileDialog("Save sprite", texture.name, "Image", ".png", texture.EncodeToPNG());
+            SaveFileDialog("Save image", texture.name, "Image", ".png", texture.EncodeToPNG());
         }
 
         public void OpenURL(string url)

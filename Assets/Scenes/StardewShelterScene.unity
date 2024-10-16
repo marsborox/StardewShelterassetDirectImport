@@ -8241,7 +8241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7d55908da8a3a4cae4fb24069c2ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroUnit: {fileID: 375063816128229675, guid: a617292cccb2bb041b4dbb39098803d9, type: 3}
+  heroUnit: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
   heroCamp: {fileID: 725735570}
   spawnedHeroSO: {fileID: 11400000, guid: cce2fa2dcba8bc84a9d34171d6fe3750, type: 2}
   arenas: {fileID: 1953132765}
@@ -12547,6 +12547,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Forest
       objectReference: {fileID: 0}
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: heroUnit
+      value: 
+      objectReference: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: enemyUnit
+      value: 
+      objectReference: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14363,6 +14371,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Desert
       objectReference: {fileID: 0}
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: heroUnit
+      value: 
+      objectReference: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
+    - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
+      propertyPath: enemyUnit
+      value: 
+      objectReference: {fileID: 375063816128229675, guid: f268e841806f2db44b242240d96c7618, type: 3}
     - target: {fileID: 7176299686099301582, guid: 3f65e9d7dbff0fc4691b572129e6adc0, type: 3}
       propertyPath: _arenaSetting
       value: 
