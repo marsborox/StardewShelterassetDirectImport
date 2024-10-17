@@ -37,9 +37,10 @@ public class BackPackUI : MonoBehaviour
         _spawnedSlots = 0;
         //DestroySlots();
     }
+
     void SpawnSlots()
     {
-        
+        //will need to check if we clicked other hero prob over refresh ui method
         int numberOfSlotsToSpawn = _mainUI.activeUnit.GetComponent<BackPack>().items.Count;
         if (!(_spawnedSlots == numberOfSlotsToSpawn))
         {
@@ -51,7 +52,7 @@ public class BackPackUI : MonoBehaviour
 
             {
                 BackPackItemSlot itemSlot = Instantiate(_itemSlot);
-                //Display IMG first is from tutorial but i like second one more for...reasons
+                //Display IMG ---     first is from tutorial but i like second one more for...reasons
                 //itemSlot.transform.GetChild(0).GetComponent<Image>().sprite = _mainUI.activeUnit.GetComponent<BackPack>().items[i].itemIcon;
                 itemSlot.GetComponent<BackPackItemSlot>().image.sprite = _mainUI.activeUnit.GetComponent<BackPack>().items[i].itemIcon;
 
@@ -66,5 +67,9 @@ public class BackPackUI : MonoBehaviour
         {
             Object.Destroy(transform.GetChild(i).gameObject);
         }
+    }
+    public void ReloadSlots()
+    {
+        _spawnedSlots = 0;
     }
 }

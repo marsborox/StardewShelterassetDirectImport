@@ -13332,8 +13332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ce7bfaa0fecd740b5ef3116e64fe5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemSlot: {fileID: 1715352185424554178, guid: bf45d145012dd814fbdabd632970a4a5, type: 3}
-  _itemSlot2: {fileID: 6615551618039174646, guid: a9e9771c2dd5eb640a6e9a37ae61b4e1, type: 3}
+  _itemSlot: {fileID: 6615551618039174646, guid: a9e9771c2dd5eb640a6e9a37ae61b4e1, type: 3}
 --- !u!114 &2061145770
 MonoBehaviour:
   m_ObjectHideFlags: 0
