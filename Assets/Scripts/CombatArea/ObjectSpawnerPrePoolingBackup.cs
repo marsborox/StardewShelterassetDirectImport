@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,7 +8,7 @@ using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ObjectSpawner : MonoBehaviour
+public class ObjectSpawnerPrePoolingBackup : MonoBehaviour
 {
     [Header("Max y and x axis of area")]
     [SerializeField] float maxXaxisOfArea;
@@ -20,10 +21,10 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] GameObject heroCamp;
 
     [Header("ScriptableObjects")]
-    [SerializeField]  ArenaSettingSO _arenaSetting;
+    [SerializeField] ArenaSettingSO _arenaSetting;
     UnitRaceSO _spawnedEnemyUnitRaceSO;
     UnitSO spawnedEnemyUnitSO;
-    [SerializeField]  UnitSO spawnedHeroSO;
+    [SerializeField] UnitSO spawnedHeroSO;
 
 
     //[SerializeField] int maxObjectsInArea = 10;
@@ -41,7 +42,7 @@ public class ObjectSpawner : MonoBehaviour
     GameObject spawnedHero;
 
     private IObjectPool<GameObject> _spawnedMobPool;
-    
+
     // throw an exception if we try to return an existing item, already in the pool
     [SerializeField] private bool _collectionCheck = true;
 
@@ -57,17 +58,17 @@ public class ObjectSpawner : MonoBehaviour
     public delegate void SpawnEvent(GameObject gameObject);
 
     public event SpawnEvent OnMobSpawn, OnHeroSpawn;
-    
+
     private void Awake()
     {
-        
+
         //objectInfo = FindObjectOfType<ObjectInfo>();
     }
     private void Start()
     {
         SetSOsSettings();
         SpawnHeroOnCamp();
-        
+
     }
     private void Update()
     {
@@ -109,7 +110,7 @@ public class ObjectSpawner : MonoBehaviour
             }
             else if (random == 1 && spawnedLootChests < _arenaSetting.maxLootChestsInArea)
             {
-                
+
                 SpawnLootChest();//will be get from pool of chests
                 //spawn
             }
@@ -121,7 +122,7 @@ public class ObjectSpawner : MonoBehaviour
         SpawnObject(enemyUnit);
         RandomPositionForObject(spawnedGameObject);
         OnMobSpawn?.Invoke(spawnedGameObject);
-                
+
         SetUnitRace();
         SetUnitVisuals();
         SetUnitClass();
@@ -162,14 +163,14 @@ public class ObjectSpawner : MonoBehaviour
     }
 
     //*************************************** methods that will subscribe to events
-    
+
     void AddClassAiMobs(GameObject gameObject)
-    { 
+    {
         gameObject.AddComponent<UnitAiMobs>();
         gameObject.AddComponent<DropLoot>();
     }
 
-    
+
     void SpawnLootChest()
     {
         SpawnObject(lootChest);
@@ -241,8 +242,8 @@ public class ObjectSpawner : MonoBehaviour
     }
     void SetSOsSettings()
     {
-        _spawnedEnemyUnitRaceSO= _arenaSetting.unitRaceSO;
-        spawnedEnemyUnitSO= _arenaSetting.unitSettingSO;
+        _spawnedEnemyUnitRaceSO = _arenaSetting.unitRaceSO;
+        spawnedEnemyUnitSO = _arenaSetting.unitSettingSO;
     }
     /*void SetInstantiatedObjectName(GameObject gameObject)
 {
@@ -291,7 +292,7 @@ public class ObjectSpawner : MonoBehaviour
         spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
-        spawnedHero.transform.parent = combatAreaSpawn.transform; 
+        spawnedHero.transform.parent = combatAreaSpawn.transform;
         spawnedHero.transform.position = heroCamp.transform.position;
         SetHeroStats();
         spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
@@ -311,15 +312,15 @@ public class ObjectSpawner : MonoBehaviour
     }
 
     #endregion
-   
+
 }
-    /*void SpawnMeSomeUnits(int count)
+/*void SpawnMeSomeUnits(int count)
+{
+    for (int i = 0; i < count; i++)
     {
-        for (int i = 0; i < count; i++)
-        {
-            SpawnUnitRandomly();
-        }
-    }*/
+        SpawnUnitRandomly();
+    }
+}*/
 
 
 /*void SetNameAndCounters() //discontinuing
