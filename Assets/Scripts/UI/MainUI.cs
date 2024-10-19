@@ -51,10 +51,11 @@ public class MainUI : MonoBehaviour
 
     GameObject uiComponent;
 
-    BackPackUI backPackUI;
+
+    
     private void Awake()
     {
-        backPackUI = GetComponent<BackPackUI>();
+        
         //gearButton = transform.GetComponent<Button>();
     }
     private void Start()
@@ -147,7 +148,7 @@ public class MainUI : MonoBehaviour
     }
     public void RefreshUI()
     {
-        backPackUI.ReloadSlots();
+        backpackUI.GetComponent<BackPackUI>().ReloadSlots();
         //mana
         //energy
         //name

@@ -4,6 +4,7 @@ using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
 
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 
@@ -11,6 +12,7 @@ public enum HealthState { FULL,LOW,DEAD, ALIVE}
 
 public class UnitHealth : MonoBehaviour
 {
+
 //fuckallhasbeendoneonthisday
     [SerializeField] public int healthMax;
     [SerializeField] public int healthCurrent;
@@ -29,6 +31,8 @@ public class UnitHealth : MonoBehaviour
 
     public HealthState healthState;
     
+
+
     /*
     [SerializeField] public bool isResting { get; private set; }
     [SerializeField] public bool healthLow { get; private set; }
@@ -44,7 +48,9 @@ public class UnitHealth : MonoBehaviour
     //Activity activity;
     // Start is called before the first frame update
     IEnumerator restingRoutine;
-    
+
+    private IObjectPool<GameObject> _spawnedMobPool;
+    public IObjectPool<GameObject> objectPool { set => _spawnedMobPool = value; }
     private void Awake()
     {
         
@@ -78,7 +84,6 @@ public class UnitHealth : MonoBehaviour
             CheckHP();
         }
     }
-
 
     void ControlHealthBarSize()
     {
@@ -164,20 +169,38 @@ public class UnitHealth : MonoBehaviour
         gameObject.tag = ("DeadEnemyUnit");
         Debug.Log("I am dying");
         unitCombat.attacker.GetComponent<UnitCombat>().TargetDied();
+        //DropLoot**********************************
         unitCombat.target = null;
         unitCombat.attacker = null;
         unitCombat.inCombat = false;
         this.characterAnimation.Die();
-
         StopAllCoroutines();
-        
-        StartCoroutine(Despawnm());
+        StartCoroutine(Despawn());
     }
-    public IEnumerator Despawnm()
+    public IEnumerator Despawn()
     {
         yield return new WaitForSeconds(_despawnTime);
-        Destroy(this.gameObject);
-        gameObject.transform.parent.transform.parent.GetComponent<ObjectSpawner>().UnitDied();
-    }
 
+        //Destroy(this.gameObject);
+
+        gameObject.transform.parent.transform.parent.GetComponent<ObjectSpawner>().MobDied();
+        //with pooling m,ust reset char..
+        /*
+        healthCurrent = healthMax;
+        healthState = HealthState.FULL;
+        unitCombat.combatActivity = CombatActivity.IDLE;
+        */
+        _spawnedMobPool.Release(gameObject);
+        //gameObject.SetActive(false);//for some reason pooling not perfect must do this too
+    }
+    public void Respawn()
+    {
+        //posiiton done on spawner
+        gameObject.transform.parent.transform.parent.GetComponent<ObjectSpawner>().MobSpawned();
+        
+        healthCurrent = healthMax;
+        healthState = HealthState.FULL;
+        unitCombat.combatActivity=CombatActivity.IDLE;
+        
+    }
 }

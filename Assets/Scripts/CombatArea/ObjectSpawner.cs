@@ -40,34 +40,32 @@ public class ObjectSpawner : MonoBehaviour
     GameObject spawnedGameObject;
     GameObject spawnedHero;
 
-    private IObjectPool<GameObject> _spawnedMobPool;
-    
-    // throw an exception if we try to return an existing item, already in the pool
-    [SerializeField] private bool _collectionCheck = true;
 
-
-    //ObjectInfo objectInfo;
     //this is name of parent object of arena
     [SerializeField] public GameObject combatAreaSpawn;//objects spawn here
 
     static List<GameObject> spawnedGameObjectList = new List<GameObject>();
 
     int nameCounter = 0;
+    //pool for mobs
+    private IObjectPool<GameObject> _spawnedMobPool;
+    //default mob pool size (to start with dont need tho
+    private int _mobPoolDefaultCapacity;
+    //max mob pool size - max enemy units
+    private int _mobPoolMaxSize;
+    // throw an exception if we try to return an existing item, already in the pool
+    [SerializeField] private bool _collectionCheck = true;
 
-    public delegate void SpawnEvent(GameObject gameObject);
-
-    public event SpawnEvent OnMobSpawn, OnHeroSpawn;
-    
     private void Awake()
     {
-        
+        _mobPoolMaxSize = _arenaSetting.maxEnemyUnitsInArea;
         //objectInfo = FindObjectOfType<ObjectInfo>();
+        _spawnedMobPool = new ObjectPool<GameObject>(CreateMob, OnGetFromMobPool, OnReleaseToMobPool, OnDestroyPooledMob, _collectionCheck,_mobPoolMaxSize);
     }
     private void Start()
     {
         SetSOsSettings();
         SpawnHeroOnCamp();
-        
     }
     private void Update()
     {
@@ -75,23 +73,14 @@ public class ObjectSpawner : MonoBehaviour
     }
     private void OnEnable()
     {
-        OnMobSpawn += AddClassAiMobs;
-        OnHeroSpawn += AddClassHeros;
+        //OnMobSpawn += AddClassAiMobs;
+        //OnHeroSpawn += AddClassHeros;
     }
     private void OnDisable()
     {
-        OnMobSpawn -= AddClassAiMobs;
-        OnHeroSpawn -= AddClassHeros;
+        //OnMobSpawn -= AddClassAiMobs;
+        //OnHeroSpawn -= AddClassHeros;
     }
-
-
-
-    public void UnitDied()
-    {
-        spawnedEnemyUnits--;
-        totalSpawnedObjects--;
-    }
-
     void SpawnObjectsOnMap()//this will stay as control
     {
         //GameObject spawningObject;
@@ -101,34 +90,111 @@ public class ObjectSpawner : MonoBehaviour
             //Debug.Log(random);
             if (random == 0 && spawnedEnemyUnits < _arenaSetting.maxEnemyUnitsInArea)
             {
-                //SpawnObjectRandomlyOrig(enemyUnit);
-                CreateMob(); //this will be get from pool
+               _spawnedMobPool.Get();
+                //CreateMobInstantiate(); //old way isntantiating deleting
+
+
                 //spawn Unit
                 //attempt to do it as event not good idea at all
-
             }
             else if (random == 1 && spawnedLootChests < _arenaSetting.maxLootChestsInArea)
             {
-                
                 SpawnLootChest();//will be get from pool of chests
                 //spawn
             }
         }
         else return;
     }
-    void CreateMob()//this is our "instantiate"
-    {
+
+    void CreateMobInstantiate()//this is our "instantiate" with all settings mob need
+    {//will be discontinued when pooling is working
         SpawnObject(enemyUnit);
         RandomPositionForObject(spawnedGameObject);
-        OnMobSpawn?.Invoke(spawnedGameObject);
-                
-        SetUnitRace();
-        SetUnitVisuals();
-        SetUnitClass();
-        SetUnitStats();
-        SetMobTypeTag();
-        AddMobCounters();
+
+        //add MOB specific classes
+        //OnMobSpawn?.Invoke(spawnedGameObject);
+        spawnedGameObject.AddComponent<UnitAiMobs>();
+        spawnedGameObject.AddComponent<DropLoot>();
+        //set unit race
+        //SetUnitRace();
+        spawnedGameObject.GetComponent<CharacterBuilder>().Head = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Ears = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Eyes = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Body = _spawnedEnemyUnitRaceSO.race;
+        //set unit visuals (hair, ears
+        //SetUnitVisuals();
+        spawnedGameObject.GetComponent<CharacterBuilder>().Hair = "";
+        //set unit class, gear, weapon
+        //SetUnitClass();
+        spawnedGameObject.GetComponent<CharacterBuilder>().Rebuild();//this will reload visual
+        //set unit stats
+        //SetUnitStats();
+        spawnedGameObject.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedEnemyUnitSO;
+        spawnedGameObject.GetComponent<UnitStatsAndInfo>().SetStats();
+        //SetMobTypeTag();
+        //set mob type and tag
+        spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyUnit");
+        spawnedGameObject.gameObject.tag = "EnemyUnit";
+        spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
+        //for counting right ammount in arena
+        MobSpawned();
     }
+    #region MobPooling
+    private GameObject CreateMob()//this is our "instantiate" with all settings mob need
+    {
+        GameObject spawnedMob = Instantiate(enemyUnit);
+        RandomPositionForObject(spawnedMob);
+
+        //add MOB specific classes
+        //OnMobSpawn?.Invoke(spawnedGameObject);
+        spawnedMob.AddComponent<UnitAiMobs>();
+        spawnedMob.AddComponent<DropLoot>();
+        //set unit race
+        //SetUnitRace();
+        spawnedMob.GetComponent<CharacterBuilder>().Head = _spawnedEnemyUnitRaceSO.race;
+        spawnedMob.GetComponent<CharacterBuilder>().Ears = _spawnedEnemyUnitRaceSO.race;
+        spawnedMob.GetComponent<CharacterBuilder>().Eyes = _spawnedEnemyUnitRaceSO.race;
+        spawnedMob.GetComponent<CharacterBuilder>().Body = _spawnedEnemyUnitRaceSO.race;
+        //set unit visuals (hair, ears
+        //SetUnitVisuals();
+        spawnedMob.GetComponent<CharacterBuilder>().Hair = "";
+        //set unit class, gear, weapon
+        //SetUnitClass();
+        spawnedMob.GetComponent<CharacterBuilder>().Rebuild();//this will reload visual
+        //set unit stats
+        //SetUnitStats();
+        spawnedMob.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedEnemyUnitSO;
+        spawnedMob.GetComponent<UnitStatsAndInfo>().SetStats();
+        //SetMobTypeTag();
+        //set mob type and tag
+        spawnedMob.GetComponent<ObjectInfo>().SetType("EnemyUnit");
+        spawnedMob.gameObject.tag = "EnemyUnit";
+        spawnedMob.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
+        //for counting right ammount in arena
+        MobSpawned();
+
+        spawnedMob.GetComponent<UnitHealth>().objectPool = _spawnedMobPool;
+        return spawnedMob;
+    }
+    
+    void OnReleaseToMobPool(GameObject spawnedMob)
+    {//return to pool
+        spawnedMob.gameObject.SetActive(false);
+
+    }
+    void OnGetFromMobPool(GameObject spawnedMob)
+    {//get from pool
+        spawnedMob.gameObject.SetActive(true);
+        RandomPositionForObject(spawnedMob);
+        spawnedMob.GetComponent<UnitHealth>().Respawn();
+
+    }
+    void OnDestroyPooledMob(GameObject spawnedMob)
+    {//destroy if over capcity of pool
+        Destroy(spawnedMob.gameObject);
+    }
+    #endregion
+
     void SpawnObject(GameObject gameObject)
     {
         spawnedGameObject = Instantiate(gameObject);
@@ -163,72 +229,34 @@ public class ObjectSpawner : MonoBehaviour
 
     //*************************************** methods that will subscribe to events
     
-    void AddClassAiMobs(GameObject gameObject)
-    { 
-        gameObject.AddComponent<UnitAiMobs>();
-        gameObject.AddComponent<DropLoot>();
-    }
-
-    
     void SpawnLootChest()
     {
         SpawnObject(lootChest);
         RandomPositionForObject(spawnedGameObject);
         AddLootChestCounters();
     }
-    void SetUnitRace()
-    {
-        //CharacterBuilder characterBuilder;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Head = _spawnedEnemyUnitRaceSO.race;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Ears = _spawnedEnemyUnitRaceSO.race;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Eyes = _spawnedEnemyUnitRaceSO.race;
-        spawnedGameObject.GetComponent<CharacterBuilder>().Body = _spawnedEnemyUnitRaceSO.race;
-    }
-    void SetUnitVisuals()
-    {
-        spawnedGameObject.GetComponent<CharacterBuilder>().Hair = "";
-    }
-    void SetUnitClass()
-    {
-        //armor set here
-        spawnedGameObject.GetComponent<CharacterBuilder>().Rebuild();//this will reload visuals
-    }
-    void SetUnitStats()
-    {
-        spawnedGameObject.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedEnemyUnitSO;
-        spawnedGameObject.GetComponent<UnitStatsAndInfo>().SetStats();
-    }
-
-    void SetMobTypeTag()
-    {
-        spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyUnit");
-        spawnedGameObject.gameObject.tag = "EnemyUnit";
-        spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
-
-    }
-    void AddMobCounters()
+    public void MobSpawned()
     {
         spawnedEnemyUnits++;
         totalSpawnedObjects++;
+    }
+    public void MobDied()
+    {
+        StartCoroutine(WaitForRespawn());
+        //spawnedEnemyUnits--;
+        //totalSpawnedObjects--;
+    }
+    IEnumerator WaitForRespawn()
+    { 
+        yield return new WaitForSeconds(5f);
+        spawnedEnemyUnits--;
+        totalSpawnedObjects--;
     }
     void AddLootChestCounters()
     {
         spawnedLootChests++;
         totalSpawnedObjects++;
     }
-
-    /*
-    void SetEnemyUnitStates()
-    {
-        spawnedGameObject.GetComponent<UnitAiMobs>().task = Task.ENEMY;
-        
-        EnemyTypeEnum(_spawnedEnemyUnitRaceSO.enemyType);
-    }
-    void EnemyTypeEnum(EnemyType enemy)
-    {
-        spawnedGameObject.GetComponent<UnitAiMobs>().enemyType = enemy;
-    }
-    */
     void AddSpawnedObjectToList()
     {
         spawnedGameObjectList.Add(spawnedUnit);
@@ -284,19 +312,87 @@ public class ObjectSpawner : MonoBehaviour
     #region SpawnHero
     //whole region will be removed eventually
     public void SpawnHeroOnCamp()
-    {
+    {//here to test combat and stuff will be removed at some point
+        //HeroSpawner Class/object wil ldo it
         spawnedHero = Instantiate(heroUnit);
-        OnHeroSpawn?.Invoke(spawnedHero);
+        
+
+        //add MOB specific classes
+        //OnHeroSpawn?.Invoke(spawnedHero);
+
+        spawnedHero.AddComponent<UnitAiHeros>();
+        spawnedHero.AddComponent<BackPack>();
+        spawnedHero.AddComponent<UnitEquipment>();
 
         spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
         spawnedHero.transform.parent = combatAreaSpawn.transform; 
         spawnedHero.transform.position = heroCamp.transform.position;
-        SetHeroStats();
-        spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
+        //set hero stats
+        //SetHeroStats();
+        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
+        spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
 
+        spawnedHero.GetComponent<UnitAiHeros>().task = Task.ADVENTURING;
     }
+    #endregion
+}
+    #region Encapsulated methods
+    //
+    /*
+    void AddClassAiMobs(GameObject gameObject)
+    { 
+        gameObject.AddComponent<UnitAiMobs>();
+        gameObject.AddComponent<DropLoot>();
+    }
+
+    
+    void SetUnitRace()
+    {
+        //CharacterBuilder characterBuilder;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Head = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Ears = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Eyes = _spawnedEnemyUnitRaceSO.race;
+        spawnedGameObject.GetComponent<CharacterBuilder>().Body = _spawnedEnemyUnitRaceSO.race;
+    }
+    void SetUnitVisuals()
+    {
+        spawnedGameObject.GetComponent<CharacterBuilder>().Hair = "";
+    }
+    void SetUnitClass()
+    {
+        //armor set here
+        spawnedGameObject.GetComponent<CharacterBuilder>().Rebuild();//this will reload visuals
+    }
+    void SetUnitStats()
+    {
+        spawnedGameObject.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedEnemyUnitSO;
+        spawnedGameObject.GetComponent<UnitStatsAndInfo>().SetStats();
+    }
+
+    void SetMobTypeTag()
+    {
+        spawnedGameObject.GetComponent<ObjectInfo>().SetType("EnemyUnit");
+        spawnedGameObject.gameObject.tag = "EnemyUnit";
+        spawnedGameObject.GetComponent<UnitTargetPicker>().tagOfEnemy = "HeroUnit";
+
+    }//
+    */
+
+    /*
+    void SetEnemyUnitStates()
+    {
+        spawnedGameObject.GetComponent<UnitAiMobs>().task = Task.ENEMY;
+        
+        EnemyTypeEnum(_spawnedEnemyUnitRaceSO.enemyType);
+    }
+    void EnemyTypeEnum(EnemyType enemy)
+    {
+        spawnedGameObject.GetComponent<UnitAiMobs>().enemyType = enemy;
+    }
+    */
+    /*
     void AddClassHeros(GameObject gameObject)
     {
         gameObject.AddComponent<UnitAiHeros>();
@@ -309,10 +405,9 @@ public class ObjectSpawner : MonoBehaviour
         spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
         spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
     }
-
-    #endregion
+    */
    
-}
+    #endregion
     /*void SpawnMeSomeUnits(int count)
     {
         for (int i = 0; i < count; i++)

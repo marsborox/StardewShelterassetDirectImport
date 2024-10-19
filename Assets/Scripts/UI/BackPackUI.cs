@@ -34,8 +34,7 @@ public class BackPackUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        _spawnedSlots = 0;
-        //DestroySlots();
+        ReloadSlots();
     }
 
     void SpawnSlots()
@@ -62,14 +61,14 @@ public class BackPackUI : MonoBehaviour
     }
     void DestroySlots()
     {
-
         for (var i = transform.childCount - 1; i >= 0; i--)
         {
             Object.Destroy(transform.GetChild(i).gameObject);
         }
     }
     public void ReloadSlots()
-    {
-        _spawnedSlots = 0;
+    {//we will never have this much of slots as inventory
+        //if hope
+        _spawnedSlots = 9999999;
     }
 }
