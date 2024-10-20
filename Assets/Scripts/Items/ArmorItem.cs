@@ -10,7 +10,11 @@ public class ArmorItem : Item
     [Header("Armor")]
 
     int random;
-    //public  slotType slot;
+
+    void Start()
+    { 
+        isStackable = false;
+    }
 
 
 }

@@ -13,7 +13,10 @@ public class WeaponItem : Item
     public int damage;
     public float attackSpeed;
 
-
+    void Start()
+    {
+        isStackable = false;
+    }
 
     public virtual void EquipItem()
     { 

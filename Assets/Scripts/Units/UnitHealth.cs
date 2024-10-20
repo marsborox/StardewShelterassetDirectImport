@@ -76,6 +76,10 @@ public class UnitHealth : MonoBehaviour
     {
         AliveDeadSwitch();
     }
+    private void OnEnable()
+    {
+        Respawn();
+    }
     void AliveDeadSwitch()
     {
         if (healthState != HealthState.DEAD)
@@ -84,7 +88,7 @@ public class UnitHealth : MonoBehaviour
             CheckHP();
         }
     }
-
+    
     void ControlHealthBarSize()
     {
         healthFraction = (float)healthCurrent / (float)healthMax;
@@ -196,11 +200,9 @@ public class UnitHealth : MonoBehaviour
     public void Respawn()
     {
         //posiiton done on spawner
-        gameObject.transform.parent.transform.parent.GetComponent<ObjectSpawner>().MobSpawned();
-        
+        gameObject.tag = ("EnemyUnit");
         healthCurrent = healthMax;
         healthState = HealthState.FULL;
         unitCombat.combatActivity=CombatActivity.IDLE;
-        
     }
 }

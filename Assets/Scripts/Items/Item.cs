@@ -11,6 +11,5 @@ public class Item : ScriptableObject
     public string itemName;
     public Sprite itemIcon;
     public int weight;
-
-
+    public bool isStackable;//shoudl be somehow overriden in child class, fck it we do it in awakes
 }

@@ -35,7 +35,6 @@ public class HeroManager : MonoBehaviour
     {
         //OnMobSpawn -= AddClassAiMobs;
         heroSpawner.OnHeroSpawn -= AddHeroToList;
-
     }
 
     public void AddHeroToList(GameObject gameObject)

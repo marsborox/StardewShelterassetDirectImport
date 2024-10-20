@@ -184,9 +184,9 @@ public class ObjectSpawner : MonoBehaviour
     }
     void OnGetFromMobPool(GameObject spawnedMob)
     {//get from pool
-        spawnedMob.gameObject.SetActive(true);
         RandomPositionForObject(spawnedMob);
-        spawnedMob.GetComponent<UnitHealth>().Respawn();
+        spawnedMob.gameObject.SetActive(true);
+        //spawnedMob.GetComponent<UnitHealth>().Respawn();
 
     }
     void OnDestroyPooledMob(GameObject spawnedMob)
