@@ -27,6 +27,13 @@ public class AreaUI : MonoBehaviour
         DisplayAreaButtons();
         Debug.Log("Areas Displayed");
     }
+    private void OnDisable()
+    {
+        for (var i = transform.childCount - 1; i >= 0; i--)
+        {
+            Object.Destroy(transform.GetChild(i).gameObject);
+        }
+    }
     void DisplayAreaButtons()
     {
         int childCount= areas.transform.childCount;
@@ -34,8 +41,9 @@ public class AreaUI : MonoBehaviour
         for (int i=0; i<childCount; i++) 
         {
             Button spawnedButton = Instantiate(areaButton);
+            spawnedButton.transform.parent = this.transform;
             GameObject area = areas.gameObject.transform.GetChild(i).gameObject;
-            spawnedButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text="someName"/*area.name*/;
+            spawnedButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text=area.name;
             //spawnedButton.destination=area;
         }
     }
