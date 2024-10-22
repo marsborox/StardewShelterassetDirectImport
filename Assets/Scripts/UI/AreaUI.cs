@@ -12,6 +12,11 @@ public class AreaUI : MonoBehaviour
     [SerializeField] GameObject areas;
     [SerializeField] Button areaButton;
     // Start is called before the first frame update
+    MainUI mainUI;
+    private void Awake()
+    {
+        mainUI = GetComponent<MainUI>();
+    }
     void Start()
     {
         DisplayAreaButtons();
@@ -28,7 +33,7 @@ public class AreaUI : MonoBehaviour
         Debug.Log("Areas Displayed");
     }
     private void OnDisable()
-    {
+    {//*should use separate class kill all buttons
         for (var i = transform.childCount - 1; i >= 0; i--)
         {
             Object.Destroy(transform.GetChild(i).gameObject);
@@ -45,10 +50,13 @@ public class AreaUI : MonoBehaviour
             GameObject area = areas.gameObject.transform.GetChild(i).gameObject;
             spawnedButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text=area.name;
             //spawnedButton.destination=area;
+
         }
     }
     void AreaButtonMethod()
     { 
-        //set target somethign osmething
+        mainUI.activeUnit.GetComponent<UnitAiHeros>().task=Task.TRAVELING;
+        //pass destination area this
+        //pass enum what to do nextTask
     }
 }

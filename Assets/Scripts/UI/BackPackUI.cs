@@ -60,7 +60,7 @@ public class BackPackUI : MonoBehaviour
         }
     }
     void DestroySlots()
-    {
+    {//**make class to kill all buttons put into areas too
         for (var i = transform.childCount - 1; i >= 0; i--)
         {
             Object.Destroy(transform.GetChild(i).gameObject);

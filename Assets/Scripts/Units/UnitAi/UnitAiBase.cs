@@ -40,7 +40,7 @@ public class UnitAiBase : MonoBehaviour
     {
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
-        //unitStatsAndInfo = GetComponent<UnitStatsAndInfo>();
+        
         unitHealth = GetComponent<UnitHealth>();
         unitTargetPicker = GetComponent<UnitTargetPicker>();
         characterAnimation = GetComponent<CharacterAnimation>();

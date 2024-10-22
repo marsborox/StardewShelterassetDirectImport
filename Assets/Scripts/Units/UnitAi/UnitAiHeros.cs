@@ -8,6 +8,7 @@ public enum Task { IDLE, LOCATIONACTIVITY, COMBAT, ARENARESOURCE, MOVEMENT, RAND
 public class UnitAiHeros : UnitAiBase
 {
     public Task task;
+    public string nextTask;
 
     void Start()
     {
@@ -29,7 +30,6 @@ public class UnitAiHeros : UnitAiBase
     {
         switch (task)
         {
-
             case Task.ADVENTURING:
                 {
                     if (unitCombat.combatActivity == CombatActivity.RESTING)
@@ -46,16 +46,7 @@ public class UnitAiHeros : UnitAiBase
                         unitCombat.KillingEnemies();
                     }
                     break;
-                    /*
-                    if ( (unitHealth.healthLow | unitHealth.isResting)&&!inCombat)
-                    {
-                        unitHealth.Resting2();
-                    }
-                    else
-                    {
-                        KillingMobs();
-                    }
-                    break;*/
+                    //if backpack full return home --> Traveling
                 }
 
             case Task.OTHER:
@@ -71,7 +62,10 @@ public class UnitAiHeros : UnitAiBase
                 {
                     break;
                 }
-
+            case Task.TRAVELING:
+                {
+                    break;
+                }
 
         }
     }

@@ -23,4 +23,11 @@ public class BackPack : MonoBehaviour
         items.Remove(item);
         //remove weight
     }
+    public void InventoryFull()
+    { 
+        //move to camp
+        //do travel back method
+        //unload inventory
+        //be idle
+    }
 }

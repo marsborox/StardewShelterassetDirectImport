@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
-
 using UnityEngine;
-
 using static UnityEngine.GraphicsBuffer;
 
 public class UnitMovement : MonoBehaviour
