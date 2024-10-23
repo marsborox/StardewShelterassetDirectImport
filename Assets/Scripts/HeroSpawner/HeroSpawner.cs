@@ -8,9 +8,13 @@ using static ObjectSpawnerPrePoolingBackup;
 public class HeroSpawner : MonoBehaviour
 {//this class is for spawning hero and cheating stuff on him for testing purposes
 
-    [SerializeField] GameObject heroUnit;
-    [SerializeField] GameObject heroCamp;
-    [SerializeField] UnitSO spawnedHeroSO;
+    [SerializeField] GameObject _heroUnit;
+    [SerializeField] GameObject _heroCamp;
+    [SerializeField] UnitSO _spawnedHeroSO;
+
+    [SerializeField] GameObject _basePortal;
+    [SerializeField] GameObject _travelLimbo;
+
 
     GameObject spawnedHero;
     // Start is called before the first frame update
@@ -24,7 +28,6 @@ public class HeroSpawner : MonoBehaviour
     
     private void Awake()
     {
-        
        
     }
     void Start()
@@ -53,25 +56,28 @@ public class HeroSpawner : MonoBehaviour
     {//temp method will remove later
         
 
-        spawnedHero = Instantiate(heroUnit);
+        spawnedHero = Instantiate(_heroUnit);
 
         OnHeroSpawn?.Invoke(spawnedHero);
         //add hero classes
         spawnedHero.AddComponent<UnitAiHeros>();
         spawnedHero.AddComponent<BackPack>();
         spawnedHero.AddComponent<UnitEquipment>();
+        spawnedHero.AddComponent<HeroTravel>();
 
+        spawnedHero.GetComponent<HeroTravel>().portal=_basePortal;
+        spawnedHero.GetComponent<HeroTravel>().travelLimbo=_travelLimbo;
 
         spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
         //spawnedHero.transform.parent = combatAreaSpawn.transform; ***
-        spawnedHero.transform.position = heroCamp.transform.position;
+        spawnedHero.transform.position = _heroCamp.transform.position;
         SetHeroStats();
         spawnedHero.GetComponent<UnitAiHeros>().task = Task.IDLE;
 
         //set hero stats - is temp for testing
-        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
+        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = _spawnedHeroSO;
         spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
     }
 
@@ -84,7 +90,7 @@ public class HeroSpawner : MonoBehaviour
     void SetHeroStats()
     {
         //temp method for testing will be removed
-        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = spawnedHeroSO;
+        spawnedHero.GetComponent<UnitStatsAndInfo>().unitSettings = _spawnedHeroSO;
         spawnedHero.GetComponent<UnitStatsAndInfo>().SetStats();
     }
 }

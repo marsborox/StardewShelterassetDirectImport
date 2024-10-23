@@ -2,27 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.ExampleScripts;
-
 using UnityEditor.Experimental.GraphView;
-
 using UnityEngine;
-
 using static UnityEngine.GraphicsBuffer;
-
 
 public class UnitAiBase : MonoBehaviour
 {
-    
-
     //universal class for all units in game
     //public CombatActivity combatActivity;
-
 
     public UnitMovement unitMovement;
     public UnitCombat unitCombat;
     //UnitStatsAndInfo unitStatsAndInfo;
     //ObjectInfo objectInfo;
-
 
     public UnitHealth unitHealth;
     public UnitTargetPicker unitTargetPicker;
@@ -30,11 +22,8 @@ public class UnitAiBase : MonoBehaviour
 
     public UnitStatsAndInfo unitStatsAndInfo;
 
-
-
     //bool _targetInRange;
     //[SerializeField] public bool inCombat;
-
 
     private void Awake()
     {

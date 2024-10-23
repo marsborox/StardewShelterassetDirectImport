@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3083925400286424346}
   - component: {fileID: 8831672019421666664}
+  - component: {fileID: 8145787045712662422}
   m_Layer: 0
   m_Name: Camp
   m_TagString: Untagged
@@ -162,3 +163,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5221572, y: 0.42392159}
   m_EdgeRadius: 0
+--- !u!114 &8145787045712662422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7146800563469770476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3916483fcd0658c48979399c0a4bed40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

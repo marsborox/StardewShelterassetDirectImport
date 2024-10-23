@@ -54,8 +54,10 @@ public class AreaUI : MonoBehaviour
         }
     }
     void AreaButtonMethod()
-    { 
+    {
+        GameObject passedDestination=areas;//this will be set by button i suppose
         mainUI.activeUnit.GetComponent<UnitAiHeros>().task=Task.TRAVELING;
+        mainUI.activeUnit.GetComponent<HeroTravel>().destination = passedDestination;
         //pass destination area this
         //pass enum what to do nextTask
     }

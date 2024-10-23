@@ -18,6 +18,7 @@ TagManager:
   - HeroUnit
   - EnemyUnit
   - DeadEnemyUnit
+  - Camp
   layers:
   - Default
   - TransparentFX
