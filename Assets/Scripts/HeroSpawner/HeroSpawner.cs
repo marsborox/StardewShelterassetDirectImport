@@ -13,8 +13,9 @@ public class HeroSpawner : MonoBehaviour
     [SerializeField] UnitSO _spawnedHeroSO;
 
     [SerializeField] GameObject _basePortal;
+    [SerializeField] GameObject _baseArea;
     [SerializeField] GameObject _travelLimbo;
-
+    
 
     GameObject spawnedHero;
     // Start is called before the first frame update
@@ -65,13 +66,15 @@ public class HeroSpawner : MonoBehaviour
         spawnedHero.AddComponent<UnitEquipment>();
         spawnedHero.AddComponent<HeroTravel>();
 
-        spawnedHero.GetComponent<HeroTravel>().portal=_basePortal;
+
+        spawnedHero.GetComponent<HeroTravel>().basePortal=_basePortal;
         spawnedHero.GetComponent<HeroTravel>().travelLimbo=_travelLimbo;
+        spawnedHero.GetComponent<HeroTravel>().baseArea=_baseArea;
 
         spawnedHero.GetComponent<ObjectInfo>().SetType("HeroUnit");
         spawnedHero.gameObject.tag = "HeroUnit";
         spawnedHero.GetComponent<UnitTargetPicker>().tagOfEnemy = "EnemyUnit";
-        //spawnedHero.transform.parent = combatAreaSpawn.transform; ***
+        spawnedHero.transform.parent = _baseArea.transform;
         spawnedHero.transform.position = _heroCamp.transform.position;
         SetHeroStats();
         spawnedHero.GetComponent<UnitAiHeros>().task = Task.IDLE;

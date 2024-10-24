@@ -10,6 +10,8 @@ public class UnitAiHeros : UnitAiBase
     public Task task;
     public string nextTask;
 
+    public GameObject campInArea;
+    public GameObject portalInHome;
     void Start()
     {
         
@@ -55,7 +57,7 @@ public class UnitAiHeros : UnitAiBase
                 }
             case Task.COMBAT:
                 {
-
+                    
                     break;
                 }
             case Task.IDLE:
@@ -64,6 +66,8 @@ public class UnitAiHeros : UnitAiBase
                 }
             case Task.TRAVELING:
                 {
+
+
                     break;
                 }
 
